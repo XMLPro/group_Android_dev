@@ -15,10 +15,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            slotNum[0] = (TextView) findViewById(R.id.slot0);
-            slotNum[1] = (TextView) findViewById(R.id.slot1);
-            slotNum[2] = (TextView) findViewById(R.id.slot2);
-
         setContentView(R.layout.activity_main);
     }
 
@@ -53,9 +49,17 @@ public class MainActivity extends Activity {
     }
     public void startSlot(){
         String[] slotValue = getResources().getStringArray(R.array.slot_num);
+        slotNum[0] = (TextView) findViewById(R.id.slot0);
+        slotNum[1] = (TextView) findViewById(R.id.slot1);
+        slotNum[2] = (TextView) findViewById(R.id.slot2);
+
         Random r = new Random();
         for(int i=0;i<slotNum.length;i++){
-            slotNum[i].setText(slotValue[r.nextInt(4)]);
+            int rNum=r.nextInt(9);
+            System.out.println("r.next: "+rNum);
+            slotNum[i].setText(""+rNum);
+//            String a = (String)slotNum[0].getText();//.setText("5");
+  //          System.out.println(a);
         }
     }
 }
