@@ -2,6 +2,25 @@
 <project version="4">
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
+<<<<<<< HEAD
+=======
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Abstraction issues</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+>>>>>>> a347b87faa480853608051e520809059b2cfe11a
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
