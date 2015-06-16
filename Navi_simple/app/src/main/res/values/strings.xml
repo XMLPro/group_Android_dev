@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Navi_simple</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <String name="action_menu1">Menu1</String>
+    <String name="action_menu2">Menu2</String>
+    <String name="action_menu3">Menu3</String>
+    <String name="action_menu4">Menu4</String>
+</resources>

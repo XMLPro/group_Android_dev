@@ -1,0 +1,9 @@
+<resources>
+
+    <!--activity_main.xml-->
+    <string name="app_name">メモ</string>
+
+    <!--main.xml-->
+    <string name="action_add">追加</string>
+
+</resources>
