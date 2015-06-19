@@ -1,0 +1,16 @@
+<resources>>
+    <string name="app_name">SplitTheCost</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    //はまさん
+    <string name="numPeople">人数</string>
+    <string name="people">人</string>
+    <string name="money">金額</string>
+    <string name="yen">円</string>
+    <string name="calc">計算</string>
+    <string name="oneMoney">一人当たりの金額</string>
+    <string name="result">0</string>
+
+</resources>
