@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD:MemoProt002/.idea/misc.xml
   <component name="ProjectDictionaryState">
     <dictionary name="suzuki" />
   </component>
@@ -18,6 +19,10 @@
         </selected-state>
       </profile-state>
     </entry>
+=======
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+>>>>>>> origin/hi_ra:MemoProt001/.idea/misc.xml
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -35,7 +40,7 @@
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

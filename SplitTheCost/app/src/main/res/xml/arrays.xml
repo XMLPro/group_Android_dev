@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--端数リスト用-->
+    <string-array name="list_fraction">
+        <item>1</item>
+        <item>500</item>
+        <item>1000</item>
+    </string-array>
+    <string-array name="list_fraction_val">
+        <item>1</item>
+        <item>500</item>
+        <item>1000</item>
+    </string-array>
+
+</resources>
