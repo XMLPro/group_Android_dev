@@ -1,6 +1,7 @@
 package com.example.suzuki.memoprot001;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,10 +13,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -26,6 +32,9 @@ public class MainActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    private EditText editText;
+    private Button save_btn, delete_btn;
+    private String filename;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +49,45 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        editText = (EditText) findViewById(R.id.editText);
+        save_btn = (Button) findViewById(R.id.save_btn);
+        delete_btn = (Button) findViewById(R.id.delete_btn);
+
+        save_btn.setOnClickListener(this);
+        delete_btn.setOnClickListener(this);
+
+        filename = getResources().getString(R.string.file_name);
+        try {
+            FileInputStream fis = openFileInput(filename);
+            byte[] readBytes = new byte[fis.available()];
+            fis.read(readBytes);
+            editText.setText(new String(readBytes));
+            fis.close();
+        }catch (Exception e){
+
+        }
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v == save_btn) {
+            //�ۑ�
+            try {
+                FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
+                fos.write(editText.getText().toString().getBytes());
+                fos.close();
+            } catch (Exception e) {
+
+            }
+
+        } else if (v == delete_btn) {
+            //�j��
+            editText.setText("");
+            deleteFile(filename);
+        }
+        ;
+    }
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments

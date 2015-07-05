@@ -6,6 +6,10 @@
     <string name="title_section3">メモ3</string>
     <string name="title_section4">メモ4</string>
 
+    <string name="file_name">memofiles</string>
+    <string name="save">保存</string>
+    <string name="delete">破棄</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
