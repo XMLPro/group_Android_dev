@@ -1,2 +1,3 @@
 # group_Android_dev
-masterブランチ
+
+開発用ブランチ
