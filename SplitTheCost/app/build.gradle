@@ -2,10 +2,17 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 22
+<<<<<<< HEAD
+    buildToolsVersion "23.0.0 rc2"
+
+    defaultConfig {
+        applicationId "jp.sample.splitthecost"
+=======
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "com.example.c0114443.splitthecost"
+>>>>>>> origin
         minSdkVersion 19
         targetSdkVersion 22
         versionCode 1

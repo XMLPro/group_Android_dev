@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
+    package="jp.sample.splitthecost" >
+=======
     package="com.example.c0114443.splitthecost" >
+>>>>>>> origin
 
     <application
         android:allowBackup="true"

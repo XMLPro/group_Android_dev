@@ -8,6 +8,38 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+<<<<<<< HEAD
+    tools:context=".MainActivity">
+
+    <!--<LinerLayout></LinerLayout>レイアウトの場所の指定
+            android:oriebtation属性にVatical,horizontalで縦、横に並べるの指定
+        <RelativeLayout></RelativeLayout>レイアウトの指定(絶対位置)
+    !-->
+    <!-- 人数の入力行 !-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/numPeople"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+            <EditText
+                android:id="@+id/eTxtNum"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="number" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/people"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+        </LinearLayout>
+
+    <!-- 金額の入力行 !-->
+=======
     tools:context=".MainActivity"
     >
 
@@ -39,6 +71,7 @@
     </LinearLayout>
 
     <!-- 金額の入力行 -->
+>>>>>>> origin
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,15 +98,23 @@
         android:id="@+id/btnCalc"
         android:layout_width="150sp"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
+        android:text="@string/calc" />
+=======
         android:text="@string/calc"/>
 
+>>>>>>> origin
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/oneMoney"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
+<<<<<<< HEAD
+    <!-- 結果の金額表示 !-->
+=======
     <!-- 結果の金額表示行 -->
+>>>>>>> origin
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,12 +124,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/result"
+<<<<<<< HEAD
+            android:textSize="50sp"/>
+=======
             android:textSize="50sp" />
+>>>>>>> origin
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/yen"
+<<<<<<< HEAD
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+    </LinearLayout>
+
+</LinearLayout>
+=======
             android:textAppearance="?android:attr/textAppearanceLarge" />
     </LinearLayout>
 
 </LinearLayout>
+>>>>>>> origin
