@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    //スピナー風ボタン
+    <Button
+        android:id="@+id/background"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textSize="50dp"
+        style="@android:style/Widget.Holo.Light.Spinner"
+        />
+
+    <Button
+        android:id="@+id/font"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textSize="50dp"
+        style="@android:style/Widget.Holo.Light.Spinner"
+        />
+
+    <Button
+        android:id="@+id/backbutton"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:text="もどる"
+        android:textSize="50dp"
+        />
+</LinearLayout>
