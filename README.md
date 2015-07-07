@@ -1,7 +1,6 @@
-# group_Android_dev
+﻿# group_Android_dev
 <<<<<<< HEAD
 開発用ブランチ
 =======
-//Hello World!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?????????
-?
+//Hello World!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 >>>>>>> origin/hi_ra

@@ -1,0 +1,35 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+//以下順番に新規作成・設定・共有・削除ボタン
+    <item
+        android:id="@+id/action_add"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:title="@string/action_add"
+        android:icon="@android:drawable/ic_menu_add"/>
+
+    <item
+        android:id="@+id/action_setting"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:title="@string/action_setting"
+        android:icon="@android:drawable/ic_menu_preferences"/>
+
+    <item
+        android:id="@+id/action_share"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:title="@string/action_share"
+        android:icon="@android:drawable/ic_menu_share"/>
+
+    <item
+        android:id="@+id/action_del"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:title="@string/action_delete"
+        android:icon="@android:drawable/ic_menu_delete"/>
+
+
+</menu>
