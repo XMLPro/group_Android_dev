@@ -42,17 +42,17 @@ public class MainActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == button1) {
-            //•Û‘¶
+            //ï¿½Û‘ï¿½
             try {
                 FileOutputStream fos = openFileOutput(fileName, Context.MODE_PRIVATE);
                 fos.write(editText1.getText().toString().getBytes());
                 fos.close();
             } catch (Exception e) {
-                ;
+
             }
 
         } else if (v == button2) {
-            //”jŠü
+            //ï¿½jï¿½ï¿½
             editText1.setText("");
             deleteFile(fileName);
         }

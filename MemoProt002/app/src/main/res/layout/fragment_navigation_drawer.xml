@@ -8,4 +8,4 @@
     android:dividerHeight="0dp"
     android:background="#cccc"
     tools:context=".NavigationDrawerFragment"
-    android:id="@+id/" />
+    android:id="@+id/fragment_navigation_drawer" />
