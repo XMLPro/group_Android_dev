@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">Mememo</string>
-    <string name="file_name">memofiles</string>
-    <string name="save">保存</string>
-    <string name="delete">破棄</string>
-</resources>
