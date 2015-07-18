@@ -2,6 +2,7 @@ package com.example.suzuki.memoprot001;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -144,6 +145,12 @@ public class MainActivity extends ActionBarActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+        //設定ボタンが押されたとき画面を呼ぶ
+        if (id == R.id.action_setting) {
+            Intent intent = new Intent(MainActivity.this, Setting.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

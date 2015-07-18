@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        //スピナー風ボタン
+
+        <Button
+            android:id="@+id/background"
+            style="@android:style/Widget.Holo.Light.Spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="50dp" />
+
+        <Button
+            android:id="@+id/font"
+            style="@android:style/Widget.Holo.Light.Spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="50dp" />
+
+        <Button
+            android:id="@+id/Line"
+            style="@android:style/Widget.Holo.Light.Spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="50dp" />
+
+        <Button
+            android:id="@+id/backbutton"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:text="もどる"
+            android:textSize="50dp" />
+    </LinearLayout>
+
+</ScrollView>
