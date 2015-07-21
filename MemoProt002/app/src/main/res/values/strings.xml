@@ -26,6 +26,8 @@
     //その他日本語の設定
     <string name="white">白</string>
     <string name="black">黒</string>
+    <string name="red">赤</string>
+    <string name="blue">青</string>
     <string name="green">緑</string>
     <string name="gothic">ゴシック</string>
     <string name="MSgothic">MSゴシック</string>
