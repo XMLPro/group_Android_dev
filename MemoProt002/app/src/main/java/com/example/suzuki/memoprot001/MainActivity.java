@@ -1,7 +1,6 @@
 package com.example.suzuki.memoprot001;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
@@ -17,9 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 
 
 public class MainActivity extends ActionBarActivity
@@ -38,6 +41,7 @@ public class MainActivity extends ActionBarActivity
     private Button save_btn, delete_btn;
     private String filename;
     public int color = 0;
+    private SimpleDateFormat sdf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +71,7 @@ public class MainActivity extends ActionBarActivity
             fis.read(readBytes);
             editText.setText(new String(readBytes));
             fis.close();
-        }catch (Exception e){
+        } catch (Exception e) {
         }
     }
 
@@ -76,20 +80,23 @@ public class MainActivity extends ActionBarActivity
         if (v == save_btn) {
             //�ۑ�
             try {
-                FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
-                fos.write(editText.getText().toString().getBytes());
-                fos.close();
+//                FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
+//                fos.write(editText.getText().toString().getBytes());
+//                fos.close();
+//                OutputStream out;
+//                    out = openFileOutput("memotest.txt" , MODE_PRIVATE | MODE_APPEND);
+//                    PrintWriter writer = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
-
         } else if (v == delete_btn) {
             //�j��
             editText.setText("");
             deleteFile(filename);
         }
-        ;
+
     }
+
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
@@ -137,7 +144,7 @@ public class MainActivity extends ActionBarActivity
         return super.onCreateOptionsMenu(menu);
     }
 
-//アクションバー
+    //アクションバー
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -154,13 +161,14 @@ public class MainActivity extends ActionBarActivity
         }
         return super.onOptionsItemSelected(item);
     }
+
     //設定ボタンから画面を受け取る
-    protected void onActivityResult( int requestCode, int Color, Intent intent) {
+    protected void onActivityResult(int requestCode, int Color, Intent intent) {
         super.onActivityResult(requestCode, Color, intent);
         Bundle bundle = intent.getExtras();
-    //色設定
+        //背景色設定
         PaintDrawable paintDrawable;
-        switch(bundle.getInt("color")) {
+        switch (bundle.getInt("color")) {
             case 1:
                 paintDrawable = new PaintDrawable(android.graphics.Color.DKGRAY);
                 break;
@@ -179,6 +187,36 @@ public class MainActivity extends ActionBarActivity
         getWindow().setBackgroundDrawable(paintDrawable);
         color = bundle.getInt("color");
     }
+
+    //画面が強制的に閉じられる時に保存する
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        String memoTest = "test";
+        // タイトル、内容を取得
+        String title = "memoTest";
+        String content = editText.getText().toString();
+        // ファイル名を生成  ファイル名 ： yyyyMMdd_HHmmssSSS.txt
+        // （既に保存されているファイルは、そのままのファイル名とする）
+
+        // 保存
+        OutputStream out = null;
+        PrintWriter writer = null;
+        try {
+            out = this.openFileOutput(memoTest, MODE_PRIVATE);
+            writer = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
+            // タイトル書き込み
+            writer.println(title);
+            // 内容書き込み
+            writer.print(content);
+            writer.close();
+            out.close();
+        } catch (Exception e) {
+            Toast.makeText(this, "File save error!", Toast.LENGTH_LONG).show();
+        }
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -217,6 +255,7 @@ public class MainActivity extends ActionBarActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+
     }
 
 }
