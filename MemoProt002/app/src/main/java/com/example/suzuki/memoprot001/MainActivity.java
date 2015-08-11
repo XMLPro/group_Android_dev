@@ -86,6 +86,7 @@ public class MainActivity extends ActionBarActivity
 //                OutputStream out;
 //                    out = openFileOutput("memotest.txt" , MODE_PRIVATE | MODE_APPEND);
 //                    PrintWriter writer = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
+            onPause();
             } catch (Exception e) {
                 e.printStackTrace();
             }
