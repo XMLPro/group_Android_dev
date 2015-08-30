@@ -12,7 +12,6 @@
         android:orientation="vertical">
 
         //スピナー風ボタン
-
         <Button
             android:id="@+id/background"
             style="@android:style/Widget.Holo.Light.Spinner"

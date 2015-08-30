@@ -19,10 +19,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 
 
 public class MainActivity extends ActionBarActivity
@@ -39,9 +40,8 @@ public class MainActivity extends ActionBarActivity
     private CharSequence mTitle;
     private EditText editText;
     private Button save_btn, delete_btn;
-    private String filename;
+    private String fileName = "1";
     public int color = 0;
-    private SimpleDateFormat sdf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,42 +58,26 @@ public class MainActivity extends ActionBarActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         editText = (EditText) findViewById(R.id.editText);
+        //ファイル読み込み関数SetTextを呼び出し
+        SetText();
+
         save_btn = (Button) findViewById(R.id.save_btn);
         delete_btn = (Button) findViewById(R.id.delete_btn);
 
         save_btn.setOnClickListener(this);
         delete_btn.setOnClickListener(this);
-
-        filename = getResources().getString(R.string.file_name);
-        try {
-            FileInputStream fis = openFileInput(filename);
-            byte[] readBytes = new byte[fis.available()];
-            fis.read(readBytes);
-            editText.setText(new String(readBytes));
-            fis.close();
-        } catch (Exception e) {
-        }
     }
 
     @Override
     public void onClick(View v) {
         if (v == save_btn) {
-            //�ۑ�
             try {
-//                FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
-//                fos.write(editText.getText().toString().getBytes());
-//                fos.close();
-//                OutputStream out;
-//                    out = openFileOutput("memotest.txt" , MODE_PRIVATE | MODE_APPEND);
-//                    PrintWriter writer = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
-            onPause();
+                onPause();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (v == delete_btn) {
-            //�j��
             editText.setText("");
-            deleteFile(filename);
         }
 
     }
@@ -111,17 +95,22 @@ public class MainActivity extends ActionBarActivity
         switch (number) {
             case 1:
                 mTitle = getString(R.string.title_section1);
+                fileName = "1";
                 break;
             case 2:
                 mTitle = getString(R.string.title_section2);
+                fileName = "2";
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
+                fileName = "3";
                 break;
             case 4:
                 mTitle = getString(R.string.title_section4);
+                fileName = "4";
                 break;
         }
+        SetText();
     }
 
     public void restoreActionBar() {
@@ -150,11 +139,11 @@ public class MainActivity extends ActionBarActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //設定ボタンが押されたとき画面を呼ぶ
+        //設定ボタンが押されたとき設定画面を呼ぶ
+        //変数colorの値も渡す
         if (id == R.id.action_setting) {
             Intent intent = new Intent(MainActivity.this, Setting.class);
             Bundle bundle = new Bundle();
-
             bundle.putInt("Color", color);
             intent.putExtras(bundle);
             startActivityForResult(intent, color);
@@ -189,32 +178,44 @@ public class MainActivity extends ActionBarActivity
         color = bundle.getInt("color");
     }
 
-    //画面が強制的に閉じられる時に保存する
+    //画面が閉じられるか遷移する時に保存する
     @Override
     protected void onPause() {
         super.onPause();
 
-        String memoTest = "test";
         // タイトル、内容を取得
-        String title = "memoTest";
         String content = editText.getText().toString();
-        // ファイル名を生成  ファイル名 ： yyyyMMdd_HHmmssSSS.txt
-        // （既に保存されているファイルは、そのままのファイル名とする）
-
         // 保存
         OutputStream out = null;
         PrintWriter writer = null;
         try {
-            out = this.openFileOutput(memoTest, MODE_PRIVATE);
+            out = this.openFileOutput(fileName, MODE_PRIVATE);
             writer = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
-            // タイトル書き込み
-            writer.println(title);
             // 内容書き込み
             writer.print(content);
             writer.close();
+            Toast.makeText(this, getString(R.string.Save), Toast.LENGTH_SHORT).show();
             out.close();
         } catch (Exception e) {
-            Toast.makeText(this, "File save error!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.SaveError), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    //ファイルを読み込みテキストにセットするクラスSetText
+    protected void SetText() {
+        try {
+            FileInputStream fileInputStream;
+            fileInputStream = openFileInput(fileName);
+            byte[] readBytes = new byte[fileInputStream.available()];
+            fileInputStream.read(readBytes);
+            String readString = new String(readBytes);
+            editText.setText(readString);
+        } catch (FileNotFoundException e) {
+            Toast.makeText(this, getString(R.string.FileError), Toast.LENGTH_SHORT).show();
+            editText.setText("");
+        } catch (IOException e) {
+            Toast.makeText(this, getString(R.string.Error), Toast.LENGTH_SHORT).show();
+            editText.setText("");
         }
     }
 
@@ -240,9 +241,6 @@ public class MainActivity extends ActionBarActivity
             return fragment;
         }
 
-        public PlaceholderFragment() {
-        }
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -256,7 +254,6 @@ public class MainActivity extends ActionBarActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
-
     }
 
 }
