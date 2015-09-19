@@ -20,6 +20,7 @@
             android:name=".Setting"
             android:label="@string/Setting_Activity">
         </activity>
+        <activity android:name=".MemoList" />
     </application>
 
     <!--<TextView-->
