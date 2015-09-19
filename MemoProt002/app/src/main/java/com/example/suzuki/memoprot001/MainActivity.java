@@ -160,6 +160,14 @@ public class MainActivity extends ActionBarActivity
             startActivityForResult(intent, color);
             return true;
         }
+
+        if (id == R.id.action_share) {
+            Intent intent = new Intent(MainActivity.this, DrawNoteK.class);
+
+            startActivity(intent);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
