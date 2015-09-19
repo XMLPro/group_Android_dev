@@ -1,7 +1,10 @@
 package com.example.suzuki.memoprot001;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,8 +12,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Selection;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +29,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.util.Date;
 
 
 public class MainActivity extends ActionBarActivity
@@ -60,12 +67,13 @@ public class MainActivity extends ActionBarActivity
         editText = (EditText) findViewById(R.id.editText);
         //ファイル読み込み関数SetTextを呼び出し
         SetText();
-
+/*
         save_btn = (Button) findViewById(R.id.save_btn);
         delete_btn = (Button) findViewById(R.id.delete_btn);
 
         save_btn.setOnClickListener(this);
         delete_btn.setOnClickListener(this);
+        */
     }
 
     @Override
@@ -92,7 +100,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void onSectionAttached(int number) {
-        switch (number) {
+/*        switch (number) {
             case 1:
                 mTitle = getString(R.string.title_section1);
                 fileName = "1";
@@ -110,7 +118,7 @@ public class MainActivity extends ActionBarActivity
                 fileName = "4";
                 break;
         }
-        SetText();
+  */      SetText();
     }
 
     public void restoreActionBar() {
@@ -123,6 +131,11 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+        //メニューとメモ一覧の
+        MenuInflater mi = getMenuInflater();
+        mi.inflate(R.menu.menu, menu);
+
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
@@ -149,11 +162,29 @@ public class MainActivity extends ActionBarActivity
             startActivityForResult(intent, color);
             return true;
         }
-        return super.onOptionsItemSelected(item);
+
+        //メニューとメモ一覧の
+        EditText et = (EditText) findViewById(R.id.editText);
+        switch(item.getItemId()) {
+            case R.id.menu_save:
+                saveMemo();
+                break;
+            case R.id.menu_open:
+                Intent i = new Intent(this, MemoList.class);
+                startActivityForResult(i, 0);
+                break;
+            case R.id.menu_new:
+                et.setText("");
+                break;
+        }
+
+            return super.onOptionsItemSelected(item);
+
+
     }
 
     //設定ボタンから画面を受け取る
-    protected void onActivityResult(int requestCode, int Color, Intent intent) {
+    protected void onActivityResult(int requestCode, int Color, Intent intent, int resultCode, Intent data) {
         super.onActivityResult(requestCode, Color, intent);
         Bundle bundle = intent.getExtras();
         //背景色設定
@@ -176,6 +207,17 @@ public class MainActivity extends ActionBarActivity
         }
         getWindow().setBackgroundDrawable(paintDrawable);
         color = bundle.getInt("color");
+
+        if(resultCode == RESULT_OK){
+            EditText et = (EditText) findViewById(R.id.editText);
+
+            switch(requestCode){
+                case 0:
+                    et.setText(data.getStringExtra("text"));
+                    break;
+            }
+        }
+
     }
 
     //画面が閉じられるか遷移する時に保存する
@@ -255,5 +297,41 @@ public class MainActivity extends ActionBarActivity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
+
+    @Override
+    public void onStop(){
+        EditText et = (EditText) findViewById(R.id.editText);
+        SharedPreferences pref = getSharedPreferences("MemoPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("memo", et.getText().toString());
+        editor.putInt("cursor", Selection.getSelectionStart(et.getText()));
+        editor.commit();
+        super.onStop();
+    }
+
+    //メモ保存(平原)
+    void saveMemo(){
+        EditText et = (EditText)this.findViewById(R.id.editText);
+        String title;
+        String memo = et.getText().toString();
+
+        if(memo.trim().length() > 0){
+            if(memo.indexOf("\n") == -1){
+                title = memo.substring(0, Math.min(memo.length(), 20));
+            }
+            else{
+                title = memo.substring(0, Math.min(memo.indexOf("\n"), 20));
+            }
+            String ts = DateFormat.getDateTimeInstance().format(new Date());
+            MemoDBHelper memos = new MemoDBHelper(this);
+            SQLiteDatabase db = memos.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("title", title + "\n" + ts);
+            values.put("memo", memo);
+            db.insertOrThrow("memoDB", null, values);
+            memos.close();
+        }
+    }
+
 
 }

@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name">MemoProt001</string>
 
-    <string name="title_section1">メモ1</string>
-    <string name="title_section2">メモ2</string>
-    <string name="title_section3">メモ3</string>
-    <string name="title_section4">メモ4</string>
+    <string name="menu_save">保存</string>
+    <string name="menu_open">開く</string>
+    <string name="menu_new">新規作成</string>
 
     //保存関係の日本語
     <string name="save">保存</string>
@@ -46,4 +45,7 @@
     <string name="setfont">書式を選んでください</string>
     //設定画面のタイトル
     <string name="Setting_Activity">設定画面</string>
+
+    <string name="memodb_empty">memo</string>
+
 </resources>
