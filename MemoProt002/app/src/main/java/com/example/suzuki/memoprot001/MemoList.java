@@ -4,6 +4,8 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -11,6 +13,9 @@ import android.widget.SimpleCursorAdapter;
 
 public class MemoList extends ListActivity {
 
+    //îwåiópÇÃïœêîêÈåæ
+    protected int color;
+    public PaintDrawable paintDrawable;
 
     static final String[] cols = {"title", "memo", android.provider.BaseColumns._ID,};
     MemoDBHelper memos;
@@ -36,6 +41,28 @@ public class MemoList extends ListActivity {
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.memolist);
+
+        //îwåiêFÇéÛÇØéÊÇ¡Çƒê›íËÇ∑ÇÈ
+        Intent intent = getIntent();
+        color = intent.getIntExtra("Color",0);
+        switch(color) {
+            case 1:
+                paintDrawable = new PaintDrawable(Color.DKGRAY);
+                break;
+            case 2:
+                paintDrawable = new PaintDrawable(Color.RED);
+                break;
+            case 3:
+                paintDrawable = new PaintDrawable(Color.BLUE);
+                break;
+            case 4:
+                paintDrawable = new PaintDrawable(Color.GREEN);
+                break;
+            default:
+                paintDrawable = new PaintDrawable(Color.WHITE);
+        }
+        getWindow().setBackgroundDrawable(paintDrawable);
+
         showMemos(getMemos());
     }
 
@@ -46,7 +73,6 @@ public class MemoList extends ListActivity {
         startManagingCursor(cursor);
         return cursor;
     }
-
 
     private void showMemos(Cursor cursor){
         if(cursor != null){

@@ -74,6 +74,7 @@ public class Setting extends ActionBarActivity {
                                     default:
                                         paintDrawable = new PaintDrawable(Color.WHITE);
                                 }
+                                color += 10;
                                 getWindow().setBackgroundDrawable(paintDrawable);
                             }
                         })
