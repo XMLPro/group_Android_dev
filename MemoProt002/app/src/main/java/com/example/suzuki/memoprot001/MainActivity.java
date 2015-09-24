@@ -1,7 +1,10 @@
 package com.example.suzuki.memoprot001;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,25 +12,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Selection;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-
+import java.text.DateFormat;
+import java.util.Date;
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -37,10 +36,6 @@ public class MainActivity extends ActionBarActivity
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
-    private CharSequence mTitle;
-    private EditText editText;
-    private Button save_btn, delete_btn;
-    private String fileName = "1";
     public int color = 0;
 
     @Override
@@ -50,36 +45,11 @@ public class MainActivity extends ActionBarActivity
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-        editText = (EditText) findViewById(R.id.editText);
-        //ファイル読み込み関数SetTextを呼び出し
-        SetText();
-
-        save_btn = (Button) findViewById(R.id.save_btn);
-        delete_btn = (Button) findViewById(R.id.delete_btn);
-
-        save_btn.setOnClickListener(this);
-        delete_btn.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v == save_btn) {
-            try {
-                onPause();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (v == delete_btn) {
-            editText.setText("");
-        }
-
     }
 
     @Override
@@ -91,38 +61,19 @@ public class MainActivity extends ActionBarActivity
                 .commit();
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                fileName = "1";
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                fileName = "2";
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                fileName = "3";
-                break;
-            case 4:
-                mTitle = getString(R.string.title_section4);
-                fileName = "4";
-                break;
-        }
-        SetText();
-    }
-
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //メニューとメモ一覧の
+        MenuInflater mi = getMenuInflater();
+        mi.inflate(R.menu.menu, menu);
+
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
@@ -142,80 +93,73 @@ public class MainActivity extends ActionBarActivity
         //設定ボタンが押されたとき設定画面を呼ぶ
         //変数colorの値も渡す
         if (id == R.id.action_setting) {
-            Intent intent = new Intent(MainActivity.this, Setting.class);
+            Intent SettingIntent = new Intent(MainActivity.this, Setting.class);
             Bundle bundle = new Bundle();
             bundle.putInt("Color", color);
-            intent.putExtras(bundle);
-            startActivityForResult(intent, color);
+            SettingIntent.putExtras(bundle);
+            startActivityForResult(SettingIntent, color);
             return true;
+        }
+
+        //メニューとメモ一覧の
+        EditText et = (EditText) findViewById(R.id.editText);
+        switch (item.getItemId()) {
+            case R.id.menu_save:
+                saveMemo();
+                break;
+            case R.id.menu_open:
+                Intent i = new Intent(this, MemoList.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("Color", color);
+                i.putExtras(bundle);
+                startActivityForResult(i, color);
+                break;
+            case R.id.menu_new:
+                et.setText("");
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    //設定ボタンから画面を受け取る
-    protected void onActivityResult(int requestCode, int Color, Intent intent) {
-        super.onActivityResult(requestCode, Color, intent);
+    //startActivityで呼んだ画面から自動で画面を受け取る関数onActivityResult
+    //どの画面を呼んだ後もここで受け取るので全画面に対応できるように頑張って書くこと
+    //onActivityResultはstartActivity()で呼び出した時の第二引数、第一引数、向こうのintentの順番で引数を受け取る
+    //第二引数で数字を渡すのが普通っぽいのでここではint Numberで第二引数を受け取るように調整
+    protected void onActivityResult(int Number, int requestCode, Intent intent) {
+        super.onActivityResult(Number, requestCode, intent);
         Bundle bundle = intent.getExtras();
-        //背景色設定
-        PaintDrawable paintDrawable;
-        switch (bundle.getInt("color")) {
-            case 1:
-                paintDrawable = new PaintDrawable(android.graphics.Color.DKGRAY);
-                break;
-            case 2:
-                paintDrawable = new PaintDrawable(android.graphics.Color.RED);
-                break;
-            case 3:
-                paintDrawable = new PaintDrawable(android.graphics.Color.BLUE);
-                break;
-            case 4:
-                paintDrawable = new PaintDrawable(android.graphics.Color.GREEN);
-                break;
-            default:
-                paintDrawable = new PaintDrawable(android.graphics.Color.WHITE);
+
+        if (bundle.getInt("color") >= 10) {
+            //背景色設定
+            PaintDrawable paintDrawable;
+            switch (bundle.getInt("color")) {
+                case 11:
+                    paintDrawable = new PaintDrawable(android.graphics.Color.DKGRAY);
+                    break;
+                case 12:
+                    paintDrawable = new PaintDrawable(android.graphics.Color.RED);
+                    break;
+                case 13:
+                    paintDrawable = new PaintDrawable(android.graphics.Color.BLUE);
+                    break;
+                case 14:
+                    paintDrawable = new PaintDrawable(android.graphics.Color.GREEN);
+                    break;
+                default:
+                    paintDrawable = new PaintDrawable(android.graphics.Color.WHITE);
+            }
+            getWindow().setBackgroundDrawable(paintDrawable);
+            color = bundle.getInt("color");
+            color -= 10;
         }
-        getWindow().setBackgroundDrawable(paintDrawable);
-        color = bundle.getInt("color");
-    }
 
-    //画面が閉じられるか遷移する時に保存する
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // タイトル、内容を取得
-        String content = editText.getText().toString();
-        // 保存
-        OutputStream out = null;
-        PrintWriter writer = null;
-        try {
-            out = this.openFileOutput(fileName, MODE_PRIVATE);
-            writer = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
-            // 内容書き込み
-            writer.print(content);
-            writer.close();
-            Toast.makeText(this, getString(R.string.Save), Toast.LENGTH_SHORT).show();
-            out.close();
-        } catch (Exception e) {
-            Toast.makeText(this, getString(R.string.SaveError), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    //ファイルを読み込みテキストにセットするクラスSetText
-    protected void SetText() {
-        try {
-            FileInputStream fileInputStream;
-            fileInputStream = openFileInput(fileName);
-            byte[] readBytes = new byte[fileInputStream.available()];
-            fileInputStream.read(readBytes);
-            String readString = new String(readBytes);
-            editText.setText(readString);
-        } catch (FileNotFoundException e) {
-            Toast.makeText(this, getString(R.string.FileError), Toast.LENGTH_SHORT).show();
-            editText.setText("");
-        } catch (IOException e) {
-            Toast.makeText(this, getString(R.string.Error), Toast.LENGTH_SHORT).show();
-            editText.setText("");
+        if (bundle.getString("text") != null) {
+            EditText et = (EditText) findViewById(R.id.editText);
+//            switch (requestCode) {
+//                case 0:
+            et.setText(intent.getStringExtra("text"));
+//                    break;
+//            }
         }
     }
 
@@ -254,6 +198,50 @@ public class MainActivity extends ActionBarActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+    }
+
+    public void onSectionAttached(int number) {
+    }
+
+    @Override
+    public void onStop() {
+        EditText et = (EditText) findViewById(R.id.editText);
+        SharedPreferences pref = getSharedPreferences("MemoPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("memo", et.getText().toString());
+        editor.putInt("cursor", Selection.getSelectionStart(et.getText()));
+        editor.commit();
+        super.onStop();
+    }
+
+    //メモ保存(平原)
+    void saveMemo() {
+        EditText et = (EditText) this.findViewById(R.id.editText);
+        String title;
+        String memo = et.getText().toString();
+
+        if (memo.trim().length() > 0) {
+            if (memo.indexOf("\n") == -1) {
+                title = memo.substring(0, Math.min(memo.length(), 20));
+            } else {
+                title = memo.substring(0, Math.min(memo.indexOf("\n"), 20));
+            }
+            String ts = DateFormat.getDateTimeInstance().format(new Date());
+            MemoDBHelper memos = new MemoDBHelper(this);
+            SQLiteDatabase db = memos.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("title", title + "\n" + ts);
+            values.put("memo", memo);
+            db.insertOrThrow("memoDB", null, values);
+            memos.close();
+        }
+        Toast.makeText(this, getString(R.string.Save), Toast.LENGTH_SHORT).show();
+    }
+
+    //アプリがバックボタンで閉じられる時に自動保存
+    @Override
+    public void onDestroy(){
+        saveMemo();
     }
 
 }

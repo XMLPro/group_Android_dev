@@ -13,31 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <Button
-            android:text="@string/delete"
-            android:id="@+id/delete_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_below="@+id/save_btn"
-            android:layout_alignParentStart="true" />
-
-        <Button
-            android:text="@string/save"
-            android:id="@+id/save_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="41dp"
-            android:layout_gravity="left|center_vertical"
-            android:layout_below="@+id/editText"
-            android:layout_alignParentStart="true" />
-
         <EditText
-               android:id="@+id/editText"
-               android:text="EditText"
-               android:layout_width="fill_parent"
-               android:layout_height="wrap_content"
+            android:id="@+id/editText"
+            android:gravity="top"
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="left|bottom" />
     </RelativeLayout>
 
@@ -55,5 +36,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         tools:layout="@layout/fragment_navigation_drawer" />
+
 
 </android.support.v4.widget.DrawerLayout >
