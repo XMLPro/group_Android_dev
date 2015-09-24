@@ -7,15 +7,11 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
-<<<<<<< HEAD
-=======
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Selection;
->>>>>>> 276df0386edd3682fd9485aa1384bcc59ad98f76
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -103,7 +99,6 @@ public class MainActivity extends ActionBarActivity
             startActivityForResult(SettingIntent, color);
             return true;
         }
-<<<<<<< HEAD
 
         if (id == R.id.action_share) {
             Intent intent = new Intent(MainActivity.this, DrawNoteK.class);
@@ -114,8 +109,6 @@ public class MainActivity extends ActionBarActivity
 
         return super.onOptionsItemSelected(item);
     }
-=======
->>>>>>> 276df0386edd3682fd9485aa1384bcc59ad98f76
 
         //メニューとメモ一覧の
         EditText et = (EditText) findViewById(R.id.editText);
