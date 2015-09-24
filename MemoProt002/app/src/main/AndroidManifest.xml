@@ -18,6 +18,7 @@
         </activity>
         <activity
             android:name=".Setting"
+<<<<<<< HEAD
             android:label="@string/Setting_Activity"></activity>
         <activity
             android:name=".DrawNoteK"
@@ -26,6 +27,11 @@
         <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
         <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+=======
+            android:label="@string/Setting_Activity">
+        </activity>
+        <activity android:name=".MemoList" />
+>>>>>>> 276df0386edd3682fd9485aa1384bcc59ad98f76
     </application>
 
     <!--<TextView-->

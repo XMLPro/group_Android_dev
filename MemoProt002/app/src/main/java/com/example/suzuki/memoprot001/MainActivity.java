@@ -1,27 +1,35 @@
 package com.example.suzuki.memoprot001;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
+<<<<<<< HEAD
+=======
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.text.Selection;
+>>>>>>> 276df0386edd3682fd9485aa1384bcc59ad98f76
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.FileInputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-
+import java.text.DateFormat;
+import java.util.Date;
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -31,12 +39,7 @@ public class MainActivity extends ActionBarActivity
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
-    private CharSequence mTitle;
-    private EditText editText;
-    private Button save_btn, delete_btn;
-    private String filename;
     public int color = 0;
-    private SimpleDateFormat sdf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,52 +48,11 @@ public class MainActivity extends ActionBarActivity
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-        editText = (EditText) findViewById(R.id.editText);
-        save_btn = (Button) findViewById(R.id.save_btn);
-        delete_btn = (Button) findViewById(R.id.delete_btn);
-
-        save_btn.setOnClickListener(this);
-        delete_btn.setOnClickListener(this);
-
-        filename = getResources().getString(R.string.file_name);
-        try {
-            FileInputStream fis = openFileInput(filename);
-            byte[] readBytes = new byte[fis.available()];
-            fis.read(readBytes);
-            editText.setText(new String(readBytes));
-            fis.close();
-        } catch (Exception e) {
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v == save_btn) {
-            //�ۑ�
-            try {
-//                FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
-//                fos.write(editText.getText().toString().getBytes());
-//                fos.close();
-//                OutputStream out;
-//                    out = openFileOutput("memotest.txt" , MODE_PRIVATE | MODE_APPEND);
-//                    PrintWriter writer = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
-            onPause();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (v == delete_btn) {
-            //�j��
-            editText.setText("");
-            deleteFile(filename);
-        }
-
     }
 
     @Override
@@ -102,33 +64,19 @@ public class MainActivity extends ActionBarActivity
                 .commit();
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-            case 4:
-                mTitle = getString(R.string.title_section4);
-                break;
-        }
-    }
-
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //メニューとメモ一覧の
+        MenuInflater mi = getMenuInflater();
+        mi.inflate(R.menu.menu, menu);
+
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
@@ -145,16 +93,17 @@ public class MainActivity extends ActionBarActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //設定ボタンが押されたとき画面を呼ぶ
+        //設定ボタンが押されたとき設定画面を呼ぶ
+        //変数colorの値も渡す
         if (id == R.id.action_setting) {
-            Intent intent = new Intent(MainActivity.this, Setting.class);
+            Intent SettingIntent = new Intent(MainActivity.this, Setting.class);
             Bundle bundle = new Bundle();
-
             bundle.putInt("Color", color);
-            intent.putExtras(bundle);
-            startActivityForResult(intent, color);
+            SettingIntent.putExtras(bundle);
+            startActivityForResult(SettingIntent, color);
             return true;
         }
+<<<<<<< HEAD
 
         if (id == R.id.action_share) {
             Intent intent = new Intent(MainActivity.this, DrawNoteK.class);
@@ -165,59 +114,68 @@ public class MainActivity extends ActionBarActivity
 
         return super.onOptionsItemSelected(item);
     }
+=======
+>>>>>>> 276df0386edd3682fd9485aa1384bcc59ad98f76
 
-    //設定ボタンから画面を受け取る
-    protected void onActivityResult(int requestCode, int Color, Intent intent) {
-        super.onActivityResult(requestCode, Color, intent);
-        Bundle bundle = intent.getExtras();
-        //背景色設定
-        PaintDrawable paintDrawable;
-        switch (bundle.getInt("color")) {
-            case 1:
-                paintDrawable = new PaintDrawable(android.graphics.Color.DKGRAY);
+        //メニューとメモ一覧の
+        EditText et = (EditText) findViewById(R.id.editText);
+        switch (item.getItemId()) {
+            case R.id.menu_save:
+                saveMemo();
                 break;
-            case 2:
-                paintDrawable = new PaintDrawable(android.graphics.Color.RED);
+            case R.id.menu_open:
+                Intent i = new Intent(this, MemoList.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("Color", color);
+                i.putExtras(bundle);
+                startActivityForResult(i, color);
                 break;
-            case 3:
-                paintDrawable = new PaintDrawable(android.graphics.Color.BLUE);
+            case R.id.menu_new:
+                et.setText("");
                 break;
-            case 4:
-                paintDrawable = new PaintDrawable(android.graphics.Color.GREEN);
-                break;
-            default:
-                paintDrawable = new PaintDrawable(android.graphics.Color.WHITE);
         }
-        getWindow().setBackgroundDrawable(paintDrawable);
-        color = bundle.getInt("color");
+        return super.onOptionsItemSelected(item);
     }
 
-    //画面が強制的に閉じられる時に保存する
-    @Override
-    protected void onPause() {
-        super.onPause();
+    //startActivityで呼んだ画面から自動で画面を受け取る関数onActivityResult
+    //どの画面を呼んだ後もここで受け取るので全画面に対応できるように頑張って書くこと
+    //onActivityResultはstartActivity()で呼び出した時の第二引数、第一引数、向こうのintentの順番で引数を受け取る
+    //第二引数で数字を渡すのが普通っぽいのでここではint Numberで第二引数を受け取るように調整
+    protected void onActivityResult(int Number, int requestCode, Intent intent) {
+        super.onActivityResult(Number, requestCode, intent);
+        Bundle bundle = intent.getExtras();
 
-        String memoTest = "test";
-        // タイトル、内容を取得
-        String title = "memoTest";
-        String content = editText.getText().toString();
-        // ファイル名を生成  ファイル名 ： yyyyMMdd_HHmmssSSS.txt
-        // （既に保存されているファイルは、そのままのファイル名とする）
+        if (bundle.getInt("color") >= 10) {
+            //背景色設定
+            PaintDrawable paintDrawable;
+            switch (bundle.getInt("color")) {
+                case 11:
+                    paintDrawable = new PaintDrawable(android.graphics.Color.DKGRAY);
+                    break;
+                case 12:
+                    paintDrawable = new PaintDrawable(android.graphics.Color.RED);
+                    break;
+                case 13:
+                    paintDrawable = new PaintDrawable(android.graphics.Color.BLUE);
+                    break;
+                case 14:
+                    paintDrawable = new PaintDrawable(android.graphics.Color.GREEN);
+                    break;
+                default:
+                    paintDrawable = new PaintDrawable(android.graphics.Color.WHITE);
+            }
+            getWindow().setBackgroundDrawable(paintDrawable);
+            color = bundle.getInt("color");
+            color -= 10;
+        }
 
-        // 保存
-        OutputStream out = null;
-        PrintWriter writer = null;
-        try {
-            out = this.openFileOutput(memoTest, MODE_PRIVATE);
-            writer = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
-            // タイトル書き込み
-            writer.println(title);
-            // 内容書き込み
-            writer.print(content);
-            writer.close();
-            out.close();
-        } catch (Exception e) {
-            Toast.makeText(this, "File save error!", Toast.LENGTH_LONG).show();
+        if (bundle.getString("text") != null) {
+            EditText et = (EditText) findViewById(R.id.editText);
+//            switch (requestCode) {
+//                case 0:
+            et.setText(intent.getStringExtra("text"));
+//                    break;
+//            }
         }
     }
 
@@ -243,9 +201,6 @@ public class MainActivity extends ActionBarActivity
             return fragment;
         }
 
-        public PlaceholderFragment() {
-        }
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -259,7 +214,50 @@ public class MainActivity extends ActionBarActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+    }
 
+    public void onSectionAttached(int number) {
+    }
+
+    @Override
+    public void onStop() {
+        EditText et = (EditText) findViewById(R.id.editText);
+        SharedPreferences pref = getSharedPreferences("MemoPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("memo", et.getText().toString());
+        editor.putInt("cursor", Selection.getSelectionStart(et.getText()));
+        editor.commit();
+        super.onStop();
+    }
+
+    //メモ保存(平原)
+    void saveMemo() {
+        EditText et = (EditText) this.findViewById(R.id.editText);
+        String title;
+        String memo = et.getText().toString();
+
+        if (memo.trim().length() > 0) {
+            if (memo.indexOf("\n") == -1) {
+                title = memo.substring(0, Math.min(memo.length(), 20));
+            } else {
+                title = memo.substring(0, Math.min(memo.indexOf("\n"), 20));
+            }
+            String ts = DateFormat.getDateTimeInstance().format(new Date());
+            MemoDBHelper memos = new MemoDBHelper(this);
+            SQLiteDatabase db = memos.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("title", title + "\n" + ts);
+            values.put("memo", memo);
+            db.insertOrThrow("memoDB", null, values);
+            memos.close();
+        }
+        Toast.makeText(this, getString(R.string.Save), Toast.LENGTH_SHORT).show();
+    }
+
+    //アプリがバックボタンで閉じられる時に自動保存
+    @Override
+    public void onDestroy(){
+        saveMemo();
     }
 
 }

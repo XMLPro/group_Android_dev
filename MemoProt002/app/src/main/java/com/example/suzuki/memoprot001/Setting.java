@@ -12,9 +12,8 @@ import android.widget.Button;
 
 public class Setting extends ActionBarActivity {
     // スピナー風ボタン用のチェック変数宣言
-    protected int colorset;
     protected int color;
-    protected int fontset;
+    protected int fontSet;
     protected int font;
 
     public PaintDrawable paintDrawable;
@@ -25,7 +24,6 @@ public class Setting extends ActionBarActivity {
         setContentView(R.layout.activity_setting);
 
         //開幕色設定
-
         Intent intent = getIntent();
         color = intent.getIntExtra("Color",0);
         switch(color) {
@@ -56,17 +54,10 @@ public class Setting extends ActionBarActivity {
                         getString(R.string.red), getString(R.string.blue), getString(R.string.green)};
                 new AlertDialog.Builder(Setting.this)
                         .setTitle(R.string.setbackground)
-                        .setSingleChoiceItems(itemBackGround, colorset, new DialogInterface.OnClickListener() {
+                        .setSingleChoiceItems(itemBackGround, color, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int item) {
                                 //アイテムを選択したらここに入る
-                                colorset = item;
-                            }
-                        })
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                //OKを押したらここに入る
-                                color = colorset;
-                                //色設定の反映 1:黒 2:赤 3:青 4:緑 デフォルトは白
+                                color = item;
                                 switch(color) {
                                     case 1:
                                         paintDrawable = new PaintDrawable(Color.DKGRAY);
@@ -83,7 +74,14 @@ public class Setting extends ActionBarActivity {
                                     default:
                                         paintDrawable = new PaintDrawable(Color.WHITE);
                                 }
+                                color += 10;
                                 getWindow().setBackgroundDrawable(paintDrawable);
+                            }
+                        })
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //OKを押したときの処理
+                                //何もなし
                             }
                         })
                         .setNegativeButton(R.string.cancel, null)
@@ -99,14 +97,14 @@ public class Setting extends ActionBarActivity {
                 final CharSequence[] itemFont = {getString(R.string.gothic), getString(R.string.MSgothic), getString(R.string.mintyo)};
                 new AlertDialog.Builder(Setting.this)
                         .setTitle(R.string.setfont)
-                        .setSingleChoiceItems(itemFont, fontset, new DialogInterface.OnClickListener() {
+                        .setSingleChoiceItems(itemFont, fontSet, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int item) {
-                                fontset = item;
+                                fontSet = item;
                             }
                         })
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                font = fontset;
+                                font = fontSet;
                             }
                         })
                         .setNegativeButton(R.string.cancel, null)
