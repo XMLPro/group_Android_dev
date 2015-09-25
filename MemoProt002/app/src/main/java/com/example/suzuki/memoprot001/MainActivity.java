@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -107,8 +108,6 @@ public class MainActivity extends ActionBarActivity
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
-    }
 
         //メニューとメモ一覧の
         EditText et = (EditText) findViewById(R.id.editText);

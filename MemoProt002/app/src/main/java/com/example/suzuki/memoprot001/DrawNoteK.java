@@ -69,7 +69,7 @@ public class DrawNoteK extends Activity {
         File fout = new File(dir);
         Log.v("dir;", dir);
 //        if (!fout.exists()) {
-           boolean f = fout.mkdirs();
+        boolean f = fout.mkdirs();
         if(f){
             System.out.println("eee:ok");
         }else {
