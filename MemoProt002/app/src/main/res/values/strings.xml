@@ -19,6 +19,7 @@
     <string name="action_example">Example action</string>
 
     <string name="action_settings">Settings</string>
+    <string name="DrawNoteK_Activity">DrawNoteK</string>
 
 
     //ここから順番に新規作成・設定・共有・削除ボタン

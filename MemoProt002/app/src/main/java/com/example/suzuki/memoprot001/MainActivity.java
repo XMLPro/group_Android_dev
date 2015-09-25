@@ -101,6 +101,14 @@ public class MainActivity extends ActionBarActivity
             return true;
         }
 
+        if (id == R.id.action_share) {
+            Intent intent = new Intent(MainActivity.this, DrawNoteK.class);
+
+            startActivity(intent);
+            return true;
+        }
+
+
         //メニューとメモ一覧の
         EditText et = (EditText) findViewById(R.id.editText);
         switch (item.getItemId()) {
