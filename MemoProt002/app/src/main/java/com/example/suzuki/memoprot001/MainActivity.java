@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Selection;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,7 +39,7 @@ public class MainActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     public int color = 0;
-
+    private CharSequence mTile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,8 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        mTile = getTitle();
     }
 
     @Override
@@ -65,6 +69,7 @@ public class MainActivity extends ActionBarActivity
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle(mTile);
     }
 
 
@@ -136,14 +141,23 @@ public class MainActivity extends ActionBarActivity
                 case 11:
                     paintDrawable = new PaintDrawable(android.graphics.Color.DKGRAY);
                     break;
-                case 12:
-                    paintDrawable = new PaintDrawable(android.graphics.Color.RED);
+                case 12://赤
+                    paintDrawable = new PaintDrawable(Color.rgb(255, 51, 51));
                     break;
-                case 13:
-                    paintDrawable = new PaintDrawable(android.graphics.Color.BLUE);
+                case 13://青
+                    paintDrawable = new PaintDrawable(Color.rgb(51,204,255));
                     break;
-                case 14:
-                    paintDrawable = new PaintDrawable(android.graphics.Color.GREEN);
+                case 14://緑
+                    paintDrawable = new PaintDrawable(Color.rgb(0,255,102));
+                    break;
+                case 15://ピンク
+                    paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
+                    break;
+                case 16://橙
+                    paintDrawable = new PaintDrawable(Color.rgb(255,153,0));
+                    break;
+                case 17://紫
+                    paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
                     break;
                 default:
                     paintDrawable = new PaintDrawable(android.graphics.Color.WHITE);
@@ -155,11 +169,7 @@ public class MainActivity extends ActionBarActivity
 
         if (bundle.getString("text") != null) {
             EditText et = (EditText) findViewById(R.id.editText);
-//            switch (requestCode) {
-//                case 0:
             et.setText(intent.getStringExtra("text"));
-//                    break;
-//            }
         }
     }
 
@@ -201,6 +211,18 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void onSectionAttached(int number) {
+        switch (number){
+            case 1:
+                mTile = getString(R.string.action_add);
+                break;
+            case 2:
+                mTile = getString(R.string.folder);
+                break;
+            case 3:
+                mTile = getString(R.string.view);
+                break;
+
+        }
     }
 
     @Override
@@ -237,11 +259,17 @@ public class MainActivity extends ActionBarActivity
         }
         Toast.makeText(this, getString(R.string.Save), Toast.LENGTH_SHORT).show();
     }
-
-    //アプリがバックボタンで閉じられる時に自動保存
-    @Override
-    public void onDestroy(){
-        saveMemo();
+//端末側の戻るボタンが押されたときの処理
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction()==KeyEvent.ACTION_DOWN) {
+            switch (event.getKeyCode()) {
+                case KeyEvent.KEYCODE_BACK:
+                    // ダイアログ表示など特定の処理を行いたい場合はここに記述
+                    // 親クラスのdispatchKeyEvent()を呼び出さずにtrueを返すと戻るボタンが無効になる
+                    finish();
+            }
+        }
+        return super.dispatchKeyEvent(event);
     }
 
 }

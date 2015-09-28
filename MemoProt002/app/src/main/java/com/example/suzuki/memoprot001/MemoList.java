@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -49,15 +50,25 @@ public class MemoList extends ListActivity {
             case 1:
                 paintDrawable = new PaintDrawable(Color.DKGRAY);
                 break;
-            case 2:
-                paintDrawable = new PaintDrawable(Color.RED);
+            case 2://赤
+                paintDrawable = new PaintDrawable(Color.rgb(255,51,51));
                 break;
-            case 3:
-                paintDrawable = new PaintDrawable(Color.BLUE);
+            case 3://青
+                paintDrawable = new PaintDrawable(Color.rgb(51,204,255));
                 break;
-            case 4:
-                paintDrawable = new PaintDrawable(Color.GREEN);
+            case 4://緑
+                paintDrawable = new PaintDrawable(Color.rgb(0,255,102));
                 break;
+            case 5://ピンク
+                paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
+                break;
+            case 6://橙
+                paintDrawable = new PaintDrawable(Color.rgb(255,153,0));
+                break;
+            case 7://紫
+                paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
+                break;
+
             default:
                 paintDrawable = new PaintDrawable(Color.WHITE);
         }
@@ -84,5 +95,22 @@ public class MemoList extends ListActivity {
         memos.close();
     }
 
+    //端末側の戻るボタンが押されたときの処理
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (event.getKeyCode()) {
+                case KeyEvent.KEYCODE_BACK:
+                    // ダイアログ表示など特定の処理を行いたい場合はここに記述
+                    // 親クラスのdispatchKeyEvent()を呼び出さずにtrueを返すと戻るボタンが無効になる
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("color", color);
+                    intent.putExtras(bundle);
+                    setResult(RESULT_OK, intent);
+                    finish();
+            }
+        }
+        return true;
+    }
 
 }

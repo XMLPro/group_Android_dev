@@ -4,6 +4,8 @@
     <string name="menu_save">保存</string>
     <string name="menu_open">開く</string>
     <string name="menu_new">新規作成</string>
+    <string name="folder">フォルダー</string>
+    <string name="view">ビュー</string>
 
     //保存関係の日本語
     <string name="save">保存</string>
@@ -32,6 +34,9 @@
     <string name="red">赤</string>
     <string name="blue">青</string>
     <string name="green">緑</string>
+    <string name="pink">ピンク</string>
+    <string name="orange">オレンジ</string>
+    <string name="purple">紫</string>
     <string name="gothic">ゴシック</string>
     <string name="MSgothic">MSゴシック</string>
     <string name="mintyo">明朝体</string>
