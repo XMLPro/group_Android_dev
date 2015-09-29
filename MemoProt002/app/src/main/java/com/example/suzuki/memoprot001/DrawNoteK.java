@@ -2,11 +2,13 @@ package com.example.suzuki.memoprot001;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -26,12 +28,46 @@ public class DrawNoteK extends Activity {
     private static final int MENU_CLEAR = 0;
     private static final int MENU_SAVE = 1;
 
+    protected int color;
+    public PaintDrawable paintDrawable;
+
     /**
      * アプリの初期化
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //開幕色設定
+        Intent intent = getIntent();
+        color = intent.getIntExtra("Color", 0);
+        switch (color) {
+            case 1:
+                paintDrawable = new PaintDrawable(Color.DKGRAY);
+                break;
+            case 2://赤
+                paintDrawable = new PaintDrawable(Color.rgb(255,51,51));
+                break;
+            case 3://青
+                paintDrawable = new PaintDrawable(Color.rgb(51,204,255));
+                break;
+            case 4://緑
+                paintDrawable = new PaintDrawable(Color.rgb(0,255,102));
+                break;
+            case 5://ピンク
+                paintDrawable = new PaintDrawable(Color.rgb(255,153,204));
+                break;
+            case 6://橙
+                paintDrawable = new PaintDrawable(Color.rgb(255,153,0));
+                break;
+            case 7://紫
+                paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
+                break;
+            default:
+                paintDrawable = new PaintDrawable(Color.WHITE);
+        }
+        getWindow().setBackgroundDrawable(paintDrawable);
+
         // 描画クラスを設定
         view = new DrawNoteView(getApplication());
         setContentView(view);
@@ -159,4 +195,5 @@ class DrawNoteView extends android.view.View {
         invalidate();
         return true;
     }
+
 }

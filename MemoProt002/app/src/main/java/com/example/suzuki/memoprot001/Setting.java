@@ -41,7 +41,7 @@ public class Setting extends ActionBarActivity {
                 paintDrawable = new PaintDrawable(Color.rgb(0,255,102));
                 break;
             case 5://ピンク
-                paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
+                paintDrawable = new PaintDrawable(Color.rgb(255,153,204));
                 break;
             case 6://橙
                 paintDrawable = new PaintDrawable(Color.rgb(255,153,0));
@@ -83,7 +83,7 @@ public class Setting extends ActionBarActivity {
                                         paintDrawable = new PaintDrawable(Color.rgb(0,255,102));
                                         break;
                                     case 5://ピンク
-                                        paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
+                                        paintDrawable = new PaintDrawable(Color.rgb(255,153,204));
                                         break;
                                     case 6://橙
                                         paintDrawable = new PaintDrawable(Color.rgb(255,153,0));

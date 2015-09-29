@@ -60,7 +60,7 @@ public class MemoList extends ListActivity {
                 paintDrawable = new PaintDrawable(Color.rgb(0,255,102));
                 break;
             case 5://ƒsƒ“ƒN
-                paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
+                paintDrawable = new PaintDrawable(Color.rgb(255,153,204));
                 break;
             case 6://žò
                 paintDrawable = new PaintDrawable(Color.rgb(255,153,0));
@@ -68,7 +68,6 @@ public class MemoList extends ListActivity {
             case 7://Ž‡
                 paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
                 break;
-
             default:
                 paintDrawable = new PaintDrawable(Color.WHITE);
         }

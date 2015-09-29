@@ -94,26 +94,28 @@ public class MainActivity extends ActionBarActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        Intent i;
+        Bundle b;
 
         //設定ボタンが押されたとき設定画面を呼ぶ
         //変数colorの値も渡す
         if (id == R.id.action_setting) {
-            Intent SettingIntent = new Intent(MainActivity.this, Setting.class);
-            Bundle bundle = new Bundle();
-            bundle.putInt("Color", color);
-            SettingIntent.putExtras(bundle);
-            startActivityForResult(SettingIntent, color);
+            i = new Intent(MainActivity.this, Setting.class);
+            b = new Bundle();
+            b.putInt("Color", color);
+            i.putExtras(b);
+            startActivityForResult(i, color);
             return true;
         }
-
+        //共有ボタンでお絵かき画面を呼ぶ
         if (id == R.id.action_share) {
-            Intent intent = new Intent(MainActivity.this, DrawNoteK.class);
-
-            startActivity(intent);
+            i = new Intent(MainActivity.this, DrawNoteK.class);
+            b = new Bundle();
+            b.putInt("Color", color);
+            i.putExtras(b);
+            startActivityForResult(i, color);
             return true;
         }
-
-
         //メニューとメモ一覧の
         EditText et = (EditText) findViewById(R.id.editText);
         switch (item.getItemId()) {
@@ -121,10 +123,10 @@ public class MainActivity extends ActionBarActivity
                 saveMemo();
                 break;
             case R.id.menu_open:
-                Intent i = new Intent(this, MemoList.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("Color", color);
-                i.putExtras(bundle);
+                i = new Intent(this, MemoList.class);
+                b = new Bundle();
+                b.putInt("Color", color);
+                i.putExtras(b);
                 startActivityForResult(i, color);
                 break;
             case R.id.menu_new:
@@ -159,7 +161,7 @@ public class MainActivity extends ActionBarActivity
                     paintDrawable = new PaintDrawable(Color.rgb(0,255,102));
                     break;
                 case 15://ピンク
-                    paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
+                    paintDrawable = new PaintDrawable(Color.rgb(255,153,204));
                     break;
                 case 16://橙
                     paintDrawable = new PaintDrawable(Color.rgb(255,153,0));
@@ -279,5 +281,4 @@ public class MainActivity extends ActionBarActivity
         }
         return super.dispatchKeyEvent(event);
     }
-
 }
