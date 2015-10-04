@@ -9,12 +9,14 @@ import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.SimpleCursorAdapter;
 
 public class MemoList extends ListActivity {
 
-    //”wŒi—p‚Ì•Ï”éŒ¾
+    //ï¿½wï¿½iï¿½pï¿½Ì•Ïï¿½ï¿½éŒ¾
     protected int color;
     public PaintDrawable paintDrawable;
 
@@ -22,7 +24,7 @@ public class MemoList extends ListActivity {
     MemoDBHelper memos;
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id){
+    protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
         memos = new MemoDBHelper(this);
@@ -43,30 +45,30 @@ public class MemoList extends ListActivity {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.memolist);
 
-        //”wŒiF‚ğó‚¯æ‚Á‚Äİ’è‚·‚é
+        //ï¿½wï¿½iï¿½Fï¿½ï¿½ï¿½ó‚¯ï¿½ï¿½ï¿½Äİ’è‚·ï¿½ï¿½
         Intent intent = getIntent();
-        color = intent.getIntExtra("Color",0);
-        switch(color) {
+        color = intent.getIntExtra("Color", 0);
+        switch (color) {
             case 1:
                 paintDrawable = new PaintDrawable(Color.DKGRAY);
                 break;
-            case 2://Ô
-                paintDrawable = new PaintDrawable(Color.rgb(255,51,51));
+            case 2://ï¿½ï¿½
+                paintDrawable = new PaintDrawable(Color.rgb(255, 51, 51));
                 break;
-            case 3://Â
-                paintDrawable = new PaintDrawable(Color.rgb(51,204,255));
+            case 3://ï¿½ï¿½
+                paintDrawable = new PaintDrawable(Color.rgb(51, 204, 255));
                 break;
-            case 4://—Î
-                paintDrawable = new PaintDrawable(Color.rgb(0,255,102));
+            case 4://ï¿½ï¿½
+                paintDrawable = new PaintDrawable(Color.rgb(0, 255, 102));
                 break;
-            case 5://ƒsƒ“ƒN
-                paintDrawable = new PaintDrawable(Color.rgb(255,153,204));
+            case 5://ï¿½sï¿½ï¿½ï¿½N
+                paintDrawable = new PaintDrawable(Color.rgb(255, 153, 204));
                 break;
-            case 6://ò
-                paintDrawable = new PaintDrawable(Color.rgb(255,153,0));
+            case 6://ï¿½ï¿½
+                paintDrawable = new PaintDrawable(Color.rgb(255, 153, 0));
                 break;
-            case 7://‡
-                paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
+            case 7://ï¿½ï¿½
+                paintDrawable = new PaintDrawable(Color.rgb(255, 102, 204));
                 break;
             default:
                 paintDrawable = new PaintDrawable(Color.WHITE);
@@ -76,7 +78,7 @@ public class MemoList extends ListActivity {
         showMemos(getMemos());
     }
 
-    private Cursor getMemos(){
+    private Cursor getMemos() {
         memos = new MemoDBHelper(this);
         SQLiteDatabase db = memos.getReadableDatabase();
         Cursor cursor = db.query("memoDB", cols, null, null, null, null, null);
@@ -84,23 +86,25 @@ public class MemoList extends ListActivity {
         return cursor;
     }
 
-    private void showMemos(Cursor cursor){
-        if(cursor != null){
-            String[] from = {"title"};
-            int[] to = {android.R.id.text1};
-            SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, cursor, from, to);
-            setListAdapter(adapter);
+    private void showMemos(Cursor cursor) {
+        if (cursor != null) {
+            String[] members = {"title", "asdf"};
+
+            ListView folder = (ListView) findViewById(R.id.list);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_2, members);
+            folder.setAdapter(adapter);
         }
         memos.close();
     }
 
-    //’[––‘¤‚Ì–ß‚éƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚Æ‚«‚Ìˆ—
+    //ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ß‚ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Æ‚ï¿½ï¿½Ìï¿½ï¿½ï¿½
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (event.getKeyCode()) {
                 case KeyEvent.KEYCODE_BACK:
-                    // ƒ_ƒCƒAƒƒO•\¦‚È‚Ç“Á’è‚Ìˆ—‚ğs‚¢‚½‚¢ê‡‚Í‚±‚±‚É‹Lq
-                    // eƒNƒ‰ƒX‚ÌdispatchKeyEvent()‚ğŒÄ‚Ño‚³‚¸‚Étrue‚ğ•Ô‚·‚Æ–ß‚éƒ{ƒ^ƒ“‚ª–³Œø‚É‚È‚é
+                    // ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½\ï¿½ï¿½ï¿½È‚Ç“ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½É‹Lï¿½q
+                    // ï¿½eï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½dispatchKeyEvent()ï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½trueï¿½ï¿½Ô‚ï¿½ï¿½Æ–ß‚ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚È‚ï¿½
                     Intent intent = new Intent();
                     Bundle bundle = new Bundle();
                     bundle.putInt("color", color);
