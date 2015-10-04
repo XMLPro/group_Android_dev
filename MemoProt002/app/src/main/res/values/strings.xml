@@ -54,4 +54,9 @@
 
     <string name="memodb_empty">memo</string>
 
+    //左側のメニュー
+    <string name="title_section1">新規作成</string>
+    <string name="title_section2">フォルダー</string>
+    <string name="title_section3">画像プレビュー</string>
+
 </resources>

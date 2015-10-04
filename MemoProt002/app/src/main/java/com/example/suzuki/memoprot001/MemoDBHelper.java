@@ -12,6 +12,7 @@ public class MemoDBHelper extends SQLiteOpenHelper {
 
     public MemoDBHelper(Context context){
         super(context, name, factory, version);
+//        context.deleteDatabase(name);
     }
 
     @Override
