@@ -221,9 +221,18 @@ public class MainActivity extends ActionBarActivity
         switch (number){
             case 1:
                 mTile = getString(R.string.action_add);
+                EditText et = (EditText) findViewById(R.id.editText);
+                et.setText("");
                 break;
             case 2:
                 mTile = getString(R.string.folder);
+                Intent i;
+                Bundle b;
+                i = new Intent(this, MemoList.class);
+                b = new Bundle();
+                b.putInt("Color", color);
+                i.putExtras(b);
+                startActivityForResult(i, color);
                 break;
             case 3:
                 mTile = getString(R.string.view);
