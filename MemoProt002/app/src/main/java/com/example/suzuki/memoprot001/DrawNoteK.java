@@ -68,12 +68,11 @@ public class DrawNoteK extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_eraser:
-                if(change == 0) {
+                if (change == 0) {
                     change = 1;
                     //アクションバーを再表示する関数invalidateOptionsMenu()
                     invalidateOptionsMenu();
-                }
-                else if(change == 1){
+                } else if (change == 1) {
                     change = 0;
                     invalidateOptionsMenu();
                 }
@@ -134,70 +133,69 @@ public class DrawNoteK extends ActionBarActivity {
         }
         return super.dispatchKeyEvent(event);
     }
-}
-
-/**
- * 描画クラスの定義
- */
-class DrawNoteView extends android.view.View {
-    Bitmap bmp = null;
-    Canvas bmpCanvas;
-    Point oldpos = new Point(-1, -1);
-
-    public DrawNoteView(Context c) {
-        super(c);
-        setFocusable(true);
-    }
-
-    public void clearDrawList() {
-        bmpCanvas.drawColor(Color.WHITE);
-        invalidate();
-    }
-
-    public Bitmap saveToFile() {
-        return bmp;
-    }
 
     /**
-     * 画面サイズが変更された時
+     * 描画クラスの定義
      */
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        bmpCanvas = new Canvas(bmp);
-        bmpCanvas.drawColor(Color.WHITE);
-    }
+    class DrawNoteView extends android.view.View {
+        Bitmap bmp = null;
+        Canvas bmpCanvas;
+        Point oldpos = new Point(-1, -1);
 
-    /**
-     * 描画イベント
-     */
-    protected void onDraw(Canvas canvas) {
-        canvas.drawBitmap(bmp, 0, 0, null);
-    }
+        public DrawNoteView(Context c) {
+            super(c);
+            setFocusable(true);
+        }
 
-    /**
-     * タッチイベント
-     */
-    public boolean onTouchEvent(MotionEvent event) {
-        // 描画位置の確認
-        Point cur = new Point((int) event.getX(), (int) event.getY());
-        if (oldpos.x < 0) {
+        public void clearDrawList() {
+            bmpCanvas.drawColor(Color.WHITE);
+            invalidate();
+        }
+
+        public Bitmap saveToFile() {
+            return bmp;
+        }
+
+        /**
+         * 画面サイズが変更された時
+         */
+        protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+            super.onSizeChanged(w, h, oldw, oldh);
+            bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            bmpCanvas = new Canvas(bmp);
+            bmpCanvas.drawColor(Color.WHITE);
+        }
+
+        /**
+         * 描画イベント
+         */
+        protected void onDraw(Canvas canvas) {
+            canvas.drawBitmap(bmp, 0, 0, null);
+        }
+
+        /**
+         * タッチイベント
+         */
+        public boolean onTouchEvent(MotionEvent event) {
+            // 描画位置の確認
+            Point cur = new Point((int) event.getX(), (int) event.getY());
+            if (oldpos.x < 0) {
+                oldpos = cur;
+            }
+            // 描画属性を設定
+            Paint paint = new Paint();
+            paint.setColor(Color.BLUE);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setStrokeWidth(4);
+            // 線を描画
+            bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
             oldpos = cur;
+            // 指を持ち上げたら座標をリセット
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                oldpos = new Point(-1, -1);
+            }
+            invalidate();
+            return true;
         }
-        // 描画属性を設定
-        Paint paint = new Paint();
-        paint.setColor(Color.BLUE);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setStrokeWidth(4);
-        // 線を描画
-        bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
-        oldpos = cur;
-        // 指を持ち上げたら座標をリセット
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            oldpos = new Point(-1, -1);
-        }
-        invalidate();
-        return true;
     }
-
 }
