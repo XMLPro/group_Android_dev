@@ -110,10 +110,7 @@ public class MainActivity extends ActionBarActivity
         //共有ボタンでお絵かき画面を呼ぶ
         if (id == R.id.action_share) {
             i = new Intent(MainActivity.this, DrawNoteK.class);
-            b = new Bundle();
-            b.putInt("Color", color);
-            i.putExtras(b);
-            startActivityForResult(i, color);
+            startActivity(i);
             return true;
         }
         //メニューとメモ一覧の
@@ -151,22 +148,22 @@ public class MainActivity extends ActionBarActivity
                 case 11:
                     paintDrawable = new PaintDrawable(android.graphics.Color.DKGRAY);
                     break;
-                case 12://赤
+                case 12://red
                     paintDrawable = new PaintDrawable(Color.rgb(255, 51, 51));
                     break;
-                case 13://青
+                case 13://blue
                     paintDrawable = new PaintDrawable(Color.rgb(51,204,255));
                     break;
-                case 14://緑
+                case 14://green
                     paintDrawable = new PaintDrawable(Color.rgb(0,255,102));
                     break;
-                case 15://ピンク
+                case 15://pink
                     paintDrawable = new PaintDrawable(Color.rgb(255,153,204));
                     break;
-                case 16://橙
+                case 16://orange
                     paintDrawable = new PaintDrawable(Color.rgb(255,153,0));
                     break;
-                case 17://紫
+                case 17://purple
                     paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
                     break;
                 default:

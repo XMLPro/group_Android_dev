@@ -1,35 +1,32 @@
 package com.example.suzuki.memoprot001;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
 
-
 /**
  * メインクラスの定義
  */
-public class DrawNoteK extends Activity {
+public class DrawNoteK extends ActionBarActivity {
     DrawNoteView view;
-    private static final int MENU_CLEAR = 0;
-    private static final int MENU_SAVE = 1;
 
-    protected int color;
-    public PaintDrawable paintDrawable;
+    //アクションバーを変更するための数字
+    int change = 0;
 
     /**
      * アプリの初期化
@@ -37,36 +34,10 @@ public class DrawNoteK extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_draw);
 
-        //開幕色設定
-        Intent intent = getIntent();
-        color = intent.getIntExtra("Color", 0);
-        switch (color) {
-            case 1:
-                paintDrawable = new PaintDrawable(Color.DKGRAY);
-                break;
-            case 2://赤
-                paintDrawable = new PaintDrawable(Color.rgb(255,51,51));
-                break;
-            case 3://青
-                paintDrawable = new PaintDrawable(Color.rgb(51,204,255));
-                break;
-            case 4://緑
-                paintDrawable = new PaintDrawable(Color.rgb(0,255,102));
-                break;
-            case 5://ピンク
-                paintDrawable = new PaintDrawable(Color.rgb(255,153,204));
-                break;
-            case 6://橙
-                paintDrawable = new PaintDrawable(Color.rgb(255,153,0));
-                break;
-            case 7://紫
-                paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
-                break;
-            default:
-                paintDrawable = new PaintDrawable(Color.WHITE);
-        }
-        getWindow().setBackgroundDrawable(paintDrawable);
+        //お絵描きタイトル表示
+        setTitle(getString(R.string.draw));
 
         // 描画クラスを設定
         view = new DrawNoteView(getApplication());
@@ -78,9 +49,15 @@ public class DrawNoteK extends Activity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.draw, menu);
+
+        //消しゴムボタンが押された時にボタンのマークを鉛筆に変える
+        //変数changeが0なら消しゴム、1なら鉛筆にマークを変更
+        if (change == 1) {
+            MenuItem one = menu.findItem(R.id.action_eraser);
+            one.setIcon(android.R.drawable.ic_menu_edit);
+        }
         super.onCreateOptionsMenu(menu);
-        menu.add(0, MENU_CLEAR, 0, "Clear");
-        menu.add(0, MENU_SAVE, 0, "Save");
         return true;
     }
 
@@ -90,11 +67,25 @@ public class DrawNoteK extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case MENU_CLEAR:
+            case R.id.action_eraser:
+                if(change == 0) {
+                    change = 1;
+                    //アクションバーを再表示する関数invalidateOptionsMenu()
+                    invalidateOptionsMenu();
+                }
+                else if(change == 1){
+                    change = 0;
+                    invalidateOptionsMenu();
+                }
+                break;
+            case R.id.action_share:
+                break;
+            case R.id.action_delete:
                 view.clearDrawList();
                 break;
-            case MENU_SAVE:
+            case R.id.action_save:
                 savetofile(view.saveToFile());
+                Toast.makeText(this, getString(R.string.Save), Toast.LENGTH_SHORT).show();
                 break;
         }
         return true;
@@ -106,9 +97,9 @@ public class DrawNoteK extends Activity {
         Log.v("dir;", dir);
 //        if (!fout.exists()) {
         boolean f = fout.mkdirs();
-        if(f){
+        if (f) {
             System.out.println("eee:ok");
-        }else {
+        } else {
             System.out.println("eee:no");
         }
 //        }
@@ -122,13 +113,26 @@ public class DrawNoteK extends Activity {
         // 画像をファイルに書き込む
         try {
             FileOutputStream out = new FileOutputStream(fname);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
+            bmp.compress(Bitmap.CompressFormat.PNG, 200, out);
             out.flush();
             out.close();
             Log.e("eee", "ok");
         } catch (Exception e) {
             Log.e("eee", String.valueOf(e));
         }
+    }
+
+    //端末側の戻るボタンが押されたときの処理
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (event.getKeyCode()) {
+                case KeyEvent.KEYCODE_BACK:
+                    // ダイアログ表示など特定の処理を行いたい場合はここに記述
+                    // 親クラスのdispatchKeyEvent()を呼び出さずにtrueを返すと戻るボタンが無効になる
+                    finish();
+            }
+        }
+        return super.dispatchKeyEvent(event);
     }
 }
 

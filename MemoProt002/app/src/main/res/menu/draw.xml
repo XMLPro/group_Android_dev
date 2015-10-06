@@ -1,0 +1,35 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    //お絵描き画面のアクションバー設定
+    //順番にペンシル・消しゴム・共有・削除・保存ボタン
+    <item
+        android:id="@+id/action_eraser"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:title=""
+        android:icon="@android:drawable/ic_input_delete"/>
+
+    <item
+        android:id="@+id/action_share"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:title="@string/action_share"
+        android:icon="@android:drawable/ic_menu_share"/>
+
+    <item
+        android:id="@+id/action_delete"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:title="@string/action_delete"
+        android:icon="@android:drawable/ic_menu_delete"/>
+
+    <item
+        android:id="@+id/action_save"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:title="@string/save"
+        android:icon="@android:drawable/ic_menu_save"/>
+
+</menu>

@@ -6,6 +6,7 @@
     <string name="menu_new">新規作成</string>
     <string name="folder">フォルダー</string>
     <string name="view">ビュー</string>
+    <string name="draw">お絵描き</string>
 
     //保存関係の日本語
     <string name="save">保存</string>
