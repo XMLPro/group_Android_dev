@@ -182,6 +182,7 @@ public class DrawNoteK extends ActionBarActivity {
             if (oldpos.x < 0) {
                 oldpos = cur;
             }
+
             Paint paint = new Paint();
             if (change == 0) {
                 // �`�摮����ݒ�

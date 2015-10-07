@@ -72,7 +72,6 @@ public class MainActivity extends ActionBarActivity
         actionBar.setTitle(mTile);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //メニューとメモ一覧の
@@ -238,7 +237,6 @@ public class MainActivity extends ActionBarActivity
                 mTile = getString(R.string.view);
 
                 break;
-
         }
     }
 
@@ -276,16 +274,17 @@ public class MainActivity extends ActionBarActivity
         }
         Toast.makeText(this, getString(R.string.Save), Toast.LENGTH_SHORT).show();
     }
+
 //端末側の戻るボタンが押されたときの処理
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction()==KeyEvent.ACTION_DOWN) {
             switch (event.getKeyCode()) {
                 case KeyEvent.KEYCODE_BACK:
                     // ダイアログ表示など特定の処理を行いたい場合はここに記述
-                    // 親クラスのdispatchKeyEvent()を呼び出さずにtrueを返すと戻るボタンが無効になる
                     finish();
             }
         }
+        //return trueで戻るボタンが無効になる
         return super.dispatchKeyEvent(event);
     }
 }
