@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MemoProt001</string>
+    <string name="app_name">メニュー</string>
 
     <string name="menu_save">保存</string>
     <string name="menu_open">開く</string>
@@ -26,7 +26,7 @@
 
 
     //ここから順番に新規作成・設定・共有・削除ボタン
-    <string name="action_add">新規作成</string>
+    <string name="action_add">編集画面</string>
     <string name="action_setting">設定</string>
     <string name="action_share">共有</string>
     <string name="action_delete">削除</string>

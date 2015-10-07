@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
     //以下順番に新規作成・設定・共有・削除ボタン
-    <item
-        android:id="@+id/action_add"
-        android:orderInCategory="1"
-        app:showAsAction="always"
-        android:title="@string/action_add"
-        android:icon="@android:drawable/ic_menu_add"/>
+    <!--<item-->
+        <!--android:id="@+id/action_add"-->
+        <!--android:orderInCategory="1"-->
+        <!--app:showAsAction="always"-->
+        <!--android:title="@string/action_add"-->
+        <!--android:icon="@android:drawable/ic_menu_add"/>-->
 
     <item
         android:id="@+id/action_setting"
@@ -18,11 +18,11 @@
         android:icon="@android:drawable/ic_menu_preferences"/>
 
     <item
-        android:id="@+id/action_share"
+        android:id="@+id/action_pencil"
         android:orderInCategory="1"
         app:showAsAction="always"
         android:title="@string/action_share"
-        android:icon="@android:drawable/ic_menu_share"/>
+        android:icon="@android:drawable/ic_menu_edit"/>
 
     <item
         android:id="@+id/action_del"

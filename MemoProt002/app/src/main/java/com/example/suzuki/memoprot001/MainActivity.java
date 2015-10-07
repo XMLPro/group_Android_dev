@@ -108,7 +108,7 @@ public class MainActivity extends ActionBarActivity
             return true;
         }
         //共有ボタンでお絵かき画面を呼ぶ
-        if (id == R.id.action_share) {
+        if (id == R.id.action_pencil) {
             i = new Intent(MainActivity.this, DrawNoteK.class);
             startActivity(i);
             return true;
@@ -236,6 +236,7 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 3:
                 mTile = getString(R.string.view);
+
                 break;
 
         }

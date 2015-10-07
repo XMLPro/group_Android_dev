@@ -23,7 +23,7 @@
         android:orderInCategory="1"
         app:showAsAction="always"
         android:title="@string/action_delete"
-        android:icon="@android:drawable/ic_menu_delete"/>
+       android:icon="@android:drawable/ic_menu_delete"/>
 
     <item
         android:id="@+id/action_save"
