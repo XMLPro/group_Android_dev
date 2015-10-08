@@ -27,6 +27,7 @@ public class DrawNoteK extends ActionBarActivity {
 
     //�A�N�V�����o�[��ύX���邽�߂̐���
     int change = 0;
+    int color = 0;
 
     /**
      * �A�v���̏���
@@ -67,6 +68,18 @@ public class DrawNoteK extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.black:
+                color = 0;
+                break;
+            case R.id.red:
+                color = 1;
+                break;
+            case R.id.green:
+                color = 2;
+                break;
+            case R.id.blue:
+                color = 3;
+                break;
             case R.id.action_eraser:
                 if (change == 0) {
                     change = 1;
@@ -186,13 +199,24 @@ public class DrawNoteK extends ActionBarActivity {
             Paint paint = new Paint();
             if (change == 0) {
                 // �`�摮����ݒ�
-                paint.setColor(Color.BLUE);
+                if(color == 0) {
+                    paint.setColor(Color.BLACK);
+                }else if(color == 1){
+                    paint.setColor(Color.RED);
+                }else if(color == 2){
+                    paint.setColor(Color.GREEN);
+                }else if(color == 3){
+                    paint.setColor(Color.BLUE);
+                }
                 paint.setStyle(Paint.Style.FILL);
                 paint.setStrokeWidth(8);
             } else if (change == 1) {
                 paint.setColor(Color.WHITE);
+//                paint.setStyle(Paint.Style.FILL);
+//                paint.setStrokeWidth(50);
                 paint.setStyle(Paint.Style.FILL);
-                paint.setStrokeWidth(100);
+                bmpCanvas.drawCircle(oldpos.x, oldpos.y, 50, paint);
+//                bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
             }
             // ���`��
             bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);

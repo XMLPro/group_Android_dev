@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">メニュー</string>
+    <string name="app_name">メモ帳</string>
 
     <string name="menu_save">保存</string>
     <string name="menu_open">開く</string>
@@ -29,7 +29,9 @@
     <string name="action_add">編集画面</string>
     <string name="action_setting">設定</string>
     <string name="action_share">共有</string>
+    <string name="action_draw">お絵描き</string>
     <string name="action_delete">削除</string>
+    <string name="action_eraser">消しゴム</string>
     //その他日本語の設定
     <string name="white">白</string>
     <string name="black">黒</string>

@@ -4,6 +4,36 @@
 
     //お絵描き画面のアクションバー設定
     //順番にペンシル・消しゴム・共有・削除・保存ボタン
+
+
+    <item
+        android:id="@+id/black"
+        android:orderInCategory="1"
+        app:showAsAction=""
+        android:title="@string/black"
+        android:icon="@android:drawable/ic_menu_preferences"/>
+
+    <item
+        android:id="@+id/red"
+        android:orderInCategory="1"
+        app:showAsAction=""
+        android:title="@string/red"
+        android:icon="@android:drawable/ic_menu_preferences"/>
+
+    <item
+        android:id="@+id/green"
+        android:orderInCategory="1"
+        app:showAsAction=""
+        android:title="@string/green"
+        android:icon="@android:drawable/ic_menu_preferences"/>
+
+    <item
+        android:id="@+id/blue"
+        android:orderInCategory="1"
+        app:showAsAction=""
+        android:title="@string/blue"
+        android:icon="@android:drawable/ic_menu_preferences"/>
+
     <item
         android:id="@+id/action_eraser"
         android:orderInCategory="1"

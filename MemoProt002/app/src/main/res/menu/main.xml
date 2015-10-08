@@ -21,7 +21,7 @@
         android:id="@+id/action_pencil"
         android:orderInCategory="1"
         app:showAsAction="always"
-        android:title="@string/action_share"
+        android:title="@string/action_draw"
         android:icon="@android:drawable/ic_menu_edit"/>
 
     <item
