@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">MemoProt001</string>
+    <string name="app_name">メモ帳</string>
 
     <string name="menu_save">保存</string>
     <string name="menu_open">開く</string>
     <string name="menu_new">新規作成</string>
     <string name="folder">フォルダー</string>
     <string name="view">ビュー</string>
+    <string name="draw">お絵描き</string>
 
     //保存関係の日本語
     <string name="save">保存</string>
@@ -25,10 +26,12 @@
 
 
     //ここから順番に新規作成・設定・共有・削除ボタン
-    <string name="action_add">新規作成</string>
+    <string name="action_add">編集画面</string>
     <string name="action_setting">設定</string>
     <string name="action_share">共有</string>
+    <string name="action_draw">お絵描き</string>
     <string name="action_delete">削除</string>
+    <string name="action_eraser">消しゴム</string>
     //その他日本語の設定
     <string name="white">白</string>
     <string name="black">黒</string>

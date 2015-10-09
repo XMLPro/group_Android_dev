@@ -72,7 +72,6 @@ public class MainActivity extends ActionBarActivity
         actionBar.setTitle(mTile);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //メニューとメモ一覧の
@@ -108,12 +107,9 @@ public class MainActivity extends ActionBarActivity
             return true;
         }
         //共有ボタンでお絵かき画面を呼ぶ
-        if (id == R.id.action_share) {
+        if (id == R.id.action_pencil) {
             i = new Intent(MainActivity.this, DrawNoteK.class);
-            b = new Bundle();
-            b.putInt("Color", color);
-            i.putExtras(b);
-            startActivityForResult(i, color);
+            startActivity(i);
             return true;
         }
         //メニューとメモ一覧の
@@ -151,22 +147,22 @@ public class MainActivity extends ActionBarActivity
                 case 11:
                     paintDrawable = new PaintDrawable(android.graphics.Color.DKGRAY);
                     break;
-                case 12://赤
+                case 12://red
                     paintDrawable = new PaintDrawable(Color.rgb(255, 51, 51));
                     break;
-                case 13://青
+                case 13://blue
                     paintDrawable = new PaintDrawable(Color.rgb(51,204,255));
                     break;
-                case 14://緑
+                case 14://green
                     paintDrawable = new PaintDrawable(Color.rgb(0,255,102));
                     break;
-                case 15://ピンク
+                case 15://pink
                     paintDrawable = new PaintDrawable(Color.rgb(255,153,204));
                     break;
-                case 16://橙
+                case 16://orange
                     paintDrawable = new PaintDrawable(Color.rgb(255,153,0));
                     break;
-                case 17://紫
+                case 17://purple
                     paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
                     break;
                 default:
@@ -239,8 +235,8 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 3:
                 mTile = getString(R.string.view);
-                break;
 
+                break;
         }
     }
 
@@ -278,16 +274,17 @@ public class MainActivity extends ActionBarActivity
         }
         Toast.makeText(this, getString(R.string.Save), Toast.LENGTH_SHORT).show();
     }
+
 //端末側の戻るボタンが押されたときの処理
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction()==KeyEvent.ACTION_DOWN) {
             switch (event.getKeyCode()) {
                 case KeyEvent.KEYCODE_BACK:
                     // ダイアログ表示など特定の処理を行いたい場合はここに記述
-                    // 親クラスのdispatchKeyEvent()を呼び出さずにtrueを返すと戻るボタンが無効になる
                     finish();
             }
         }
+        //return trueで戻るボタンが無効になる
         return super.dispatchKeyEvent(event);
     }
 }
