@@ -7,26 +7,33 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.SimpleCursorAdapter;
 
 public class MemoList extends ListActivity {
 
-    //�w�i�p�̕ϐ��錾
     protected int color;
     public PaintDrawable paintDrawable;
 
     static final String[] cols = {"title", "memo", android.provider.BaseColumns._ID,};
     MemoDBHelper memos;
 
+
+    @Override
+    protected void onCreate(Bundle saveInstanceState) {
+        super.onCreate(saveInstanceState);
+        setContentView(R.layout.memolist);
+        getBackgroundColor();
+        showMemos(getMemoList());
+    }
+
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-
+        Log.d("onListItemClick(): ", "onListItemClick() returned: " + id);
         memos = new MemoDBHelper(this);
         SQLiteDatabase db = memos.getWritableDatabase();
         Cursor cursor = db.query("memoDB", cols, "_ID=" + String.valueOf(id), null, null, null, null);
@@ -40,12 +47,32 @@ public class MemoList extends ListActivity {
         finish();
     }
 
-    @Override
-    protected void onCreate(Bundle saveInstanceState) {
-        super.onCreate(saveInstanceState);
-        setContentView(R.layout.memolist);
+    private void showMemos(String[] list) {
+        ListView listView = (ListView) findViewById(android.R.id.list);
+        ArrayAdapter<String> adapter = new MemoListAdapter(this, R.layout.listitem, R.id.list_item, list);
+        listView.setAdapter(adapter);
+    }
 
-        //�w�i�F���󂯎���Đݒ肷��
+    private String[] getMemoList() {
+        memos = new MemoDBHelper(this);
+        SQLiteDatabase db = memos.getReadableDatabase();
+        //memoDBテーブルから全てのタイトルのデータを持ったカーソルを取得
+        Cursor cursor = db.rawQuery("SELECT `title` FROM memoDB", null);
+        cursor.moveToFirst();
+        String[] memoTitles = new String[cursor.getCount()];
+        for (int i = 0; i < cursor.getCount(); i++) {
+            //取得したレコードの0番目のカラムを取得 -> 0番目のカラムはメモのタイトル
+//            Log.d("db.rawQuery: ", "cursor: " + cursor.getString(0));
+            memoTitles[i] = cursor.getString(0);
+
+            //次のレコードにカーソルを移す
+            cursor.moveToNext();
+        }
+
+        return memoTitles;
+    }
+
+    private void getBackgroundColor() {
         Intent intent = getIntent();
         color = intent.getIntExtra("Color", 0);
         switch (color) {
@@ -74,37 +101,12 @@ public class MemoList extends ListActivity {
                 paintDrawable = new PaintDrawable(Color.WHITE);
         }
         getWindow().setBackgroundDrawable(paintDrawable);
-
-        showMemos(getMemos());
     }
 
-    private Cursor getMemos() {
-        memos = new MemoDBHelper(this);
-        SQLiteDatabase db = memos.getReadableDatabase();
-        Cursor cursor = db.query("memoDB", cols, null, null, null, null, null);
-        startManagingCursor(cursor);
-        return cursor;
-    }
-
-    private void showMemos(Cursor cursor) {
-        if (cursor != null) {
-            String[] members = {"title", "asdf"};
-
-            ListView folder = (ListView) findViewById(R.id.list);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_2, members);
-            folder.setAdapter(adapter);
-        }
-        memos.close();
-    }
-
-    //�[�����̖߂�{�^���������ꂽ�Ƃ��̏���
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (event.getKeyCode()) {
                 case KeyEvent.KEYCODE_BACK:
-                    // �_�C�A���O�\���ȂǓ���̏������s�������ꍇ�͂����ɋL�q
-                    // �e�N���X��dispatchKeyEvent()���Ăяo������true��Ԃ��Ɩ߂�{�^���������ɂȂ�
                     Intent intent = new Intent();
                     Bundle bundle = new Bundle();
                     bundle.putInt("color", color);

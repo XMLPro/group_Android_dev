@@ -20,9 +20,6 @@ import java.io.FileOutputStream;
 import java.util.Date;
 
 
-/**
- * ƒƒCƒ“ƒNƒ‰ƒX‚Ì’è‹`
- */
 public class DrawNoteK extends Activity {
     DrawNoteView view;
     private static final int MENU_CLEAR = 0;
@@ -31,36 +28,33 @@ public class DrawNoteK extends Activity {
     protected int color;
     public PaintDrawable paintDrawable;
 
-    /**
-     * ƒAƒvƒŠ‚Ì‰Šú‰»
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //ŠJ–‹Fİ’è
+        //ï¿½Jï¿½ï¿½ï¿½Fï¿½İ’ï¿½
         Intent intent = getIntent();
         color = intent.getIntExtra("Color", 0);
         switch (color) {
             case 1:
                 paintDrawable = new PaintDrawable(Color.DKGRAY);
                 break;
-            case 2://Ô
+            case 2://ï¿½ï¿½
                 paintDrawable = new PaintDrawable(Color.rgb(255,51,51));
                 break;
-            case 3://Â
+            case 3://ï¿½ï¿½
                 paintDrawable = new PaintDrawable(Color.rgb(51,204,255));
                 break;
-            case 4://—Î
+            case 4://ï¿½ï¿½
                 paintDrawable = new PaintDrawable(Color.rgb(0,255,102));
                 break;
-            case 5://ƒsƒ“ƒN
+            case 5://ï¿½sï¿½ï¿½ï¿½N
                 paintDrawable = new PaintDrawable(Color.rgb(255,153,204));
                 break;
-            case 6://ò
+            case 6://ï¿½ï¿½
                 paintDrawable = new PaintDrawable(Color.rgb(255,153,0));
                 break;
-            case 7://‡
+            case 7://ï¿½ï¿½
                 paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
                 break;
             default:
@@ -68,14 +62,11 @@ public class DrawNoteK extends Activity {
         }
         getWindow().setBackgroundDrawable(paintDrawable);
 
-        // •`‰æƒNƒ‰ƒX‚ğİ’è
+        // ï¿½`ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½İ’ï¿½
         view = new DrawNoteView(getApplication());
         setContentView(view);
     }
 
-    /**
-     * ƒƒjƒ…[‚Ì¶¬ƒCƒxƒ“ƒg
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -84,9 +75,6 @@ public class DrawNoteK extends Activity {
         return true;
     }
 
-    /**
-     * ƒƒjƒ…[‚ªƒNƒŠƒbƒN‚³‚ê‚½‚ÌƒCƒxƒ“ƒg
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -119,7 +107,7 @@ public class DrawNoteK extends Activity {
 //                (1900 + d.getYear()), 1 + d.getMonth(), d.getDate(),
 //                d.getHours(), d.getMinutes(), d.getSeconds());
         Log.v("dir;fname", fname);
-        // ‰æ‘œ‚ğƒtƒ@ƒCƒ‹‚É‘‚«‚Ş
+        // ï¿½æ‘œï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         try {
             FileOutputStream out = new FileOutputStream(fname);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
@@ -132,9 +120,6 @@ public class DrawNoteK extends Activity {
     }
 }
 
-/**
- * •`‰æƒNƒ‰ƒX‚Ì’è‹`
- */
 class DrawNoteView extends android.view.View {
     Bitmap bmp = null;
     Canvas bmpCanvas;
@@ -154,9 +139,6 @@ class DrawNoteView extends android.view.View {
         return bmp;
     }
 
-    /**
-     * ‰æ–ÊƒTƒCƒY‚ª•ÏX‚³‚ê‚½
-     */
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
@@ -164,31 +146,25 @@ class DrawNoteView extends android.view.View {
         bmpCanvas.drawColor(Color.WHITE);
     }
 
-    /**
-     * •`‰æƒCƒxƒ“ƒg
-     */
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(bmp, 0, 0, null);
     }
 
-    /**
-     * ƒ^ƒbƒ`ƒCƒxƒ“ƒg
-     */
     public boolean onTouchEvent(MotionEvent event) {
-        // •`‰æˆÊ’u‚ÌŠm”F
+        // ï¿½`ï¿½ï¿½Ê’uï¿½ÌŠmï¿½F
         Point cur = new Point((int) event.getX(), (int) event.getY());
         if (oldpos.x < 0) {
             oldpos = cur;
         }
-        // •`‰æ‘®«‚ğİ’è
+        // ï¿½`ï¿½æ‘®ï¿½ï¿½ï¿½ï¿½İ’ï¿½
         Paint paint = new Paint();
         paint.setColor(Color.BLUE);
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeWidth(4);
-        // ü‚ğ•`‰æ
+        // ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½
         bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
         oldpos = cur;
-        // w‚ğ‚¿ã‚°‚½‚çÀ•W‚ğƒŠƒZƒbƒg
+        // ï¿½wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã‚°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
         if (event.getAction() == MotionEvent.ACTION_UP) {
             oldpos = new Point(-1, -1);
         }
