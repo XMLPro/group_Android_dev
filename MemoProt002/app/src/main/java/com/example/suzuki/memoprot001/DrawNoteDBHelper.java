@@ -6,14 +6,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DrawNoteDBHelper extends SQLiteOpenHelper {
 
-    /** 画像管理テーブル名 */
+    /**
+     * 画像管理テーブル名 */
     public static final String SAVE_PHOTO_TABLE = "save_photo";
     /** カラム名 画像ファイル名 */
     public static final String COLUMN_FILE_NAME = "fname";
     /** カラム名 画像バイナリデータ */
     public static final String COLUMN_PHOTO_BINARY_DATA = "bdata";
     /** アクセスするデータベース名 */
-    private static final String DB_NAME = "fraw.db";
+    public static final String DB_NAME = "fraw.db";
     /** DBのバージョン */
     static final int version = 1;
     /** create table文 */

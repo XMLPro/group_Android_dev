@@ -18,7 +18,7 @@ public class MemoList extends ListActivity {
     protected int color;
     public PaintDrawable paintDrawable;
 
-    static final String[] cols = {"title", "memo", android.provider.BaseColumns._ID,};
+    static final String[] cols = {"title", "memo", android.provider.BaseColumns._ID};
     MemoDBHelper memos;
 
     @Override
@@ -37,7 +37,6 @@ public class MemoList extends ListActivity {
         memos.close();
         finish();
     }
-
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -111,5 +110,4 @@ public class MemoList extends ListActivity {
         }
         return true;
     }
-
 }

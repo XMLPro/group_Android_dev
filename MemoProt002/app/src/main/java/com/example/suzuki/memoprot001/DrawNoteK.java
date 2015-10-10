@@ -1,6 +1,9 @@
 package com.example.suzuki.memoprot001;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,29 +12,43 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.KeyEvent;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 /**
  * ?ｽ?ｽ?ｽC?ｽ?ｽ?ｽN?ｽ?ｽ?ｽX?ｽﾌ抵ｿｽ`
  */
 public class DrawNoteK extends ActionBarActivity {
     DrawNoteView view;
-    /** データベース */
-    private SQLiteDatabase db;;
+    /**
+     * データベース
+     */
+    private SQLiteDatabase db;
+    public Intent i;
+
+    //新画像表示
+    private static final int REQUEST_GALLERY = 0;
+    private ImageView imgView;
 
     //?ｽA?ｽN?ｽV?ｽ?ｽ?ｽ?ｽ?ｽo?ｽ[?ｽ?ｽﾏ更?ｽ?ｽ?ｽ驍ｽ?ｽﾟの撰ｿｽ?ｽ?ｽ
     int change = 0;
+    int color = 0;
 
     /**
      * ?ｽA?ｽv?ｽ?ｽ?ｽﾌ擾ｿｽ?ｽ?ｽ
@@ -47,6 +64,13 @@ public class DrawNoteK extends ActionBarActivity {
         // ?ｽ`?ｽ?ｽN?ｽ?ｽ?ｽX?ｽ?ｽﾝ抵ｿｽ
         view = new DrawNoteView(getApplication());
         setContentView(view);
+
+        //mainActivityから画像プレビューで呼ばれた時の処理
+        Intent intent = getIntent();
+        int G = intent.getIntExtra("G", 0);
+        if (G == 2) {
+            toView();
+        }
     }
 
     /**
@@ -66,96 +90,168 @@ public class DrawNoteK extends ActionBarActivity {
         return true;
     }
 
-    String fname;
-    String dir = getFilesDir().getAbsolutePath();
-    File fout = new File(dir);
-
-    public void savetofile(Bitmap bmp) {
-/*
-        // インスタンス作成
-        DrawNoteDBHelper helper = new DrawNoteDBHelper(this);
-        // 読み書き出来るように開く
-        db = helper.getWritableDatabase();
-        // レコードの一括DELETE
-        db.delete(DrawNoteDBHelper.SAVE_PHOTO_TABLE, null, null);
-
-        // レコード1設定 ByteArrayOutputStreamをbyte[]に変換し格納
-        ContentValues values = new ContentValues();
-        values.put(DrawNoteDBHelper.COLUMN_FILE_NAME, "card_01.png");
-        values.put(DrawNoteDBHelper.COLUMN_PHOTO_BINARY_DATA,
-                photo1.toByteArray());
-
-        EditText et = (EditText) this.findViewById(R.id.editText);
-        String title;
-        String memo = et.getText().toString();
-
-        if (memo.trim().length() > 0) {
-            if (memo.indexOf("\n") == -1) {
-                title = memo.substring(0, Math.min(memo.length(), 20));
-            } else {
-                title = memo.substring(0, Math.min(memo.indexOf("\n"), 20));
-            }
-
-            String ts = DateFormat.getDateTimeInstance().format(new Date());
-            MemoDBHelper memos = new MemoDBHelper(this);
-            SQLiteDatabase db = memos.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put("title", title + "\n" + ts);
-            values.put("memo", memo);
-            db.insertOrThrow("memoDB", null, values);
-            memos.close();
+    /**
+     * ?ｽ?ｽ?ｽj?ｽ?ｽ?ｽ[?ｽ?ｽ?ｽN?ｽ?ｽ?ｽb?ｽN?ｽ?ｽ?ｽ黷ｽ?ｽ?ｽ?ｽﾌイ?ｽx?ｽ?ｽ?ｽg
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.black:
+                color = 0;
+                break;
+            case R.id.red:
+                color = 1;
+                break;
+            case R.id.green:
+                color = 2;
+                break;
+            case R.id.blue:
+                color = 3;
+                break;
+            case R.id.images:
+                toView();
+                break;
+            //↓画像削除↓
+            case R.id.imageDelete:
+                i = new Intent();
+                i.setType("image/*");
+                i.setAction(Intent.ACTION_PICK);
+                startActivityForResult(i, 1);
+                break;
+            case R.id.action_eraser:
+                if (change == 0) {
+                    change = 1;
+                    //?ｽA?ｽN?ｽV?ｽ?ｽ?ｽ?ｽ?ｽo?ｽ[?ｽ?ｽ?ｽﾄ表?ｽ?ｽ?ｽ?ｽ?ｽ?ｽﾖ撰ｿｽinvalidateOptionsMenu()
+                    invalidateOptionsMenu();
+                } else if (change == 1) {
+                    change = 0;
+                    invalidateOptionsMenu();
+                }
+                break;
+            case R.id.action_share:
+                break;
+            case R.id.action_delete:
+                view.clearDrawList();
+                break;
+            case R.id.action_save:
+                saveToFile(view.saveToFile());
+                Toast.makeText(this, getString(R.string.Save), Toast.LENGTH_SHORT).show();
+                break;
         }
-        Toast.makeText(this, getString(R.string.Save), Toast.LENGTH_SHORT).show();
-        */
-
-
-        Log.v("dir;", dir);
-//        if (!fout.exists()) {
-        boolean f =
-                fout.mkdirs();
-        if (f) {
-            System.out.println("eee:ok");
-        } else {
-            System.out.println("eee:no");
-        }
-//        }
-        Date d = new Date();
-        fname = fout.getAbsolutePath() + "/";
-        fname += "picture";
-//                String.format("%4d%02d%02d-%02d%02d%02d.png",
-//                (1900 + d.getYear()), 1 + d.getMonth(), d.getDate(),
-//                d.getHours(), d.getMi....nutes(), d.getSeconds());
-        Log.v("dir;fname", fname);
-        // ?ｽ鞫懶ｿｽ?ｽ?ｽt?ｽ@?ｽC?ｽ?ｽ?ｽﾉ擾ｿｽ?ｽ?ｽ?ｽ?ｽ?ｽ?ｽ
-        try {
-            FileOutputStream out = new FileOutputStream(fname);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
-            out.flush();
-            out.close();
-            Log.e("eee", "ok");
-
-            FileInputStream i = new FileInputStream(fout.getAbsolutePath() + "/");
-            Bitmap bm = BitmapFactory.decodeStream(i);
-            ((ImageView)findViewById(R.id.view2)).setImageBitmap(bm);
-
-        } catch (Exception e) {
-            Log.e("eee", String.valueOf(e));
-        }
-
-
+        return true;
     }
 
-    //?ｽ[?ｽ?ｽ?ｽ?ｽ?ｽﾌ戻ゑｿｽ{?ｽ^?ｽ?ｽ?ｽ?ｽ?ｽ?ｽ?ｽ?ｽ?ｽ黷ｽ?ｽﾆゑｿｽ?ｽﾌ擾ｿｽ?ｽ?ｽ
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            switch (event.getKeyCode()) {
-                case KeyEvent.KEYCODE_BACK:
-                    // ?ｽ_?ｽC?ｽA?ｽ?ｽ?ｽO?ｽ\?ｽ?ｽ?ｽﾈど難ｿｽ?ｽ?ｽﾌ擾ｿｽ?ｽ?ｽ?ｽ?ｽ?ｽs?ｽ?ｽ?ｽ?ｽ?ｽ?ｽ?ｽ鼾?ｿｽﾍゑｿｽ?ｽ?ｽ?ｽﾉ記?ｽq
-                    // ?ｽe?ｽN?ｽ?ｽ?ｽX?ｽ?ｽdispatchKeyEvent()?ｽ?ｽ?ｽﾄび出?ｽ?ｽ?ｽ?ｽ?ｽ?ｽtrue?ｽ?ｽﾔゑｿｽ?ｽﾆ戻ゑｿｽ{?ｽ^?ｽ?ｽ?ｽ?ｽ?ｽ?ｽ?ｽ?ｽﾉなゑｿｽ
-                    finish();
+    //画像プレビューへ移行させる関数toView
+    public void toView() {
+        i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_PICK);
+        startActivityForResult(i, REQUEST_GALLERY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //画像プレビュー選択時
+        if (requestCode == REQUEST_GALLERY && resultCode == RESULT_OK) {
+            try {
+                // WindowManagerのインスタンス取得
+                WindowManager wm = getWindowManager();
+                // Displayの広さ取得 Actionbarの大きさぶんy軸に-240
+                Display disp = wm.getDefaultDisplay();
+                int width = disp.getWidth();
+                int height = disp.getHeight() - 240;
+
+                InputStream in = getContentResolver().openInputStream(data.getData());
+                Bitmap img = BitmapFactory.decodeStream(in);
+                //大きさをフィットさせる
+                Bitmap img2 = Bitmap.createScaledBitmap(img, width, height, false);
+                in.close();
+                // 画面を消して選択した画像で塗る
+                view.readImage(img2);
+                Toast.makeText(this, getString(R.string.openM), Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+
             }
         }
-        return super.dispatchKeyEvent(event);
+
+        //画像削除選択時
+        if (requestCode == 1) {
+            try {
+                getContentResolver().delete(data.getData(), null, null);
+                Toast.makeText(this, getString(R.string.deleteM), Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    public void saveToFile(Bitmap bmp) {
+//        現在時刻を記録
+//        String time = DateFormat.getDateTimeInstance().format(new Date());
+//         インスタンス作成
+//        DrawNoteDBHelper helper = new DrawNoteDBHelper(this);
+//         読み書き出来るように開く
+//        db = helper.getWritableDatabase();
+//         レコードの一括DELETE
+//        db.delete(DrawNoteDBHelper.SAVE_PHOTO_TABLE, null, null);
+
+        // bmpをbytesに変換
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//        byte[] bytes = baos.toByteArray();
+
+        // bytesをSQLiteに格納
+//        ContentValues values = new ContentValues();
+//        values.put(DrawNoteDBHelper.SAVE_PHOTO_TABLE, time);
+//        values.put(DrawNoteDBHelper.COLUMN_FILE_NAME, time);
+//        values.put(DrawNoteDBHelper.COLUMN_PHOTO_BINARY_DATA, bytes);
+
+        final String SAVE_DIR = "/MyPhoto/";
+        File file = new File(Environment.getExternalStorageDirectory().getPath() + SAVE_DIR);
+        try {
+            if (!file.exists()) {
+                file.mkdir();
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+        Date mDate = new Date();
+        SimpleDateFormat fileNameDate = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String fileName = fileNameDate.format(mDate) + ".jpg";
+        String AttachName = file.getAbsolutePath() + "/" + fileName;
+
+        try {
+            FileOutputStream out = new FileOutputStream(AttachName);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // save index
+        ContentValues values = new ContentValues();
+        ContentResolver contentResolver = getContentResolver();
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        values.put(MediaStore.Images.Media.TITLE, fileName);
+        values.put("_data", AttachName);
+        contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+        // 保存処理開始
+//        db.beginTransaction();
+//        try {
+//            db.insert(DrawNoteDBHelper.SAVE_PHOTO_TABLE, null, values);
+//             正常終了
+//            db.setTransactionSuccessful();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+        //保存処理終了
+//            db.endTransaction();
+//         DBクローズ
+//        db.close();
+//         Helperクローズ
+//        helper.close();
     }
 
     /**
@@ -165,6 +261,7 @@ public class DrawNoteK extends ActionBarActivity {
         Bitmap bmp = null;
         Canvas bmpCanvas;
         Point oldpos = new Point(-1, -1);
+        Paint paint = new Paint();
 
         public DrawNoteView(Context c) {
             super(c);
@@ -180,9 +277,11 @@ public class DrawNoteK extends ActionBarActivity {
             return bmp;
         }
 
-        /**
-         * ?ｽ?ｽﾊサ?ｽC?ｽY?ｽ?ｽ?ｽﾏ更?ｽ?ｽ?ｽ黷ｽ?ｽ?ｽ
-         */
+        public void readImage(Bitmap bmp) {
+            bmpCanvas.drawBitmap(bmp, 0, 0, paint);
+        }
+
+
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
             bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
@@ -207,16 +306,28 @@ public class DrawNoteK extends ActionBarActivity {
                 oldpos = cur;
             }
 
-            Paint paint = new Paint();
             if (change == 0) {
                 // ?ｽ`?ｽ鞫ｮ?ｽ?ｽ?ｽ?ｽﾝ抵ｿｽ
                 paint.setColor(Color.BLUE);
+                // ?ｽ`?ｽ鞫ｮ?ｽ?ｽ?ｽ?ｽﾝ抵ｿｽ
+                if (color == 0) {
+                    paint.setColor(Color.BLACK);
+                } else if (color == 1) {
+                    paint.setColor(Color.RED);
+                } else if (color == 2) {
+                    paint.setColor(Color.GREEN);
+                } else if (color == 3) {
+                    paint.setColor(Color.BLUE);
+                }
                 paint.setStyle(Paint.Style.FILL);
                 paint.setStrokeWidth(8);
             } else if (change == 1) {
                 paint.setColor(Color.WHITE);
+//                paint.setStyle(Paint.Style.FILL);
+//                paint.setStrokeWidth(50);
                 paint.setStyle(Paint.Style.FILL);
-                paint.setStrokeWidth(100);
+                bmpCanvas.drawCircle(oldpos.x, oldpos.y, 50, paint);
+//                bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
             }
             // ?ｽ?ｽ?ｽ`?ｽ?ｽ
             bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
@@ -230,4 +341,5 @@ public class DrawNoteK extends ActionBarActivity {
         }
 
     }
+
 }

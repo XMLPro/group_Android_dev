@@ -19,6 +19,7 @@ public class Setting extends ActionBarActivity {
 
     public PaintDrawable paintDrawable;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +33,7 @@ public class Setting extends ActionBarActivity {
                 paintDrawable = new PaintDrawable(Color.DKGRAY);
                 break;
             case 2://ê‘
-                paintDrawable = new PaintDrawable(Color.rgb(255,51,51));
+                paintDrawable = new PaintDrawable(Color.rgb(255, 51, 51));
                 break;
             case 3://ê¬
                 paintDrawable = new PaintDrawable(Color.rgb(51,204,255));
