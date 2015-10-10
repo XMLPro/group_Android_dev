@@ -38,7 +38,7 @@ public class DrawNoteK extends ActionBarActivity {
 
     //新画像表示
     private static final int REQUEST_GALLERY = 0;
-
+    //画像ビュー用の数字
     public int G;
 
     //?ｽA?ｽN?ｽV?ｽ?ｽ?ｽ?ｽ?ｽo?ｽ[?ｽ?ｽﾏ更?ｽ?ｽ?ｽ驍ｽ?ｽﾟの撰ｿｽ?ｽ?ｽ
@@ -303,6 +303,4 @@ public class DrawNoteK extends ActionBarActivity {
             return true;
         }
     }
-
-
 }
