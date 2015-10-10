@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -20,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -39,12 +37,10 @@ public class DrawNoteK extends ActionBarActivity {
     /**
      * データベース
      */
-    private SQLiteDatabase db;
     public Intent i;
 
     //新画像表示
     private static final int REQUEST_GALLERY = 0;
-    private ImageView imgView;
 
     //?ｽA?ｽN?ｽV?ｽ?ｽ?ｽ?ｽ?ｽo?ｽ[?ｽ?ｽﾏ更?ｽ?ｽ?ｽ驍ｽ?ｽﾟの撰ｿｽ?ｽ?ｽ
     int change = 0;
@@ -185,26 +181,6 @@ public class DrawNoteK extends ActionBarActivity {
     }
 
     public void saveToFile(Bitmap bmp) {
-//        現在時刻を記録
-//        String time = DateFormat.getDateTimeInstance().format(new Date());
-//         インスタンス作成
-//        DrawNoteDBHelper helper = new DrawNoteDBHelper(this);
-//         読み書き出来るように開く
-//        db = helper.getWritableDatabase();
-//         レコードの一括DELETE
-//        db.delete(DrawNoteDBHelper.SAVE_PHOTO_TABLE, null, null);
-
-        // bmpをbytesに変換
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
-//        byte[] bytes = baos.toByteArray();
-
-        // bytesをSQLiteに格納
-//        ContentValues values = new ContentValues();
-//        values.put(DrawNoteDBHelper.SAVE_PHOTO_TABLE, time);
-//        values.put(DrawNoteDBHelper.COLUMN_FILE_NAME, time);
-//        values.put(DrawNoteDBHelper.COLUMN_PHOTO_BINARY_DATA, bytes);
-
         final String SAVE_DIR = "/MyPhoto/";
         File file = new File(Environment.getExternalStorageDirectory().getPath() + SAVE_DIR);
         try {
@@ -236,22 +212,6 @@ public class DrawNoteK extends ActionBarActivity {
         values.put(MediaStore.Images.Media.TITLE, fileName);
         values.put("_data", AttachName);
         contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
-        // 保存処理開始
-//        db.beginTransaction();
-//        try {
-//            db.insert(DrawNoteDBHelper.SAVE_PHOTO_TABLE, null, values);
-//             正常終了
-//            db.setTransactionSuccessful();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-        //保存処理終了
-//            db.endTransaction();
-//         DBクローズ
-//        db.close();
-//         Helperクローズ
-//        helper.close();
     }
 
     /**

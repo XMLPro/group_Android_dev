@@ -21,15 +21,6 @@ public class MemoList extends ListActivity {
     static final String[] cols = {"title", "memo", android.provider.BaseColumns._ID};
     MemoDBHelper memos;
 
-
-    @Override
-    protected void onCreate(Bundle saveInstanceState) {
-        super.onCreate(saveInstanceState);
-        setContentView(R.layout.memolist);
-        getBackgroundColor();
-        showMemos(getMemoList());
-    }
-
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
@@ -46,19 +37,20 @@ public class MemoList extends ListActivity {
         memos.close();
         finish();
     }
-<<<<<<< HEAD
+
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.memolist);
-=======
+        getBackgroundColor();
+        showMemos(getMemoList());
+    }
 
     private void showMemos(String[] list) {
         ListView listView = (ListView) findViewById(android.R.id.list);
         ArrayAdapter<String> adapter = new MemoListAdapter(this, R.layout.listitem, R.id.list_item, list);
         listView.setAdapter(adapter);
     }
->>>>>>> bfd3e61ab73c4b80a86dfb9ac88a539e5474cc76
 
     private String[] getMemoList() {
         memos = new MemoDBHelper(this);
@@ -71,11 +63,9 @@ public class MemoList extends ListActivity {
             //取得したレコードの0番目のカラムを取得 -> 0番目のカラムはメモのタイトル
 //            Log.d("db.rawQuery: ", "cursor: " + cursor.getString(0));
             memoTitles[i] = cursor.getString(0);
-
             //次のレコードにカーソルを移す
             cursor.moveToNext();
         }
-
         return memoTitles;
     }
 

@@ -30,13 +30,8 @@ public class Setting extends ActionBarActivity {
             case 1:
                 paintDrawable = new PaintDrawable(Color.DKGRAY);
                 break;
-<<<<<<< HEAD
             case 2://Ô
                 paintDrawable = new PaintDrawable(Color.rgb(255, 51, 51));
-=======
-            case 2:
-                paintDrawable = new PaintDrawable(Color.rgb(255,51,51));
->>>>>>> bfd3e61ab73c4b80a86dfb9ac88a539e5474cc76
                 break;
             case 3:
                 paintDrawable = new PaintDrawable(Color.rgb(51,204,255));

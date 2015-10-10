@@ -25,26 +25,11 @@
             android:name=".DrawNoteK"
             android:label="@string/DrawNoteK_Activity">
         </activity>
-        <activity
-            android:name=".ImageViewList"
-            android:label="@string/title_section3">
-        </activity>
-        <activity
-            android:name=".TheView"
-            android:label="@string/title_section3">
-        </activity>
     </application>
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="WRITE_USER_DICTIONARY" />
-    <permission android:name="WRITE_EXTERNAL_STORAGE" />
-    <permission android:name="WRITE_USER_DICTIONARY" />
-    <uses-permission android:name= "MANAGE_DOCUMENTS"/>
-    <permission android:name="MANAGE_DOCUMENTS" />
-
 
     <!--<TextView-->
     <!--android:text="Slot Game！"-->
