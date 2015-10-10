@@ -267,8 +267,9 @@ public class MainActivity extends ActionBarActivity
             MemoDBHelper memos = new MemoDBHelper(this);
             SQLiteDatabase db = memos.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("title", title + "\n" + ts);
+            values.put("title", title);
             values.put("memo", memo);
+            values.put("date", ts);
             db.insertOrThrow("memoDB", null, values);
             memos.close();
         }
