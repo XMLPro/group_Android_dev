@@ -88,7 +88,6 @@ public class MainActivity extends ActionBarActivity
         }
         return super.onCreateOptionsMenu(menu);
     }
-
     //アクションバー
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -235,7 +234,11 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 3:
                 mTile = getString(R.string.view);
-
+                Intent G = new Intent(this,DrawNoteK.class);
+                Bundle B = new Bundle();
+                B.putInt("G", 2);
+                G.putExtras(B);
+                startActivity(G);
                 break;
         }
     }

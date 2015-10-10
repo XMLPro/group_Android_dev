@@ -158,12 +158,4 @@ public class MemoList extends ListActivity {
         }
         return true;
     }
-
-//    public void adapterChange() {
-////        adapter.clear();
-////        adapter.notifyDataSetChanged();
-////        listView.invalidateViews();adapter.clear();
-////        adapter.notifyDataSetInvalidated();
-//    }
-
 }

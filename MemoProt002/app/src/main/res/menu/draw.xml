@@ -35,6 +35,20 @@
         android:icon="@android:drawable/ic_menu_preferences"/>
 
     <item
+        android:id="@+id/images"
+        android:orderInCategory="1"
+        app:showAsAction=""
+        android:title="@string/title_section3"
+        android:icon="@android:drawable/ic_menu_preferences"/>
+
+    <item
+        android:id="@+id/imageDelete"
+        android:orderInCategory="1"
+        app:showAsAction=""
+        android:title="@string/imageDelete"
+        android:icon="@android:drawable/ic_menu_preferences"/>
+
+    <item
         android:id="@+id/action_eraser"
         android:orderInCategory="1"
         app:showAsAction="always"
@@ -62,4 +76,8 @@
         android:title="@string/save"
         android:icon="@android:drawable/ic_menu_save"/>
 
+
+
 </menu>
+
+

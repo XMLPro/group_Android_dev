@@ -23,13 +23,13 @@
         <activity android:name=".MemoList" />
         <activity
             android:name=".DrawNoteK"
-            android:label="@string/DrawNoteK_Activity"></activity>
-
-        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-        <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
-        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+            android:label="@string/DrawNoteK_Activity">
+        </activity>
     </application>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!--<TextView-->
     <!--android:text="Slot Game！"-->

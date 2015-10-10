@@ -1,59 +1,86 @@
 package com.example.suzuki.memoprot001;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.KeyEvent;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 /**
- * ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½Ì’ï¿½`
+ * ?½?½?½C?½?½?½N?½?½?½X?½Ì’ï¿½`
  */
 public class DrawNoteK extends ActionBarActivity {
     DrawNoteView view;
+    public Intent i;
 
-    //ï¿½Aï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½oï¿½[ï¿½ï¿½ÏXï¿½ï¿½ï¿½é‚½ï¿½ß‚Ìï¿½ï¿½ï¿½
+    //V‰æ‘œ•\¦
+    private static final int REQUEST_GALLERY = 0;
+    //‰æ‘œƒrƒ…[—p‚Ì”š
+    public int G;
+
+    //?½A?½N?½V?½?½?½?½?½o?½[?½?½ÏX?½?½?½é‚½?½ß‚Ìï¿½?½?½
     int change = 0;
     int color = 0;
 
     /**
-     * ï¿½Aï¿½vï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
+     * ?½A?½v?½?½?½Ìï¿½?½?½
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw);
 
-        //ï¿½ï¿½ï¿½Gï¿½`ï¿½ï¿½ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½\ï¿½ï¿½
+        //?½?½?½G?½`?½?½?½^?½C?½g?½?½?½\?½?½
         setTitle(getString(R.string.draw));
 
-        // ï¿½`ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½İ’ï¿½
+        // ?½`?½?½N?½?½?½X?½?½İ’ï¿½
         view = new DrawNoteView(getApplication());
         setContentView(view);
+
+        Intent intent = getIntent();
+        G = intent.getIntExtra("G", 0);
+    }
+
+    public void change(){
+        //mainActivity‚©‚ç‰æ‘œƒvƒŒƒrƒ…[‚ÅŒÄ‚Î‚ê‚½‚Ìˆ—
+        if (G == 2) {
+            G = 0;
+            toView();
+        }
     }
 
     /**
-     * ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½Ìï¿½ï¿½ï¿½ï¿½Cï¿½xï¿½ï¿½ï¿½g
+     * ?½?½?½j?½?½?½[?½Ìï¿½?½?½?½C?½x?½?½?½g
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.draw, menu);
 
-        //ï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½Éƒ{ï¿½^ï¿½ï¿½ï¿½Ìƒ}ï¿½[ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Mï¿½É•Ï‚ï¿½ï¿½ï¿½
-        //ï¿½Ïï¿½changeï¿½ï¿½0ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½A1ï¿½È‚ç‰”ï¿½Mï¿½Éƒ}ï¿½[ï¿½Nï¿½ï¿½ÏX
+        //?½?½?½?½?½S?½?½?½{?½^?½?½?½?½?½?½?½?½?½ê‚½?½?½?½Éƒ{?½^?½?½?½Ìƒ}?½[?½N?½?½?½?½?½M?½É•Ï‚ï¿½?½?½
+        //?½Ïï¿½change?½?½0?½È‚ï¿½?½?½?½?½S?½?½?½A1?½È‚ç‰”?½M?½Éƒ}?½[?½N?½?½ÏX
         if (change == 1) {
             MenuItem one = menu.findItem(R.id.action_eraser);
             one.setIcon(android.R.drawable.ic_menu_edit);
@@ -63,7 +90,7 @@ public class DrawNoteK extends ActionBarActivity {
     }
 
     /**
-     * ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ÌƒCï¿½xï¿½ï¿½ï¿½g
+     * ?½?½?½j?½?½?½[?½?½?½N?½?½?½b?½N?½?½?½ê‚½?½?½?½ÌƒC?½x?½?½?½g
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -80,10 +107,20 @@ public class DrawNoteK extends ActionBarActivity {
             case R.id.blue:
                 color = 3;
                 break;
+            case R.id.images:
+                toView();
+                break;
+            //«‰æ‘œíœ«
+            case R.id.imageDelete:
+                i = new Intent();
+                i.setType("image/*");
+                i.setAction(Intent.ACTION_PICK);
+                startActivityForResult(i, 1);
+                break;
             case R.id.action_eraser:
                 if (change == 0) {
                     change = 1;
-                    //ï¿½Aï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½oï¿½[ï¿½ï¿½ï¿½Ä•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½invalidateOptionsMenu()
+                    //?½A?½N?½V?½?½?½?½?½o?½[?½?½?½Ä•\?½?½?½?½?½?½Öï¿½invalidateOptionsMenu()
                     invalidateOptionsMenu();
                 } else if (change == 1) {
                     change = 0;
@@ -96,64 +133,98 @@ public class DrawNoteK extends ActionBarActivity {
                 view.clearDrawList();
                 break;
             case R.id.action_save:
-                savetofile(view.saveToFile());
+                saveToFile(view.saveToFile());
                 Toast.makeText(this, getString(R.string.Save), Toast.LENGTH_SHORT).show();
                 break;
         }
         return true;
     }
 
-    public void savetofile(Bitmap bmp) {
-        String dir = getFilesDir().getAbsolutePath();
-        File fout = new File(dir);
-        Log.v("dir;", dir);
-//        if (!fout.exists()) {
-        boolean f = fout.mkdirs();
-        if (f) {
-            System.out.println("eee:ok");
-        } else {
-            System.out.println("eee:no");
+    //‰æ‘œƒvƒŒƒrƒ…[‚ÖˆÚs‚³‚¹‚éŠÖ”toView
+    public void toView() {
+        i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_PICK);
+        startActivityForResult(i, REQUEST_GALLERY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //‰æ‘œƒvƒŒƒrƒ…[‘I‘ğ
+        if (requestCode == REQUEST_GALLERY && resultCode == RESULT_OK) {
+            try {
+                // WindowManager‚ÌƒCƒ“ƒXƒ^ƒ“ƒXæ“¾
+                WindowManager wm = getWindowManager();
+                // Display‚ÌL‚³æ“¾ Actionbar‚Ì‘å‚«‚³‚Ô‚ñy²‚É-240
+                Display disp = wm.getDefaultDisplay();
+                int width = disp.getWidth();
+                int height = disp.getHeight() - 240;
+
+                InputStream in = getContentResolver().openInputStream(data.getData());
+                Bitmap img = BitmapFactory.decodeStream(in);
+                //‘å‚«‚³‚ğƒtƒBƒbƒg‚³‚¹‚é
+                Bitmap img2 = Bitmap.createScaledBitmap(img, width, height, false);
+                in.close();
+                // ‰æ–Ê‚ğÁ‚µ‚Ä‘I‘ğ‚µ‚½‰æ‘œ‚Å“h‚é
+                view.readImage(img2);
+                Toast.makeText(this, getString(R.string.openM), Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+            }
         }
-//        }
-        Date d = new Date();
-        String fname = fout.getAbsolutePath() + "/";
-        fname += "picture";
-//                String.format("%4d%02d%02d-%02d%02d%02d.png",
-//                (1900 + d.getYear()), 1 + d.getMonth(), d.getDate(),
-//                d.getHours(), d.getMinutes(), d.getSeconds());
-        Log.v("dir;fname", fname);
-        // ï¿½æ‘œï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-        try {
-            FileOutputStream out = new FileOutputStream(fname);
-            bmp.compress(Bitmap.CompressFormat.PNG, 200, out);
-            out.flush();
-            out.close();
-            Log.e("eee", "ok");
-        } catch (Exception e) {
-            Log.e("eee", String.valueOf(e));
+        //‰æ‘œíœ‘I‘ğ
+        else if (requestCode == 1) {
+            try {
+                getContentResolver().delete(data.getData(), null, null);
+                Toast.makeText(this, getString(R.string.deleteM), Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+            }
         }
     }
 
-    //ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ß‚ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Æ‚ï¿½ï¿½Ìï¿½ï¿½ï¿½
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            switch (event.getKeyCode()) {
-                case KeyEvent.KEYCODE_BACK:
-                    // ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½\ï¿½ï¿½ï¿½È‚Ç“ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½É‹Lï¿½q
-                    // ï¿½eï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½dispatchKeyEvent()ï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½trueï¿½ï¿½Ô‚ï¿½ï¿½Æ–ß‚ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚È‚ï¿½
-                    finish();
+    //•Û‘¶
+    public void saveToFile(Bitmap bmp) {
+        final String SAVE_DIR = "/MyPhoto/";
+        File file = new File(Environment.getExternalStorageDirectory().getPath() + SAVE_DIR);
+        try {
+            if (!file.exists()) {
+                file.mkdir();
             }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            throw e;
         }
-        return super.dispatchKeyEvent(event);
+
+        Date mDate = new Date();
+        SimpleDateFormat fileNameDate = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String fileName = fileNameDate.format(mDate) + ".jpg";
+        String AttachName = file.getAbsolutePath() + "/" + fileName;
+
+        try {
+            FileOutputStream out = new FileOutputStream(AttachName);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // save index
+        ContentValues values = new ContentValues();
+        ContentResolver contentResolver = getContentResolver();
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        values.put(MediaStore.Images.Media.TITLE, fileName);
+        values.put("_data", AttachName);
+        contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
     }
 
     /**
-     * ï¿½`ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½Ì’ï¿½`
+     * ?½`?½?½N?½?½?½X?½Ì’ï¿½`
      */
     class DrawNoteView extends android.view.View {
+
         Bitmap bmp = null;
         Canvas bmpCanvas;
         Point oldpos = new Point(-1, -1);
+        Paint paint = new Paint();
 
         public DrawNoteView(Context c) {
             super(c);
@@ -169,9 +240,10 @@ public class DrawNoteK extends ActionBarActivity {
             return bmp;
         }
 
-        /**
-         * ï¿½ï¿½ÊƒTï¿½Cï¿½Yï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ê‚½ï¿½ï¿½
-         */
+        public void readImage(Bitmap bmp) {
+            bmpCanvas.drawBitmap(bmp, 0, 0, paint);
+        }
+
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
             bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
@@ -180,32 +252,34 @@ public class DrawNoteK extends ActionBarActivity {
         }
 
         /**
-         * ï¿½`ï¿½ï¿½Cï¿½xï¿½ï¿½ï¿½g
+         * ?½`?½?½C?½x?½?½?½g
          */
         protected void onDraw(Canvas canvas) {
             canvas.drawBitmap(bmp, 0, 0, null);
+            change();
         }
 
         /**
-         * ï¿½^ï¿½bï¿½`ï¿½Cï¿½xï¿½ï¿½ï¿½g
+         * ?½^?½b?½`?½C?½x?½?½?½g
          */
         public boolean onTouchEvent(MotionEvent event) {
-            // ï¿½`ï¿½ï¿½Ê’uï¿½ÌŠmï¿½F
+            // ?½`?½?½Ê’u?½ÌŠm?½F
             Point cur = new Point((int) event.getX(), (int) event.getY());
             if (oldpos.x < 0) {
                 oldpos = cur;
             }
 
-            Paint paint = new Paint();
             if (change == 0) {
-                // ï¿½`ï¿½æ‘®ï¿½ï¿½ï¿½ï¿½İ’ï¿½
-                if(color == 0) {
+                // ?½`?½æ‘®?½?½?½?½İ’ï¿½
+                paint.setColor(Color.BLUE);
+                // ?½`?½æ‘®?½?½?½?½İ’ï¿½
+                if (color == 0) {
                     paint.setColor(Color.BLACK);
-                }else if(color == 1){
+                } else if (color == 1) {
                     paint.setColor(Color.RED);
-                }else if(color == 2){
+                } else if (color == 2) {
                     paint.setColor(Color.GREEN);
-                }else if(color == 3){
+                } else if (color == 3) {
                     paint.setColor(Color.BLUE);
                 }
                 paint.setStyle(Paint.Style.FILL);
@@ -218,16 +292,15 @@ public class DrawNoteK extends ActionBarActivity {
                 bmpCanvas.drawCircle(oldpos.x, oldpos.y, 50, paint);
 //                bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
             }
-            // ï¿½ï¿½ï¿½`ï¿½ï¿½
+            // ?½?½?½`?½?½
             bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
             oldpos = cur;
-            // ï¿½wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã‚°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
+            // ?½w?½?½?½?½?½?½?½ã‚°?½?½?½?½?½?½W?½?½?½?½?½Z?½b?½g
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 oldpos = new Point(-1, -1);
             }
             invalidate();
             return true;
         }
-
     }
 }
