@@ -10,18 +10,20 @@ public class MemoDBHelper extends SQLiteOpenHelper {
     static final int version = 1;
     static final SQLiteDatabase.CursorFactory factory = null;
 
-    public MemoDBHelper(Context context){
+    public MemoDBHelper(Context context) {
         super(context, name, factory, version);
+        //データベースを初期化したいときにこれをコメントアウト
 //        context.deleteDatabase(name);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db){
+    public void onCreate(SQLiteDatabase db) {
         String sql = "CREATE TABLE memoDB (" + android.provider.BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, title Text, memo TEXT);";
+//        String sql = "CREATE TABLE memoDB (" + android.provider.BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, title Text, memo TEXT);";
         db.execSQL(sql);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 }

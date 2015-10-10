@@ -52,6 +52,9 @@
     <string name="line">罫線</string>
     <string name="setbackground">背景を選んでください</string>
     <string name="setfont">書式を選んでください</string>
+    <string name="imageDelete">画像削除</string>
+    <string name="deleteM">選択した画像を削除しました</string>
+    <string name="openM">画像を開きました</string>
     //設定画面のタイトル
     <string name="Setting_Activity">設定画面</string>
 
@@ -64,5 +67,8 @@
     <string name="title_section1">新規作成</string>
     <string name="title_section2">フォルダー</string>
     <string name="title_section3">画像プレビュー</string>
+
+    //フォルダー
+    <string name="folder_item_delete">削除</string>
 
 </resources>
