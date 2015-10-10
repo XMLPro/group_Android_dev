@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Selection;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,6 +41,8 @@ public class MainActivity extends ActionBarActivity
      */
     public int color = 0;
     private CharSequence mTile;
+    private Settings settings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,8 @@ public class MainActivity extends ActionBarActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         mTile = getTitle();
+        settings = (Settings)this.getApplication();
+
     }
 
     @Override
@@ -88,6 +93,7 @@ public class MainActivity extends ActionBarActivity
         }
         return super.onCreateOptionsMenu(menu);
     }
+
     //アクションバー
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -126,7 +132,11 @@ public class MainActivity extends ActionBarActivity
                 break;
             case R.id.menu_new:
                 et.setText("");
-                break;
+
+                Log.d("updateFlag1", "" + settings.getUpdeteFlag());
+                settings.setUpdateFlag(false);
+                Log.d("updateFlag2", "" + settings.getUpdeteFlag());
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -150,19 +160,19 @@ public class MainActivity extends ActionBarActivity
                     paintDrawable = new PaintDrawable(Color.rgb(255, 51, 51));
                     break;
                 case 13://blue
-                    paintDrawable = new PaintDrawable(Color.rgb(51,204,255));
+                    paintDrawable = new PaintDrawable(Color.rgb(51, 204, 255));
                     break;
                 case 14://green
-                    paintDrawable = new PaintDrawable(Color.rgb(0,255,102));
+                    paintDrawable = new PaintDrawable(Color.rgb(0, 255, 102));
                     break;
                 case 15://pink
-                    paintDrawable = new PaintDrawable(Color.rgb(255,153,204));
+                    paintDrawable = new PaintDrawable(Color.rgb(255, 153, 204));
                     break;
                 case 16://orange
-                    paintDrawable = new PaintDrawable(Color.rgb(255,153,0));
+                    paintDrawable = new PaintDrawable(Color.rgb(255, 153, 0));
                     break;
                 case 17://purple
-                    paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
+                    paintDrawable = new PaintDrawable(Color.rgb(255, 102, 204));
                     break;
                 default:
                     paintDrawable = new PaintDrawable(android.graphics.Color.WHITE);
@@ -216,7 +226,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void onSectionAttached(int number) {
-        switch (number){
+        switch (number) {
             case 1:
                 mTile = getString(R.string.action_add);
                 EditText et = (EditText) findViewById(R.id.editText);
@@ -234,7 +244,7 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 3:
                 mTile = getString(R.string.view);
-                Intent G = new Intent(this,DrawNoteK.class);
+                Intent G = new Intent(this, DrawNoteK.class);
                 Bundle B = new Bundle();
                 B.putInt("G", 2);
                 G.putExtras(B);
@@ -273,15 +283,19 @@ public class MainActivity extends ActionBarActivity
             values.put("title", title);
             values.put("memo", memo);
             values.put("date", ts);
-            db.insertOrThrow("memoDB", null, values);
+            if (settings.getUpdeteFlag()) {
+                db.update("memoDB", values, "id=?", new String[]{settings.getUpdateID()});
+            } else {
+                db.insertOrThrow("memoDB", null, values);
+            }
             memos.close();
         }
         Toast.makeText(this, getString(R.string.Save), Toast.LENGTH_SHORT).show();
     }
 
-//端末側の戻るボタンが押されたときの処理
+    //端末側の戻るボタンが押されたときの処理
     public boolean dispatchKeyEvent(KeyEvent event) {
-        if (event.getAction()==KeyEvent.ACTION_DOWN) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (event.getKeyCode()) {
                 case KeyEvent.KEYCODE_BACK:
                     // ダイアログ表示など特定の処理を行いたい場合はここに記述

@@ -28,6 +28,12 @@
         android:textSize="30dp" />
     <TextView
         android:id="@+id/list_item_id"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp" />
+    <TextView
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp" />

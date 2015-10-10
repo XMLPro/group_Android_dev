@@ -30,7 +30,6 @@ public class MemoList extends ListActivity {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.memolist);
         getBackgroundColor();
-//        showMemos(getMemoList());
         showMemos();
 
         //デバック処理_start
@@ -70,13 +69,16 @@ public class MemoList extends ListActivity {
         Log.d("onListItemClick()", "idx:" + idx);
         cursor.moveToFirst();
 //        Log.d("onListItemClick()", "getString(idx):" + cursor);
-        Intent i = new Intent();
+        Intent i = new Intent(this, MainActivity.class);
         if (cursor.getCount() > 0)
             i.putExtra("text", cursor.getString(idx));
         else {
             Log.e("onListItemClick():", "cursor.getCount()=" + cursor.getCount());
             i.putExtra("text", "error");
         }
+        Settings settings = (Settings) this.getApplication();
+        settings.setUpdateFlag(true);
+        settings.setUpdateID("" + t.getText());
         setResult(RESULT_OK, i);
         memos.close();
         finish();
@@ -87,31 +89,7 @@ public class MemoList extends ListActivity {
         adapter = new MemoListAdapter(this);
         listView.setAdapter(adapter);
     }
-//    private void showMemos(String[] list) {
-//        listView = (ListView) findViewById(android.R.id.list);
-//        adapter = new MemoListAdapter(this);
-//        listView.setAdapter(adapter);
-//    }
 
-    private String[] getMemoList() {
-        memos = new MemoDBHelper(this);
-        SQLiteDatabase db = memos.getReadableDatabase();
-        //memoDBテーブルから全てのタイトルのデータを持ったカーソルを取得
-        Cursor cursor = db.rawQuery("SELECT title, id FROM memoDB", null);
-        cursor.moveToFirst();
-        Log.d("getCount: ", "cursor: " + cursor.getCount());
-        String[] memoTitles = new String[cursor.getCount()];
-        for (int i = 0; i < cursor.getCount(); i++) {
-            //取得したレコードの0番目のカラムを取得 -> 0番目のカラムはメモのタイトル
-            Log.d("getString: ", "cursor: " + cursor.getString(0));
-            memoTitles[i] = cursor.getString(0) + "\n" + cursor.getString(1);
-
-            //次のレコードにカーソルを移す
-            cursor.moveToNext();
-        }
-        db.close();
-        return memoTitles;
-    }
 
     private void getBackgroundColor() {
         Intent intent = getIntent();
