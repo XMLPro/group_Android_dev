@@ -34,13 +34,12 @@ import java.util.Date;
  */
 public class DrawNoteK extends ActionBarActivity {
     DrawNoteView view;
-    /**
-     * データベース
-     */
     public Intent i;
 
     //新画像表示
     private static final int REQUEST_GALLERY = 0;
+
+    public int G;
 
     //?ｽA?ｽN?ｽV?ｽ?ｽ?ｽ?ｽ?ｽo?ｽ[?ｽ?ｽﾏ更?ｽ?ｽ?ｽ驍ｽ?ｽﾟの撰ｿｽ?ｽ?ｽ
     int change = 0;
@@ -61,10 +60,14 @@ public class DrawNoteK extends ActionBarActivity {
         view = new DrawNoteView(getApplication());
         setContentView(view);
 
-        //mainActivityから画像プレビューで呼ばれた時の処理
         Intent intent = getIntent();
-        int G = intent.getIntExtra("G", 0);
+        G = intent.getIntExtra("G", 0);
+    }
+
+    public void change(){
+        //mainActivityから画像プレビューで呼ばれた時の処理
         if (G == 2) {
+            G = 0;
             toView();
         }
     }
@@ -166,12 +169,10 @@ public class DrawNoteK extends ActionBarActivity {
                 view.readImage(img2);
                 Toast.makeText(this, getString(R.string.openM), Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
-
             }
         }
-
         //画像削除選択時
-        if (requestCode == 1) {
+        else if (requestCode == 1) {
             try {
                 getContentResolver().delete(data.getData(), null, null);
                 Toast.makeText(this, getString(R.string.deleteM), Toast.LENGTH_SHORT).show();
@@ -180,6 +181,7 @@ public class DrawNoteK extends ActionBarActivity {
         }
     }
 
+    //保存
     public void saveToFile(Bitmap bmp) {
         final String SAVE_DIR = "/MyPhoto/";
         File file = new File(Environment.getExternalStorageDirectory().getPath() + SAVE_DIR);
@@ -218,6 +220,7 @@ public class DrawNoteK extends ActionBarActivity {
      * ?ｽ`?ｽ?ｽN?ｽ?ｽ?ｽX?ｽﾌ抵ｿｽ`
      */
     class DrawNoteView extends android.view.View {
+
         Bitmap bmp = null;
         Canvas bmpCanvas;
         Point oldpos = new Point(-1, -1);
@@ -241,7 +244,6 @@ public class DrawNoteK extends ActionBarActivity {
             bmpCanvas.drawBitmap(bmp, 0, 0, paint);
         }
 
-
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
             bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
@@ -254,6 +256,7 @@ public class DrawNoteK extends ActionBarActivity {
          */
         protected void onDraw(Canvas canvas) {
             canvas.drawBitmap(bmp, 0, 0, null);
+            change();
         }
 
         /**
@@ -299,7 +302,7 @@ public class DrawNoteK extends ActionBarActivity {
             invalidate();
             return true;
         }
-
     }
+
 
 }
