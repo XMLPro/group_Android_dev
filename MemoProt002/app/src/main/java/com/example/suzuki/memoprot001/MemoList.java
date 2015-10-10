@@ -7,24 +7,33 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 
 public class MemoList extends ListActivity {
 
-    //”wŒi—p‚Ì•Ï”éŒ¾
     protected int color;
     public PaintDrawable paintDrawable;
 
     static final String[] cols = {"title", "memo", android.provider.BaseColumns._ID};
     MemoDBHelper memos;
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id){
-        super.onListItemClick(l, v, position, id);
 
+    @Override
+    protected void onCreate(Bundle saveInstanceState) {
+        super.onCreate(saveInstanceState);
+        setContentView(R.layout.memolist);
+        getBackgroundColor();
+        showMemos(getMemoList());
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Log.d("onListItemClick(): ", "onListItemClick() returned: " + id);
         memos = new MemoDBHelper(this);
         SQLiteDatabase db = memos.getWritableDatabase();
         Cursor cursor = db.query("memoDB", cols, "_ID=" + String.valueOf(id), null, null, null, null);
@@ -37,69 +46,74 @@ public class MemoList extends ListActivity {
         memos.close();
         finish();
     }
+<<<<<<< HEAD
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.memolist);
+=======
 
-        //”wŒiF‚ğó‚¯æ‚Á‚Äİ’è‚·‚é
+    private void showMemos(String[] list) {
+        ListView listView = (ListView) findViewById(android.R.id.list);
+        ArrayAdapter<String> adapter = new MemoListAdapter(this, R.layout.listitem, R.id.list_item, list);
+        listView.setAdapter(adapter);
+    }
+>>>>>>> bfd3e61ab73c4b80a86dfb9ac88a539e5474cc76
+
+    private String[] getMemoList() {
+        memos = new MemoDBHelper(this);
+        SQLiteDatabase db = memos.getReadableDatabase();
+        //memoDBãƒ†ãƒ¼ãƒ–ãƒ«ã‹ã‚‰å…¨ã¦ã®ã‚¿ã‚¤ãƒˆãƒ«ã®ãƒ‡ãƒ¼ã‚¿ã‚’æŒã£ãŸã‚«ãƒ¼ã‚½ãƒ«ã‚’å–å¾—
+        Cursor cursor = db.rawQuery("SELECT `title` FROM memoDB", null);
+        cursor.moveToFirst();
+        String[] memoTitles = new String[cursor.getCount()];
+        for (int i = 0; i < cursor.getCount(); i++) {
+            //å–å¾—ã—ãŸãƒ¬ã‚³ãƒ¼ãƒ‰ã®0ç•ªç›®ã®ã‚«ãƒ©ãƒ ã‚’å–å¾— -> 0ç•ªç›®ã®ã‚«ãƒ©ãƒ ã¯ãƒ¡ãƒ¢ã®ã‚¿ã‚¤ãƒˆãƒ«
+//            Log.d("db.rawQuery: ", "cursor: " + cursor.getString(0));
+            memoTitles[i] = cursor.getString(0);
+
+            //æ¬¡ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã«ã‚«ãƒ¼ã‚½ãƒ«ã‚’ç§»ã™
+            cursor.moveToNext();
+        }
+
+        return memoTitles;
+    }
+
+    private void getBackgroundColor() {
         Intent intent = getIntent();
-        color = intent.getIntExtra("Color",0);
-        switch(color) {
+        color = intent.getIntExtra("Color", 0);
+        switch (color) {
             case 1:
                 paintDrawable = new PaintDrawable(Color.DKGRAY);
                 break;
-            case 2://Ô
-                paintDrawable = new PaintDrawable(Color.rgb(255,51,51));
+            case 2://ï¿½ï¿½
+                paintDrawable = new PaintDrawable(Color.rgb(255, 51, 51));
                 break;
-            case 3://Â
-                paintDrawable = new PaintDrawable(Color.rgb(51,204,255));
+            case 3://ï¿½ï¿½
+                paintDrawable = new PaintDrawable(Color.rgb(51, 204, 255));
                 break;
-            case 4://—Î
-                paintDrawable = new PaintDrawable(Color.rgb(0,255,102));
+            case 4://ï¿½ï¿½
+                paintDrawable = new PaintDrawable(Color.rgb(0, 255, 102));
                 break;
-            case 5://ƒsƒ“ƒN
-                paintDrawable = new PaintDrawable(Color.rgb(255,153,204));
+            case 5://ï¿½sï¿½ï¿½ï¿½N
+                paintDrawable = new PaintDrawable(Color.rgb(255, 153, 204));
                 break;
-            case 6://ò
-                paintDrawable = new PaintDrawable(Color.rgb(255,153,0));
+            case 6://ï¿½ï¿½
+                paintDrawable = new PaintDrawable(Color.rgb(255, 153, 0));
                 break;
-            case 7://‡
-                paintDrawable = new PaintDrawable(Color.rgb(255,102,204));
+            case 7://ï¿½ï¿½
+                paintDrawable = new PaintDrawable(Color.rgb(255, 102, 204));
                 break;
             default:
                 paintDrawable = new PaintDrawable(Color.WHITE);
         }
         getWindow().setBackgroundDrawable(paintDrawable);
-
-        showMemos(getMemos());
     }
 
-    private Cursor getMemos(){
-        memos = new MemoDBHelper(this);
-        SQLiteDatabase db = memos.getReadableDatabase();
-        Cursor cursor = db.query("memoDB", cols, null, null, null, null, null);
-        startManagingCursor(cursor);
-        return cursor;
-    }
-
-    private void showMemos(Cursor cursor){
-        if(cursor != null){
-            String[] from = {"title"};
-            int[] to = {android.R.id.text1};
-            SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, cursor, from, to);
-            setListAdapter(adapter);
-        }
-        memos.close();
-    }
-
-    //’[––‘¤‚Ì–ß‚éƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚Æ‚«‚Ìˆ—
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (event.getKeyCode()) {
                 case KeyEvent.KEYCODE_BACK:
-                    // ƒ_ƒCƒAƒƒO•\¦‚È‚Ç“Á’è‚Ìˆ—‚ğs‚¢‚½‚¢ê‡‚Í‚±‚±‚É‹Lq
-                    // eƒNƒ‰ƒX‚ÌdispatchKeyEvent()‚ğŒÄ‚Ño‚³‚¸‚Étrue‚ğ•Ô‚·‚Æ–ß‚éƒ{ƒ^ƒ“‚ª–³Œø‚É‚È‚é
                     Intent intent = new Intent();
                     Bundle bundle = new Bundle();
                     bundle.putInt("color", color);

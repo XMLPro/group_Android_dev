@@ -65,4 +65,7 @@
     <string name="title_section2">フォルダー</string>
     <string name="title_section3">画像プレビュー</string>
 
+    //フォルダー
+    <string name="folder_item_delete">削除</string>
+
 </resources>
