@@ -23,7 +23,7 @@
         <activity android:name=".MemoList" />
         <activity
             android:name=".DrawNoteK"
-            android:label="@string/DrawNoteK_Activity"></activity>
+            android:label="@string/DrawNoteK_Activity"/>
 
         <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
         <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />

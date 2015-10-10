@@ -198,15 +198,19 @@ public class DrawNoteK extends ActionBarActivity {
 
             Paint paint = new Paint();
             if (change == 0) {
-                // �`�摮����ݒ�
-                if(color == 0) {
-                    paint.setColor(Color.BLACK);
-                }else if(color == 1){
-                    paint.setColor(Color.RED);
-                }else if(color == 2){
-                    paint.setColor(Color.GREEN);
-                }else if(color == 3){
-                    paint.setColor(Color.BLUE);
+                switch (color) {
+                    case 0:
+                        paint.setColor(Color.BLACK);
+                        break;
+                    case 1:
+                        paint.setColor(Color.RED);
+                        break;
+                    case 2:
+                        paint.setColor(Color.GREEN);
+                        break;
+                    case 3:
+                        paint.setColor(Color.BLUE);
+                        break;
                 }
                 paint.setStyle(Paint.Style.FILL);
                 paint.setStrokeWidth(8);
@@ -215,7 +219,7 @@ public class DrawNoteK extends ActionBarActivity {
 //                paint.setStyle(Paint.Style.FILL);
 //                paint.setStrokeWidth(50);
                 paint.setStyle(Paint.Style.FILL);
-                bmpCanvas.drawCircle(oldpos.x, oldpos.y, 50, paint);
+                bmpCanvas.drawCircle(oldpos.x, oldpos.y, 60, paint);
 //                bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
             }
             // ���`��
