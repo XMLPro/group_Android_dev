@@ -81,13 +81,13 @@ public class MainActivity extends ActionBarActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         //メニューとメモ一覧の
         MenuInflater mi = getMenuInflater();
-        mi.inflate(R.menu.menu, menu);
+        mi.inflate(R.menu.main, menu);
 
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+//            getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
             return true;
         }
@@ -123,19 +123,19 @@ public class MainActivity extends ActionBarActivity
             case R.id.menu_save:
                 saveMemo();
                 break;
-            case R.id.menu_open:
-                i = new Intent(this, MemoList.class);
-                b = new Bundle();
-                b.putInt("Color", color);
-                i.putExtras(b);
-                startActivityForResult(i, color);
-                break;
-            case R.id.menu_new:
-                et.setText("");
-                Log.d("updateFlag1", "" + settings.getUpdeteFlag());
-                settings.setUpdateFlag(false);
-                Log.d("updateFlag2", "" + settings.getUpdeteFlag());
-                break;
+//            case R.id.menu_open:
+//                i = new Intent(this, MemoList.class);
+//                b = new Bundle();
+//                b.putInt("Color", color);
+//                i.putExtras(b);
+//                startActivityForResult(i, color);
+//                break;
+//            case R.id.menu_new:
+//                et.setText("");
+//                Log.d("updateFlag1", "" + settings.getUpdeteFlag());
+//                settings.setUpdateFlag(false);
+//                Log.d("updateFlag2", "" + settings.getUpdeteFlag());
+//                break;
             case R.id.action_del:
                 et.setText("");
         }

@@ -34,7 +34,7 @@
     <string name="action_eraser">消しゴム</string>
 
     //お絵かきの色設定
-    <string name="yellow">黄色</string>
+    <string name="yellow">黄</string>
     <string name="cyan">シアン</string>
     <string name="dkgray">黒灰色</string>
     <string name="gray">灰色</string>

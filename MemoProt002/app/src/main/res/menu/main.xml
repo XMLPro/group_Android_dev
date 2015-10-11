@@ -31,4 +31,18 @@
         android:title="@string/action_delete"
         android:icon="@android:drawable/ic_menu_delete"/>
 
+    <item android:id="@+id/menu_save"
+        android:orderInCategory="4"
+        app:showAsAction="always"
+        android:title="@string/menu_save"
+        android:icon="@android:drawable/ic_menu_save" />
+
+    <!--<item android:id="@+id/menu_open"-->
+    <!--android:title="@string/menu_open"-->
+    <!--android:icon="@android:drawable/ic_menu_set_as" />-->
+
+    <!--<item android:id="@+id/menu_new"-->
+    <!--android:title="@string/menu_new"-->
+    <!--android:icon="@android:drawable/ic_menu_add" />-->
+
 </menu>
