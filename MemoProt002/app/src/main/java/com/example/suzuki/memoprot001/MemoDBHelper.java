@@ -5,8 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.io.FileNotFoundException;
-
 public class MemoDBHelper extends SQLiteOpenHelper {
 
     static final String name = "memos.db";
