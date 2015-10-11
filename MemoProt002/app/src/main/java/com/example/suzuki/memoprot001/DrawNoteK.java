@@ -79,7 +79,7 @@ public class DrawNoteK extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.draw, menu);
 
-        //?�?�?�?�?�S?�?�?�{?�^?�?�?�?�?�?�?�?�?�ꂽ?�?�?�Ƀ{?�^?�?�?�̃}?�[?�N?�?�?�?�?�M?�ɕς�?�?�
+        //?�?�?8�?�?�S?�?�?�{?�^?�?�?�?�?�?�?�?�?�ꂽ?�?�?�Ƀ{?�^?�?�?�̃}?�[?�N?�?�?�?�?�M?�ɕς�?�?�
         //?�ϐ�change?�?�0?�Ȃ�?�?�?�?�S?�?�?�A1?�Ȃ牔?�M?�Ƀ}?�[?�N?�?�ύX
         if (change == 1) {
             MenuItem one = menu.findItem(R.id.action_eraser);
@@ -241,7 +241,7 @@ public class DrawNoteK extends ActionBarActivity {
 
         Bitmap bmp = null;
         Canvas bmpCanvas;
-        Point oldpos = new Point(-1, -1);
+        Point oldpos = new Point(-50, -50);
         Paint paint = new Paint();
 
         public DrawNoteView(Context c) {
@@ -283,6 +283,7 @@ public class DrawNoteK extends ActionBarActivity {
         public boolean onTouchEvent(MotionEvent event) {
             // ?�`?�?�ʒu?�̊m?�F
             Point cur = new Point((int) event.getX(), (int) event.getY());
+
             if (oldpos.x < 0) {
                 oldpos = cur;
             }
@@ -328,6 +329,7 @@ public class DrawNoteK extends ActionBarActivity {
 //                paint.setStyle(Paint.Style.FILL);
 //                paint.setStrokeWidth(50);
                 paint.setStyle(Paint.Style.FILL);
+
                 bmpCanvas.drawCircle(oldpos.x, oldpos.y, 60, paint);
 //                bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
             }

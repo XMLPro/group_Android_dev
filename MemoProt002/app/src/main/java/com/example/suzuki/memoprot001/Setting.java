@@ -13,11 +13,10 @@ import android.widget.Button;
 
 public class Setting extends ActionBarActivity {
     protected int color;
-    protected int fontSet;
-    protected int font;
+//    protected int fontSet;
+//    protected int font;
 
     public PaintDrawable paintDrawable;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

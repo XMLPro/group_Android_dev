@@ -46,7 +46,6 @@ public class MemoDBHelper extends SQLiteOpenHelper {
                 Log.d("deleteRecode()", "Successful");
         }finally {
 //            DB.endTransaction();
-
             DB.close();
         }
     }
