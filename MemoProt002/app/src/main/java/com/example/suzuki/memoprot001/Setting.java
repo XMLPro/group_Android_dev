@@ -30,7 +30,7 @@ public class Setting extends ActionBarActivity {
             case 1:
                 paintDrawable = new PaintDrawable(Color.DKGRAY);
                 break;
-            case 2://ê‘
+            case 2://ÔøΩÔøΩ
                 paintDrawable = new PaintDrawable(Color.rgb(255, 51, 51));
                 break;
             case 3:
@@ -104,45 +104,45 @@ public class Setting extends ActionBarActivity {
             }
         });
 
-        Button spinnerButtonFont = (Button) findViewById(R.id.font);
-        spinnerButtonFont.setText(R.string.font);
-        spinnerButtonFont.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final CharSequence[] itemFont = {getString(R.string.gothic), getString(R.string.MSgothic), getString(R.string.mintyo)};
-                new AlertDialog.Builder(Setting.this)
-                        .setTitle(R.string.setfont)
-                        .setSingleChoiceItems(itemFont, fontSet, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int item) {
-                                fontSet = item;
-                            }
-                        })
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                font = fontSet;
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, null)
-                        .show();
-            }
-        });
-
-        Button spinnerButtonLine = (Button) findViewById(R.id.Line);
-        spinnerButtonLine.setText(R.string.line);
-        spinnerButtonLine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final CharSequence[] items = {getString(R.string.on), getString(R.string.off)};
-                new AlertDialog.Builder(Setting.this)
-                        .setTitle(R.string.line)
-                        .setItems(items, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int i) {
-                            }
-                        })
-                        .show();
-            }
-        });
+//        Button spinnerButtonFont = (Button) findViewById(R.id.font);
+//        spinnerButtonFont.setText(R.string.font);
+//        spinnerButtonFont.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final CharSequence[] itemFont = {getString(R.string.gothic), getString(R.string.MSgothic), getString(R.string.mintyo)};
+//                new AlertDialog.Builder(Setting.this)
+//                        .setTitle(R.string.setfont)
+//                        .setSingleChoiceItems(itemFont, fontSet, new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int item) {
+//                                fontSet = item;
+//                            }
+//                        })
+//                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                font = fontSet;
+//                            }
+//                        })
+//                        .setNegativeButton(R.string.cancel, null)
+//                        .show();
+//            }
+//        });
+//
+//        Button spinnerButtonLine = (Button) findViewById(R.id.Line);
+//        spinnerButtonLine.setText(R.string.line);
+//        spinnerButtonLine.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final CharSequence[] items = {getString(R.string.on), getString(R.string.off)};
+//                new AlertDialog.Builder(Setting.this)
+//                        .setTitle(R.string.line)
+//                        .setItems(items, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int i) {
+//                            }
+//                        })
+//                        .show();
+//            }
+//        });
 
         Button back = (Button) findViewById(R.id.backbutton);
         back.setOnClickListener(new View.OnClickListener() {

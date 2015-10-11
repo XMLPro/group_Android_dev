@@ -38,7 +38,7 @@ public class DrawNoteK extends ActionBarActivity {
 
     //ï¿½Vï¿½æ‘œï¿½\ï¿½ï¿½
     private static final int REQUEST_GALLERY = 0;
-    //‰æ‘œƒrƒ…[—p‚Ì”š
+    //ï¿½æ‘œï¿½rï¿½ï¿½ï¿½[ï¿½pï¿½Ìï¿½ï¿½ï¿½
     public int G;
 
     //?ï¿½A?ï¿½N?ï¿½V?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½o?ï¿½[?ï¿½?ï¿½ÏX?ï¿½?ï¿½?ï¿½é‚½?ï¿½ß‚Ìï¿½?ï¿½?ï¿½
@@ -127,8 +127,8 @@ public class DrawNoteK extends ActionBarActivity {
                     invalidateOptionsMenu();
                 }
                 break;
-            case R.id.action_share:
-                break;
+//            case R.id.action_share:
+//                break;
             case R.id.action_delete:
                 view.clearDrawList();
                 break;
@@ -283,10 +283,32 @@ public class DrawNoteK extends ActionBarActivity {
                     case 3:
                         paint.setColor(Color.BLUE);
                         break;
+                    case 4:
+                        paint.setColor(Color.CYAN);
+                        break;
+                    case 5:
+                        paint.setColor(Color.DKGRAY);
+                        break;
+                    case 6:
+                        paint.setColor(Color.GRAY);
+                        break;
+                    case 7:
+                        paint.setColor(Color.LTGRAY);
+                        break;
+                    case 8:
+                        paint.setColor(Color.MAGENTA);
+                        break;
+                    case 9:
+                        paint.setColor(Color.TRANSPARENT);
+                        break;
+                    case 10:
+                        paint.setColor(Color.YELLOW);
+                        break;
                 }
                 paint.setStyle(Paint.Style.FILL);
                 paint.setStrokeWidth(10);
             } else if (change == 1) {
+
                 paint.setColor(Color.WHITE);
 //                paint.setStyle(Paint.Style.FILL);
 //                paint.setStrokeWidth(50);
