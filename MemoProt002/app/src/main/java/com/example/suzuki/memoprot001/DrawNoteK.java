@@ -107,6 +107,24 @@ public class DrawNoteK extends ActionBarActivity {
             case R.id.blue:
                 color = 3;
                 break;
+            case R.id.yellow:
+                color = 4;
+                break;
+            case R.id.cyan:
+                color = 5;
+                break;
+            case R.id.dkgray:
+                color = 6;
+                break;
+            case R.id.gray:
+                color = 7;
+                break;
+            case R.id.ltgray:
+                color = 8;
+                break;
+            case R.id.magenta:
+                color = 9;
+                break;
             case R.id.images:
                 toView();
                 break;
@@ -284,25 +302,22 @@ public class DrawNoteK extends ActionBarActivity {
                         paint.setColor(Color.BLUE);
                         break;
                     case 4:
-                        paint.setColor(Color.CYAN);
+                        paint.setColor(Color.YELLOW);
                         break;
                     case 5:
-                        paint.setColor(Color.DKGRAY);
+                        paint.setColor(Color.CYAN);
                         break;
                     case 6:
-                        paint.setColor(Color.GRAY);
+                        paint.setColor(Color.DKGRAY);
                         break;
                     case 7:
-                        paint.setColor(Color.LTGRAY);
+                        paint.setColor(Color.GRAY);
                         break;
                     case 8:
-                        paint.setColor(Color.MAGENTA);
+                        paint.setColor(Color.LTGRAY);
                         break;
                     case 9:
-                        paint.setColor(Color.TRANSPARENT);
-                        break;
-                    case 10:
-                        paint.setColor(Color.YELLOW);
+                        paint.setColor(Color.MAGENTA);
                         break;
                 }
                 paint.setStyle(Paint.Style.FILL);

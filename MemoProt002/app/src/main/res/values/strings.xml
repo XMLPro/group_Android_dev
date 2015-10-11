@@ -32,6 +32,15 @@
     <string name="action_delete">削除</string>
     <string name="action_draw">お絵描き</string>
     <string name="action_eraser">消しゴム</string>
+
+    //お絵かきの色設定
+    <string name="yellow">黄色</string>
+    <string name="cyan">シアン</string>
+    <string name="dkgray">黒灰色</string>
+    <string name="gray">灰色</string>
+    <string name="ltgray">白灰色</string>
+    <string name="magenta">マゼンタ</string>
+
     //その他日本語の設定
     <string name="white">白</string>
     <string name="black">黒</string>
@@ -59,9 +68,6 @@
     <string name="Setting_Activity">設定画面</string>
 
     <string name="memodb_empty">memo</string>
-
-    //previewのアクティビティー
-    <string name="Preview_Activity">画像プレビュー</string>
 
     //左側のメニュー
     <string name="title_section1">新規作成</string>
