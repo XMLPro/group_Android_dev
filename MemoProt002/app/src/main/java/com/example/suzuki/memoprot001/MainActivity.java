@@ -132,11 +132,12 @@ public class MainActivity extends ActionBarActivity
                 break;
             case R.id.menu_new:
                 et.setText("");
-
                 Log.d("updateFlag1", "" + settings.getUpdeteFlag());
                 settings.setUpdateFlag(false);
                 Log.d("updateFlag2", "" + settings.getUpdeteFlag());
-
+                break;
+            case R.id.action_del:
+                et.setText("");
         }
         return super.onOptionsItemSelected(item);
     }
