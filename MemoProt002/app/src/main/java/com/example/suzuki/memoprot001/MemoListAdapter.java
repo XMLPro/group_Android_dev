@@ -75,24 +75,14 @@ public class MemoListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View rowView = convertView;
-        if (rowView == null) {
-            rowView = inflater.inflate(R.layout.listitem, parent, false);
-            text = (TextView) rowView.findViewById(R.id.list_item);
-            itemID = (TextView) rowView.findViewById(R.id.list_item_id);
-            date = (TextView) rowView.findViewById(R.id.date);
+        rowView = inflater.inflate(R.layout.listitem, parent, false);
+        text = (TextView) rowView.findViewById(R.id.list_item);
+        itemID = (TextView) rowView.findViewById(R.id.list_item_id);
+        date = (TextView) rowView.findViewById(R.id.date);
 
-            text.setText(itemList.get(position).getTitle());
-            itemID.setText("" + itemList.get(position).getId());
-            date.setText(itemList.get(position).getDate());
-
-            rowView.setTag(text);
-            rowView.setTag(itemID);
-            rowView.setTag(date);
-        } else {
-            text = (TextView) rowView.getTag();
-            itemID = (TextView) rowView.getTag();
-            date = (TextView) rowView.getTag();
-        }
+        text.setText(itemList.get(position).getTitle());
+        itemID.setText("" + itemList.get(position).getId());
+        date.setText(itemList.get(position).getDate());
 
         Button btn = (Button) rowView.findViewById(R.id.button);
         btn.setTag(position);
