@@ -10,64 +10,86 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MemoList extends ListActivity {
 
     protected int color;
     public PaintDrawable paintDrawable;
 
-    static final String[] cols = {"title", "memo", android.provider.BaseColumns._ID};
-    MemoDBHelper memos;
+    static final String[] cols = {"title", "memo", "id",};
+    private MemoDBHelper memos;
+    private BaseAdapter adapter;
+    private ListView listView;
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        Log.d("onListItemClick(): ", "onListItemClick() returned: " + id);
-        memos = new MemoDBHelper(this);
-        SQLiteDatabase db = memos.getWritableDatabase();
-        Cursor cursor = db.query("memoDB", cols, "_ID=" + String.valueOf(id), null, null, null, null);
-        startManagingCursor(cursor);
-        int idx = cursor.getColumnIndex("memo");
-        cursor.moveToFirst();
-        Intent i = new Intent();
-        i.putExtra("text", cursor.getString(idx));
-        setResult(RESULT_OK, i);
-        memos.close();
-        finish();
-    }
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.memolist);
         getBackgroundColor();
-        showMemos(getMemoList());
+        showMemos();
+
+        //デバック処理_start
+        memos = new MemoDBHelper(this);
+        SQLiteDatabase db = memos.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM memoDB", null);
+        cursor.moveToFirst();
+        String memoTitles;
+        for (int i = 0; i < cursor.getCount(); i++) {
+            //取得したレコードの0番目のカラムを取得 -> 0番目のカラムはメモのタイトル
+            memoTitles = "title: "
+                    + cursor.getString(cursor.getColumnIndex("title"))
+                    + ", id: "
+                    + cursor.getString(cursor.getColumnIndex("id"))
+                    + ", memo: "
+                    + cursor.getString(cursor.getColumnIndex("memo"))
+                    + ", date: "
+                    + cursor.getString(cursor.getColumnIndex("date"));
+
+            //次のレコードにカーソルを移す
+            cursor.moveToNext();
+            Log.d("memoTitle", memoTitles);
+            //デバック処理_end
+        }
     }
 
-    private void showMemos(String[] list) {
-        ListView listView = (ListView) findViewById(android.R.id.list);
-        ArrayAdapter<String> adapter = new MemoListAdapter(this, R.layout.listitem, R.id.list_item, list);
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        TextView t = (TextView) v.findViewById(R.id.list_item_id);
+        Log.d("onListItemClick(): ", ": v.findViewById(R.id.list_item_id): " + t.getText());
+        memos = new MemoDBHelper(this);
+        SQLiteDatabase db = memos.getWritableDatabase();
+        Cursor cursor = db.query("memoDB", cols, "id='" + t.getText() + "'", null, null, null, null);
+        startManagingCursor(cursor);
+        int idx = cursor.getColumnIndex("memo");
+        Log.d("onListItemClick()", "idx:" + idx);
+        cursor.moveToFirst();
+//        Log.d("onListItemClick()", "getString(idx):" + cursor);
+        Intent i = new Intent(this, MainActivity.class);
+        if (cursor.getCount() > 0)
+            i.putExtra("text", cursor.getString(idx));
+        else {
+            Log.e("onListItemClick():", "cursor.getCount()=" + cursor.getCount());
+            i.putExtra("text", "error");
+        }
+        Settings settings = (Settings) this.getApplication();
+        settings.setUpdateFlag(true);
+        settings.setUpdateID("" + t.getText());
+        setResult(RESULT_OK, i);
+        memos.close();
+        finish();
+    }
+
+    private void showMemos() {
+        listView = (ListView) findViewById(android.R.id.list);
+        adapter = new MemoListAdapter(this);
         listView.setAdapter(adapter);
     }
 
-    private String[] getMemoList() {
-        memos = new MemoDBHelper(this);
-        SQLiteDatabase db = memos.getReadableDatabase();
-        //memoDBテーブルから全てのタイトルのデータを持ったカーソルを取得
-        Cursor cursor = db.rawQuery("SELECT `title` FROM memoDB", null);
-        cursor.moveToFirst();
-        String[] memoTitles = new String[cursor.getCount()];
-        for (int i = 0; i < cursor.getCount(); i++) {
-            //取得したレコードの0番目のカラムを取得 -> 0番目のカラムはメモのタイトル
-//            Log.d("db.rawQuery: ", "cursor: " + cursor.getString(0));
-            memoTitles[i] = cursor.getString(0);
-            //次のレコードにカーソルを移す
-            cursor.moveToNext();
-        }
-        return memoTitles;
-    }
 
     private void getBackgroundColor() {
         Intent intent = getIntent();

@@ -38,7 +38,7 @@ public class DrawNoteK extends ActionBarActivity {
 
     //ï¿½Vï¿½æ‘œï¿½\ï¿½ï¿½
     private static final int REQUEST_GALLERY = 0;
-
+    //‰æ‘œƒrƒ…[—p‚Ì”š
     public int G;
 
     //?ï¿½A?ï¿½N?ï¿½V?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½o?ï¿½[?ï¿½?ï¿½ÏX?ï¿½?ï¿½?ï¿½é‚½?ï¿½ß‚Ìï¿½?ï¿½?ï¿½
@@ -305,6 +305,4 @@ public class DrawNoteK extends ActionBarActivity {
             return true;
         }
     }
-
-
 }
