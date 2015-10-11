@@ -285,7 +285,7 @@ public class DrawNoteK extends ActionBarActivity {
                         break;
                 }
                 paint.setStyle(Paint.Style.FILL);
-                paint.setStrokeWidth(8);
+                paint.setStrokeWidth(10);
             } else if (change == 1) {
                 paint.setColor(Color.WHITE);
 //                paint.setStyle(Paint.Style.FILL);
