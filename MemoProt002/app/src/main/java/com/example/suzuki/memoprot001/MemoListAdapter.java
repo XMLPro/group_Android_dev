@@ -45,7 +45,7 @@ public class MemoListAdapter extends BaseAdapter {
         Log.d("getCount: ", "cursor: " + cursor.getCount());
         for (int i = 0; i < cursor.getCount(); i++) {
             //取得したレコードの0番目のカラムを取得 -> 0番目のカラムはメモのタイトル
-            Log.d("getString: ", "cursor: " + cursor.getString(0));
+            Log.d("getString: ", "cursor: " + cursor.getString(1));
             MemoListItem item = new MemoListItem();
             item.setId(cursor.getString(cursor.getColumnIndex("id")));
             item.setTitle(cursor.getString(cursor.getColumnIndex("title")));

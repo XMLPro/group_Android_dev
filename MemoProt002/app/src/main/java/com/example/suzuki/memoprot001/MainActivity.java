@@ -232,6 +232,7 @@ public class MainActivity extends ActionBarActivity
                 mTile = getString(R.string.action_add);
                 EditText et = (EditText) findViewById(R.id.editText);
                 et.setText("");
+                settings.setUpdateFlag(false);
                 break;
             case 2:
                 mTile = getString(R.string.folder);
