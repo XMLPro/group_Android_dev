@@ -113,13 +113,13 @@ public class DrawNoteK extends ActionBarActivity {
             case R.id.cyan:
                 color = 5;
                 break;
-            case R.id.dkgray:
+            case R.id.sc:
                 color = 6;
                 break;
             case R.id.gray:
                 color = 7;
                 break;
-            case R.id.ltgray:
+            case R.id.brown:
                 color = 8;
                 break;
             case R.id.magenta:
@@ -309,13 +309,13 @@ public class DrawNoteK extends ActionBarActivity {
                         paint.setColor(Color.CYAN);
                         break;
                     case 6:
-                        paint.setColor(Color.DKGRAY);
+                        paint.setColor(Color.rgb(252, 226, 196));
                         break;
                     case 7:
                         paint.setColor(Color.GRAY);
                         break;
                     case 8:
-                        paint.setColor(Color.LTGRAY);
+                        paint.setColor(Color.rgb(128,0,0));
                         break;
                     case 9:
                         paint.setColor(Color.MAGENTA);

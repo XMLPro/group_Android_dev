@@ -36,9 +36,9 @@
     //お絵かきの色設定
     <string name="yellow">黄</string>
     <string name="cyan">シアン</string>
-    <string name="dkgray">黒灰色</string>
+    <string name="sc">肌色</string>
     <string name="gray">灰色</string>
-    <string name="ltgray">白灰色</string>
+    <string name="brown">茶色</string>
     <string name="magenta">マゼンタ</string>
 
     //その他日本語の設定

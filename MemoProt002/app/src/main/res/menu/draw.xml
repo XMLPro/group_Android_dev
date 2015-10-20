@@ -63,10 +63,10 @@
         android:icon="@android:drawable/ic_menu_preferences"/>
 
     <item
-        android:id="@+id/dkgray"
+        android:id="@+id/sc"
         android:orderInCategory="1"
         app:showAsAction=""
-        android:title="@string/dkgray"
+        android:title="@string/sc"
         android:icon="@android:drawable/ic_menu_preferences"/>
 
     <item
@@ -77,10 +77,10 @@
         android:icon="@android:drawable/ic_menu_preferences"/>
 
     <item
-        android:id="@+id/ltgray"
+        android:id="@+id/brown"
         android:orderInCategory="1"
         app:showAsAction=""
-        android:title="@string/ltgray"
+        android:title="@string/brown"
         android:icon="@android:drawable/ic_menu_preferences"/>
 
     <item
