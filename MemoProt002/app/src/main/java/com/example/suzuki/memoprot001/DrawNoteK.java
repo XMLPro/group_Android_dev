@@ -21,6 +21,10 @@ import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.session.AppKeyPair;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,25 +39,31 @@ import java.util.Date;
 public class DrawNoteK extends ActionBarActivity {
     DrawNoteView view;
     public Intent i;
-
-    //�V�摜�\��
     private static final int REQUEST_GALLERY = 0;
-    //�摜�r���[�p�̐���
-    public int G;
 
-    //?�A?�N?�V?�?�?�?�?�o?�[?�?�ύX?�?�?�邽?�߂̐�?�?�
+    public int G;
+    public ColorSetFragment csFragment;
+
+
     int change = 0;
     int color = 0;
+    private static final String APP_KEY = "3j3o6hefxvfku5c";
+    private static final String APP_SECRET = "ympn6o0newj1si5";
+    private DropboxAPI<AndroidAuthSession> mApi;
+    private boolean logged_in = false;
+    private File shareFile;
 
-    /**
-     * ?�A?�v?�?�?�̏�?�?�
-     */
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw);
 
-        //?�?�?�G?�`?�?�?�^?�C?�g?�?�?�\?�?�
+        AppKeyPair appKeyPair = new AppKeyPair(APP_KEY, APP_SECRET);
+        AndroidAuthSession session = new AndroidAuthSession(appKeyPair);
+        mApi = new DropboxAPI<>(session);
+
+
         setTitle(getString(R.string.draw));
 
         // ?�`?�?�N?�?�?�X?�?�ݒ�
@@ -64,7 +74,31 @@ public class DrawNoteK extends ActionBarActivity {
         G = intent.getIntExtra("G", 0);
     }
 
-    public void change(){
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AndroidAuthSession session = mApi.getSession();
+        if (session.authenticationSuccessful()) {
+            try {
+                // Mandatory call to complete the auth
+                session.finishAuthentication();
+                //storeAuth(session);
+                // Store it locally in our app for later use
+                String accessToken = session.getOAuth2AccessToken();
+                logged_in = true;
+
+            } catch (IllegalStateException e) {
+            }
+        }
+    }
+
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    public void change() {
         //mainActivity����摜�v���r���[�ŌĂ΂ꂽ���̏���
         if (G == 2) {
             G = 0;
@@ -95,6 +129,27 @@ public class DrawNoteK extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.colorSet:
+                csFragment = new ColorSetFragment();
+                csFragment.show(getFragmentManager(), "test ");
+                color = R.id.colorSet;
+                break;
+            case R.id.dropLogin:
+                if (logged_in) {
+                    logOut();
+                    item.setTitle("ログイン");
+                } else {
+                    mApi.getSession().startOAuth2Authentication(DrawNoteK.this);
+                    item.setTitle("ログアウト");
+                }
+                break;
+            case R.id.share:
+                if (view.saveToFile() != null) {
+                    saveToFile(view.saveToFile());
+                    UploadPicture upload = new UploadPicture(DrawNoteK.this, mApi, "/MyPhoto", shareFile);
+                    upload.execute();
+                }
+                break;
             case R.id.black:
                 color = 0;
                 break;
@@ -217,6 +272,7 @@ public class DrawNoteK extends ActionBarActivity {
         String fileName = fileNameDate.format(mDate) + ".jpg";
         String AttachName = file.getAbsolutePath() + "/" + fileName;
 
+
         try {
             FileOutputStream out = new FileOutputStream(AttachName);
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
@@ -225,6 +281,7 @@ public class DrawNoteK extends ActionBarActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        setFile(new File(AttachName));
         // save index
         ContentValues values = new ContentValues();
         ContentResolver contentResolver = getContentResolver();
@@ -232,6 +289,15 @@ public class DrawNoteK extends ActionBarActivity {
         values.put(MediaStore.Images.Media.TITLE, fileName);
         values.put("_data", AttachName);
         contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+    }
+
+    public void setFile(File f) {
+        this.shareFile = f;
+    }
+
+    private void logOut() {
+        mApi.getSession().unlink();
+        logged_in = false;
     }
 
     /**
@@ -290,6 +356,10 @@ public class DrawNoteK extends ActionBarActivity {
 
             if (change == 0) {
                 switch (color) {
+                    case R.id.colorSet:
+                        Settings paintC = (Settings) getApplication();
+                        paint.setColor(paintC.getC());
+                        break;
                     case 0:
                         paint.setColor(Color.BLACK);
                         break;
@@ -315,7 +385,7 @@ public class DrawNoteK extends ActionBarActivity {
                         paint.setColor(Color.GRAY);
                         break;
                     case 8:
-                        paint.setColor(Color.rgb(128,0,0));
+                        paint.setColor(Color.rgb(128, 0, 0));
                         break;
                     case 9:
                         paint.setColor(Color.MAGENTA);

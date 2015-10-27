@@ -1,6 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
 
     //お絵描き画面のアクションバー設定
     //順番にペンシル・消しゴム・共有・削除・保存ボタン
@@ -8,117 +9,135 @@
 
     <item
         android:id="@+id/images"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="1"
-        app:showAsAction=""
         android:title="@string/title_section3"
-        android:icon="@android:drawable/ic_menu_preferences"/>
+        app:showAsAction="" />
 
     <item
         android:id="@+id/imageDelete"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="1"
-        app:showAsAction=""
         android:title="@string/imageDelete"
-        android:icon="@android:drawable/ic_menu_preferences"/>
+        app:showAsAction="" />
+
+    <item
+        android:id="@+id/colorSet"
+        android:orderInCategory="1"
+        android:title="@string/colorSet"
+        app:showAsAction="" />
+
+    <item
+        android:id="@+id/dropLogin"
+        android:orderInCategory="1"
+        android:title="@string/login"
+        app:showAsAction="" />
+
+    <item
+        android:id="@+id/share"
+        android:orderInCategory="1"
+        android:title="@string/share"
+        app:showAsAction="" />
+
 
     <item
         android:id="@+id/black"
+        android:icon="@android:drawable/ic_dialog_dialer"
         android:orderInCategory="1"
-        app:showAsAction=""
         android:title="@string/black"
-        android:icon="@android:drawable/ic_dialog_dialer"/>
+        app:showAsAction="" />
 
     <item
         android:id="@+id/red"
+        android:icon="@android:drawable/ic_dialog_dialer"
         android:orderInCategory="1"
-        app:showAsAction=""
         android:title="@string/red"
-        android:icon="@android:drawable/ic_dialog_dialer"/>
+        app:showAsAction="" />
 
     <item
         android:id="@+id/green"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="1"
-        app:showAsAction=""
         android:title="@string/green"
-        android:icon="@android:drawable/ic_menu_preferences"/>
+        app:showAsAction="" />
 
     <item
         android:id="@+id/blue"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="1"
-        app:showAsAction=""
         android:title="@string/blue"
-        android:icon="@android:drawable/ic_menu_preferences"/>
+        app:showAsAction="" />
 
     <item
         android:id="@+id/yellow"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="1"
-        app:showAsAction=""
         android:title="@string/yellow"
-        android:icon="@android:drawable/ic_menu_preferences"/>
+        app:showAsAction="" />
 
     <item
         android:id="@+id/cyan"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="1"
-        app:showAsAction=""
         android:title="@string/cyan"
-        android:icon="@android:drawable/ic_menu_preferences"/>
+        app:showAsAction="" />
 
     <item
         android:id="@+id/sc"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="1"
-        app:showAsAction=""
         android:title="@string/sc"
-        android:icon="@android:drawable/ic_menu_preferences"/>
+        app:showAsAction="" />
 
     <item
         android:id="@+id/gray"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="1"
-        app:showAsAction=""
         android:title="@string/gray"
-        android:icon="@android:drawable/ic_menu_preferences"/>
+        app:showAsAction="" />
 
     <item
         android:id="@+id/brown"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="1"
-        app:showAsAction=""
         android:title="@string/brown"
-        android:icon="@android:drawable/ic_menu_preferences"/>
+        app:showAsAction="" />
 
     <item
         android:id="@+id/magenta"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="1"
-        app:showAsAction=""
         android:title="@string/magenta"
-        android:icon="@android:drawable/ic_menu_preferences"/>
+        app:showAsAction="" />
 
     <item
         android:id="@+id/action_eraser"
+        android:icon="@android:drawable/ic_input_delete"
         android:orderInCategory="1"
-        app:showAsAction="always"
         android:title=""
-        android:icon="@android:drawable/ic_input_delete"/>
+        app:showAsAction="always" />
 
 
     <!--<item-->
-        <!--android:id="@+id/action_share"-->
-        <!--android:orderInCategory="1"-->
-        <!--app:showAsAction="always"-->
-        <!--android:title="@string/action_share"-->
-        <!--android:icon="@android:drawable/ic_menu_share"/>-->
+    <!--android:id="@+id/action_share"-->
+    <!--android:orderInCategory="1"-->
+    <!--app:showAsAction="always"-->
+    <!--android:title="@string/action_share"-->
+    <!--android:icon="@android:drawable/ic_menu_share"/>-->
 
     <item
         android:id="@+id/action_delete"
+        android:icon="@android:drawable/ic_menu_delete"
         android:orderInCategory="1"
-        app:showAsAction="always"
         android:title="@string/action_delete"
-        android:icon="@android:drawable/ic_menu_delete"/>
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_save"
+        android:icon="@android:drawable/ic_menu_save"
         android:orderInCategory="1"
-        app:showAsAction="always"
         android:title="@string/save"
-        android:icon="@android:drawable/ic_menu_save"/>
-
+        app:showAsAction="always" />
 
 
 </menu>

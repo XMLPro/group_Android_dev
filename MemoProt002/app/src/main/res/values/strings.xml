@@ -77,4 +77,8 @@
     //フォルダー
     <string name="folder_item_delete">削除</string>
 
+    <string name="login">ログイン</string>
+    <string name="colorSet">色設定</string>
+    <string name="share">共有する</string>
+
 </resources>
