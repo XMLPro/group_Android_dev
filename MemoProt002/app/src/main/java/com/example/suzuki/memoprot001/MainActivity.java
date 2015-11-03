@@ -56,7 +56,9 @@ public class MainActivity extends ActionBarActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         mTile = getTitle();
-        settings = (Settings)this.getApplication();
+        settings = (Settings) this.getApplication();
+
+
 
     }
 
@@ -197,6 +199,7 @@ public class MainActivity extends ActionBarActivity
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private MainActivity activity;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -220,7 +223,13 @@ public class MainActivity extends ActionBarActivity
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
+            this.activity = ((MainActivity) activity);
+        }
+
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+            activity.onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
@@ -234,7 +243,6 @@ public class MainActivity extends ActionBarActivity
                 settings.setUpdateFlag(false);
                 break;
             case 2:
-                mTile = getString(R.string.folder);
                 Intent i;
                 Bundle b;
                 i = new Intent(this, MemoList.class);
@@ -244,7 +252,6 @@ public class MainActivity extends ActionBarActivity
                 startActivityForResult(i, color);
                 break;
             case 3:
-                mTile = getString(R.string.view);
                 Intent G = new Intent(this, DrawNoteK.class);
                 Bundle B = new Bundle();
                 B.putInt("G", 2);

@@ -23,7 +23,8 @@
         <activity android:name=".MemoList" />
         <activity
             android:name=".DrawNoteK"
-            android:label="@string/DrawNoteK_Activity"></activity>
+            android:label="@string/DrawNoteK_Activity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name="com.dropbox.client2.android.AuthActivity"
             android:launchMode="singleTask"

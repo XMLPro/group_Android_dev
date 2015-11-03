@@ -12,12 +12,15 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -339,6 +342,7 @@ public class DrawNoteK extends ActionBarActivity {
          * ?�`?�?�C?�x?�?�?�g
          */
         protected void onDraw(Canvas canvas) {
+            canvas.restore();
             canvas.drawBitmap(bmp, 0, 0, null);
             change();
         }
@@ -410,8 +414,10 @@ public class DrawNoteK extends ActionBarActivity {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 oldpos = new Point(-1, -1);
             }
+            bmpCanvas.save();
             invalidate();
             return true;
         }
+
     }
 }
