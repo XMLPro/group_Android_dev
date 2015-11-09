@@ -8,15 +8,21 @@ import android.app.Application;
 public class Settings extends Application {
     private boolean updateFlag = false;
     private String updateID = "";
-    private  int c;
+    private int c;
+    private int change;
+    private int thick;
 
-    public  int getC() {
-        return c;
-    }
+    public  int getC() {return c;}
 
-    public  void setC(int c) {
-        this.c = c;
-    }
+    public  void setC(int c) {this.c = c;}
+
+    public  int getChange() {return change;}
+
+    public  void setChange(int change) {this.change = change;}
+
+    public  int getThick() {return thick;}
+
+    public  void setThick(int thick) {this.thick = thick;}
 
     public void setUpdateFlag(boolean flag) {
         this.updateFlag = flag;

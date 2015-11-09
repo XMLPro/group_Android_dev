@@ -26,14 +26,53 @@ public class ColorSetFragment extends DialogFragment {
         builder.setView(content);
 
         builder.setMessage("設定")
+                .setPositiveButton(getString(R.string.Noff), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        int red = ((SeekBar) content.findViewById(R.id.seek_red)).getProgress();
+                        int green = ((SeekBar) content.findViewById(R.id.seek_green)).getProgress();
+                        int blue = ((SeekBar) content.findViewById(R.id.seek_blue)).getProgress();
+                        int thick =  ((SeekBar) content.findViewById(R.id.seek)).getProgress();
+                        Settings paintC = (Settings) getActivity().getApplication();
+                        paintC.setC(Color.rgb(red, green, blue));
+
+                        Settings T = (Settings) getActivity().getApplication();
+                        T.setThick(thick);
+
+                        dismiss();
+                    }
+                })
+                .setNeutralButton(getString(R.string.Non), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        int red = ((SeekBar) content.findViewById(R.id.seek_red)).getProgress();
+                        int green = ((SeekBar) content.findViewById(R.id.seek_green)).getProgress();
+                        int blue = ((SeekBar) content.findViewById(R.id.seek_blue)).getProgress();
+                        int thick =  ((SeekBar) content.findViewById(R.id.seek)).getProgress();
+                        Settings paintC = (Settings) getActivity().getApplication();
+                        paintC.setC(Color.rgb(red, green, blue));
+
+                        Settings T = (Settings) getActivity().getApplication();
+                        T.setThick(thick);
+
+                        int change = 2;
+                        Settings Change = (Settings)getActivity().getApplication();
+                        Change.setChange(change);
+
+                        dismiss();
+                    }
+                })
                 .setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
-                        int red = ((SeekBar)content.findViewById(R.id.seek_red)).getProgress();
-                        int green =((SeekBar)content.findViewById(R.id.seek_green)).getProgress();
-                        int blue = ((SeekBar)content.findViewById(R.id.seek_blue)).getProgress();
-                        Settings paintC = (Settings)getActivity().getApplication();
-                        paintC.setC(Color.rgb(red,green,blue));
+                        int red = ((SeekBar) content.findViewById(R.id.seek_red)).getProgress();
+                        int green = ((SeekBar) content.findViewById(R.id.seek_green)).getProgress();
+                        int blue = ((SeekBar) content.findViewById(R.id.seek_blue)).getProgress();
+                        int thick =  ((SeekBar) content.findViewById(R.id.seek)).getProgress();
+                        Settings paintC = (Settings) getActivity().getApplication();
+
+                        Settings T = (Settings) getActivity().getApplication();
+                        T.setThick(thick);
+
+                        paintC.setC(Color.rgb(red, green, blue));
                         dismiss();
                     }
                 });

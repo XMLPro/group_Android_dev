@@ -18,7 +18,6 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
@@ -44,15 +43,14 @@ public class DrawNoteK extends ActionBarActivity {
     public int G;
     public ColorSetFragment csFragment;
 
-
     int change = 0;
     int color = 0;
+    int thick = 10;
     private static final String APP_KEY = "3j3o6hefxvfku5c";
     private static final String APP_SECRET = "ympn6o0newj1si5";
     private DropboxAPI<AndroidAuthSession> mApi;
     private boolean logged_in = false;
     private File shareFile;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +60,6 @@ public class DrawNoteK extends ActionBarActivity {
         AppKeyPair appKeyPair = new AppKeyPair(APP_KEY, APP_SECRET);
         AndroidAuthSession session = new AndroidAuthSession(appKeyPair);
         mApi = new DropboxAPI<>(session);
-
 
         setTitle(getString(R.string.draw));
 
@@ -200,8 +197,6 @@ public class DrawNoteK extends ActionBarActivity {
                     invalidateOptionsMenu();
                 }
                 break;
-//            case R.id.action_share:
-//                break;
             case R.id.action_delete:
                 view.clearDrawList();
                 break;
@@ -226,12 +221,12 @@ public class DrawNoteK extends ActionBarActivity {
         //�摜�v���r���[�I����
         if (requestCode == REQUEST_GALLERY && resultCode == RESULT_OK) {
             try {
-                // WindowManager�̃C���X�^���X�擾
-                WindowManager wm = getWindowManager();
                 // Display�̍L���擾 Actionbar�̑傫���Ԃ�y����-240
-                Display disp = wm.getDefaultDisplay();
-                int width = disp.getWidth();
-                int height = disp.getHeight() - 240;
+                Display disp = getWindowManager().getDefaultDisplay();
+                Point p = new Point();
+                disp.getSize(p);
+                int width = p.x;
+                int height = p.y;
 
                 InputStream in = getContentResolver().openInputStream(data.getData());
                 Bitmap img = BitmapFactory.decodeStream(in);
@@ -271,7 +266,6 @@ public class DrawNoteK extends ActionBarActivity {
         SimpleDateFormat fileNameDate = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String fileName = fileNameDate.format(mDate) + ".jpg";
         String AttachName = file.getAbsolutePath() + "/" + fileName;
-
 
         try {
             FileOutputStream out = new FileOutputStream(AttachName);
@@ -350,6 +344,15 @@ public class DrawNoteK extends ActionBarActivity {
             // ?�`?�?�ʒu?�̊m?�F
             Point cur = new Point((int) event.getX(), (int) event.getY());
 
+//            Settings Change = (Settings) getApplication();
+//            change = Change.getChange();
+
+            Settings Thick = (Settings) getApplication();
+            thick = Thick.getThick();
+
+            paint.setStrokeWidth(thick);
+            if(thick == 0){paint.setStrokeWidth(10);}
+
             if (oldpos.x < 0) {
                 oldpos = cur;
             }
@@ -391,20 +394,23 @@ public class DrawNoteK extends ActionBarActivity {
                         paint.setColor(Color.MAGENTA);
                         break;
                 }
-                paint.setStyle(Paint.Style.FILL);
-                paint.setStrokeWidth(10);
+                paint.setStyle(Paint.Style.FILL_AND_STROKE);
+                // ?�?�?�`?�?�
+                paint.setAntiAlias(true);
+                bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
             } else if (change == 1) {
-
                 paint.setColor(Color.WHITE);
-//                paint.setStyle(Paint.Style.FILL);
-//                paint.setStrokeWidth(50);
                 paint.setStyle(Paint.Style.FILL);
 
                 bmpCanvas.drawCircle(oldpos.x, oldpos.y, 60, paint);
-//                bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
+                bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
             }
-            // ?�?�?�`?�?�
-            bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
+//            else if (change == 2) {
+//                paint.setColor(Color.BLACK);
+//                paint.setStyle(Paint.Style.FILL_AND_STROKE);
+//                bmpCanvas.drawCircle(oldpos.x, oldpos.y, 25, paint);
+//            }
+
             oldpos = cur;
             // ?�w?�?�?�?�?�?�?�グ?�?�?�?�?�?�W?�?�?�?�?�Z?�b?�g
             if (event.getAction() == MotionEvent.ACTION_UP) {

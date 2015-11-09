@@ -22,15 +22,6 @@
             android:textSize="50dp" />
 
         <!--<Button-->
-            <!--android:id="@+id/font"-->
-            <!--style="@android:style/Widget.Holo.Light.Spinner"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="100dp"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:textSize="50dp" />-->
-
-        <!--<Button-->
             <!--android:id="@+id/Line"-->
             <!--style="@android:style/Widget.Holo.Light.Spinner"-->
             <!--android:layout_width="fill_parent"-->
