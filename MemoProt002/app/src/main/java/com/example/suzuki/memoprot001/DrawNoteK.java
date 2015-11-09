@@ -333,6 +333,7 @@ public class DrawNoteK extends ActionBarActivity {
          * ?�`?�?�C?�x?�?�?�g
          */
         protected void onDraw(Canvas canvas) {
+            canvas.restore();
             canvas.drawBitmap(bmp, 0, 0, null);
             change();
         }
@@ -416,8 +417,10 @@ public class DrawNoteK extends ActionBarActivity {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 oldpos = new Point(-1, -1);
             }
+            bmpCanvas.save();
             invalidate();
             return true;
         }
+
     }
 }
