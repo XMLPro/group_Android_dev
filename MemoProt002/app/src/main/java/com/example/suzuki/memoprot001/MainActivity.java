@@ -57,9 +57,6 @@ public class MainActivity extends ActionBarActivity
 
         mTile = getTitle();
         settings = (Settings) this.getApplication();
-
-
-
     }
 
     @Override

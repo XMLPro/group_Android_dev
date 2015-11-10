@@ -46,6 +46,8 @@ public class DrawNoteK extends ActionBarActivity {
     int change = 0;
     int color = 0;
     int thick = 10;
+    int fill = 0;
+
     private static final String APP_KEY = "3j3o6hefxvfku5c";
     private static final String APP_SECRET = "ympn6o0newj1si5";
     private DropboxAPI<AndroidAuthSession> mApi;
@@ -345,8 +347,8 @@ public class DrawNoteK extends ActionBarActivity {
             // ?�`?�?�ʒu?�̊m?�F
             Point cur = new Point((int) event.getX(), (int) event.getY());
 
-//            Settings Change = (Settings) getApplication();
-//            change = Change.getChange();
+            Settings F = (Settings) getApplication();
+            fill = F.getFill();
 
             Settings Thick = (Settings) getApplication();
             thick = Thick.getThick();
@@ -358,7 +360,16 @@ public class DrawNoteK extends ActionBarActivity {
                 oldpos = cur;
             }
 
-            if (change == 0) {
+            if (fill == 1) {
+//                paint.setColor(Color.BLACK);
+//                paint.setStyle(Paint.Style.FILL_AND_STROKE);
+//                bmpCanvas.drawCircle(oldpos.x, oldpos.y, 25, paint);
+
+                //色を取得
+                paint.setColor(bmp.getPixel(oldpos.x, oldpos.y));
+                bmpCanvas.drawCircle(oldpos.x, oldpos.y, 25, paint);
+            }
+            else if (change == 0) {
                 switch (color) {
                     case R.id.colorSet:
                         Settings paintC = (Settings) getApplication();
@@ -402,15 +413,11 @@ public class DrawNoteK extends ActionBarActivity {
             } else if (change == 1) {
                 paint.setColor(Color.WHITE);
                 paint.setStyle(Paint.Style.FILL);
+                paint.setAntiAlias(true);
 
                 bmpCanvas.drawCircle(oldpos.x, oldpos.y, 60, paint);
                 bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
             }
-//            else if (change == 2) {
-//                paint.setColor(Color.BLACK);
-//                paint.setStyle(Paint.Style.FILL_AND_STROKE);
-//                bmpCanvas.drawCircle(oldpos.x, oldpos.y, 25, paint);
-//            }
 
             oldpos = cur;
             // ?�w?�?�?�?�?�?�?�グ?�?�?�?�?�?�W?�?�?�?�?�Z?�b?�g
