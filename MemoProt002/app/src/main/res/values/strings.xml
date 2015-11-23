@@ -85,4 +85,7 @@
     <string name="colorSet">色設定</string>
     <string name="share">共有する</string>
 
+    <string name="submit">送信</string>
+    <string name="get">取得</string>
+
 </resources>
