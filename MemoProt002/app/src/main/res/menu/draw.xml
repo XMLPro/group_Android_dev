@@ -143,4 +143,19 @@
         android:title="@string/save"
         app:showAsAction="always" />
 
+    //undo,redoボタン
+    <Button
+        android:id="@+id/btnUndo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="undo"
+        />
+    <Button
+        android:id="@+id/btnRedo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/btnUndo"
+        android:text="redo"
+        />
+
 </menu>
