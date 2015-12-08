@@ -76,7 +76,7 @@
     //左側のメニュー
     <string name="title_section1">新規作成</string>
     <string name="title_section2">フォルダー</string>
-    <string name="title_section3">画像プレビュー</string>
+    <string name="title_section3">画像を開く</string>
 
     //フォルダー
     <string name="folder_item_delete">削除</string>
