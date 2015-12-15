@@ -16,6 +16,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -244,6 +245,7 @@ public class DrawNoteK extends ActionBarActivity {
                 // ��ʂ������đI�������摜�œh��
                 view.readImage(img2);
                 Toast.makeText(this, getString(R.string.openM), Toast.LENGTH_SHORT).show();
+
             } catch (Exception e) {
             }
         }

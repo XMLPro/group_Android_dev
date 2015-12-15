@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -118,6 +120,12 @@ public class MainActivity extends ActionBarActivity
             startActivity(i);
             return true;
         }
+        if(id == R.id.menu_request){
+            i = new Intent(Intent.ACTION_GET_CONTENT);
+            i.setType("image/jpeg");
+            startActivityForResult(i,100);
+        }
+
         //メニューとメモ一覧の
         EditText et = (EditText) findViewById(R.id.editText);
         switch (item.getItemId()) {
@@ -143,14 +151,26 @@ public class MainActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+
     //startActivityで呼んだ画面から自動で画面を受け取る関数onActivityResult
     //どの画面を呼んだ後もここで受け取るので全画面に対応できるように頑張って書くこと
     //onActivityResultはstartActivity()で呼び出した時の第二引数、第一引数、向こうのintentの順番で引数を受け取る
     //第二引数で数字を渡すのが普通っぽいのでここではint Numberで第二引数を受け取るように調整
-    protected void onActivityResult(int Number, int requestCode, Intent intent) {
-        super.onActivityResult(Number, requestCode, intent);
-        Bundle bundle = intent.getExtras();
+    protected void onActivityResult(int resultCode, int requestCode, Intent intent) {
+        super.onActivityResult(resultCode, requestCode, intent);
+        if(resultCode == RESULT_OK && resultCode == 100){
+            String[] projection = {MediaStore.MediaColumns.DATA};
+            Cursor cursor = getContentResolver().query(intent.getData(), projection, null, null, null);
+            if (cursor.getCount() == 1) {
+                cursor.moveToNext();
+                String filePath = cursor.getString(0);
+                Toast.makeText(this, filePath, Toast.LENGTH_LONG).show();
+            }
 
+        }
+
+        Bundle bundle = intent.getExtras();
         if (bundle.getInt("color") >= 10) {
             //背景色設定
             PaintDrawable paintDrawable;
@@ -189,6 +209,8 @@ public class MainActivity extends ActionBarActivity
             et.setText(intent.getStringExtra("text"));
         }
     }
+
+
 
     /**
      * A placeholder fragment containing a simple view.
