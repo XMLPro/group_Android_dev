@@ -122,6 +122,18 @@
         android:title=""
         app:showAsAction="always" />
 
+    <item
+    android:id="@+id/undo"
+    android:orderInCategory="1"
+    android:title="undo"
+    app:showAsAction="" />
+
+    <item
+        android:id="@+id/redo"
+        android:orderInCategory="1"
+        android:title="redo"
+        app:showAsAction="" />
+
     <!--<item-->
     <!--android:id="@+id/action_share"-->
     <!--android:orderInCategory="1"-->

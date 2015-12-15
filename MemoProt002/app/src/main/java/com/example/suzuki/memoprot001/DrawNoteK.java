@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +33,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 /**
  * ?�?�?�C?�?�?�N?�?�?�X?�̒�`
  */
@@ -40,6 +40,7 @@ public class DrawNoteK extends ActionBarActivity {
     DrawNoteView view;
     public Intent i;
     private static final int REQUEST_GALLERY = 0;
+
 
     public int G;
     public ColorSetFragment csFragment;
@@ -200,6 +201,12 @@ public class DrawNoteK extends ActionBarActivity {
                     invalidateOptionsMenu();
                 }
                 break;
+            case R.id.undo:
+                view.onundo();
+                break;
+            case R.id.redo:
+                break;
+
             case R.id.action_delete:
                 view.clearDrawList();
                 break;
@@ -307,6 +314,8 @@ public class DrawNoteK extends ActionBarActivity {
         Point oldpos = new Point(-50, -50);
         Paint paint = new Paint();
         Point oldpos2 = new Point(-50, -50);
+        BitmapColect bitmapColect = new BitmapColect(3);
+
 
         public DrawNoteView(Context c) {
             super(c);
@@ -331,6 +340,7 @@ public class DrawNoteK extends ActionBarActivity {
             bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
             bmpCanvas = new Canvas(bmp);
             bmpCanvas.drawColor(Color.WHITE);
+            invalidate();
         }
 
         /**
@@ -342,10 +352,23 @@ public class DrawNoteK extends ActionBarActivity {
             change();
         }
 
+        public void onundo() {
+            bmpCanvas = new Canvas(bitmapColect.undo());
+            Log.d("tag","test");
+            //bmpCanvas.drawBitmap(bitmapColect.redo(),0,0,paint);
+            invalidate();
+        }
+
         /**
          * ?�^?�b?�`?�C?�x?�?�?�g
          */
         public boolean onTouchEvent(MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                Log.d("ds","a");
+                Log.d("testes",bmp.toString());
+                bitmapColect.addBitmap(bmp.copy(Bitmap.Config.ARGB_8888, true));
+            }
+
             // ?�`?�?�ʒu?�̊m?�F
             Point cur = new Point((int) event.getX(), (int) event.getY());
 
@@ -426,6 +449,8 @@ public class DrawNoteK extends ActionBarActivity {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 oldpos = new Point(-1, -1);
             }
+
+
             bmpCanvas.save();
             invalidate();
             return true;
@@ -468,7 +493,6 @@ public class DrawNoteK extends ActionBarActivity {
                     break;
                 }
             }
-
         }
 
     }
