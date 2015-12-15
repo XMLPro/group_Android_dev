@@ -64,6 +64,10 @@
     <string name="imageDelete">画像削除</string>
     <string name="deleteM">選択した画像を削除しました</string>
     <string name="openM">画像を開きました</string>
+    <string name="Thick">線と消しゴムの太さ</string>
+    <string name="close">閉じる</string>
+    <string name="Non">塗りつぶしON</string>
+    <string name="Noff">塗りつぶしOFF</string>
     //設定画面のタイトル
     <string name="Setting_Activity">設定画面</string>
 
@@ -72,7 +76,7 @@
     //左側のメニュー
     <string name="title_section1">新規作成</string>
     <string name="title_section2">フォルダー</string>
-    <string name="title_section3">画像プレビュー</string>
+    <string name="title_section3">画像を開く</string>
 
     //フォルダー
     <string name="folder_item_delete">削除</string>
@@ -80,5 +84,8 @@
     <string name="login">ログイン</string>
     <string name="colorSet">色設定</string>
     <string name="share">共有する</string>
+
+    <string name="submit">送信</string>
+    <string name="get">取得</string>
 
 </resources>

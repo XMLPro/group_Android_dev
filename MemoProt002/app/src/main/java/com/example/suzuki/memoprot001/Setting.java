@@ -103,28 +103,6 @@ public class Setting extends ActionBarActivity {
             }
         });
 
-//        Button spinnerButtonFont = (Button) findViewById(R.id.font);
-//        spinnerButtonFont.setText(R.string.font);
-//        spinnerButtonFont.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                final CharSequence[] itemFont = {getString(R.string.gothic), getString(R.string.MSgothic), getString(R.string.mintyo)};
-//                new AlertDialog.Builder(Setting.this)
-//                        .setTitle(R.string.setfont)
-//                        .setSingleChoiceItems(itemFont, fontSet, new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int item) {
-//                                fontSet = item;
-//                            }
-//                        })
-//                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                font = fontSet;
-//                            }
-//                        })
-//                        .setNegativeButton(R.string.cancel, null)
-//                        .show();
-//            }
-//        });
 //
 //        Button spinnerButtonLine = (Button) findViewById(R.id.Line);
 //        spinnerButtonLine.setText(R.string.line);
@@ -156,6 +134,7 @@ public class Setting extends ActionBarActivity {
             }
         });
     }
+
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (event.getKeyCode()) {
