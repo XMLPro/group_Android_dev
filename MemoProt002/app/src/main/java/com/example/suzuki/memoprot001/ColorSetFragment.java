@@ -15,6 +15,7 @@ import android.widget.SeekBar;
  * Created by Admin on 2015/10/26.
  */
 public class ColorSetFragment extends DialogFragment {
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
@@ -25,6 +26,16 @@ public class ColorSetFragment extends DialogFragment {
 
         builder.setView(content);
 
+        Settings p = (Settings)getActivity().getApplication();
+        int Thick = p.getThick();
+        int Red = Color.red(p.getC());
+        int Green = Color.green(p.getC());
+        int Blue = Color.blue(p.getC());
+        ((SeekBar) content.findViewById(R.id.seek)).setProgress(Thick);
+        ((SeekBar) content.findViewById(R.id.seek_red)).setProgress(Red);
+        ((SeekBar) content.findViewById(R.id.seek_green)).setProgress(Green);
+        ((SeekBar) content.findViewById(R.id.seek_blue)).setProgress(Blue);
+
         builder.setMessage("設定")
                 .setPositiveButton(getString(R.string.Noff), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -32,11 +43,16 @@ public class ColorSetFragment extends DialogFragment {
                         int green = ((SeekBar) content.findViewById(R.id.seek_green)).getProgress();
                         int blue = ((SeekBar) content.findViewById(R.id.seek_blue)).getProgress();
                         int thick =  ((SeekBar) content.findViewById(R.id.seek)).getProgress();
-                        Settings paintC = (Settings) getActivity().getApplication();
+
+                        Settings paintC = (Settings)getActivity().getApplication();
                         paintC.setC(Color.rgb(red, green, blue));
 
                         Settings T = (Settings) getActivity().getApplication();
                         T.setThick(thick);
+
+                        int fill = 0;
+                        Settings F = (Settings) getActivity().getApplication();
+                        F.setFill(fill);
 
                         dismiss();
                     }
@@ -53,14 +69,14 @@ public class ColorSetFragment extends DialogFragment {
                         Settings T = (Settings) getActivity().getApplication();
                         T.setThick(thick);
 
-                        int change = 2;
-                        Settings Change = (Settings)getActivity().getApplication();
-                        Change.setChange(change);
+                        int fill = 1;
+                        Settings F = (Settings)getActivity().getApplication();
+                        F.setFill(fill);
 
                         dismiss();
                     }
                 })
-                .setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
+                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
                         int red = ((SeekBar) content.findViewById(R.id.seek_red)).getProgress();

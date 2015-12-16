@@ -1,0 +1,3 @@
+[submodule "Memoprot003/MaterialDesignLibrary"]
+	path = Memoprot003/MaterialDesignLibrary
+	url = https://github.com/navasmdc/MaterialDesignLibrary.git

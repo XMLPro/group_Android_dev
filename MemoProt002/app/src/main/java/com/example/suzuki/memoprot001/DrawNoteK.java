@@ -14,10 +14,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
@@ -43,6 +45,8 @@ public class DrawNoteK extends ActionBarActivity {
     int change = 0;
     int color = 0;
     int thick = 10;
+    int fill = 0;
+
     private static final String APP_KEY = "3j3o6hefxvfku5c";
     private static final String APP_SECRET = "ympn6o0newj1si5";
     private DropboxAPI<AndroidAuthSession> mApi;
@@ -235,6 +239,7 @@ public class DrawNoteK extends ActionBarActivity {
                 // ��ʂ������đI�������摜�œh��
                 view.readImage(img2);
                 Toast.makeText(this, getString(R.string.openM), Toast.LENGTH_SHORT).show();
+
             } catch (Exception e) {
             }
         }
@@ -302,6 +307,7 @@ public class DrawNoteK extends ActionBarActivity {
         Canvas bmpCanvas;
         Point oldpos = new Point(-50, -50);
         Paint paint = new Paint();
+        Point oldpos2 = new Point(-50, -50);
 
         public DrawNoteView(Context c) {
             super(c);
@@ -344,8 +350,8 @@ public class DrawNoteK extends ActionBarActivity {
             // ?�`?�?�ʒu?�̊m?�F
             Point cur = new Point((int) event.getX(), (int) event.getY());
 
-//            Settings Change = (Settings) getApplication();
-//            change = Change.getChange();
+            Settings F = (Settings) getApplication();
+            fill = F.getFill();
 
             Settings Thick = (Settings) getApplication();
             thick = Thick.getThick();
@@ -359,7 +365,14 @@ public class DrawNoteK extends ActionBarActivity {
                 oldpos = cur;
             }
 
-            if (change == 0) {
+            if (fill == 1) {
+                //画面のサイズを取得して塗りつぶし関数fillを呼び出し
+                WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+                Display disp = wm.getDefaultDisplay();
+                Point size = new Point();
+                disp.getSize(size);
+                getfill(size);
+            } else if (change == 0) {
                 switch (color) {
                     case R.id.colorSet:
                         Settings paintC = (Settings) getApplication();
@@ -403,15 +416,11 @@ public class DrawNoteK extends ActionBarActivity {
             } else if (change == 1) {
                 paint.setColor(Color.WHITE);
                 paint.setStyle(Paint.Style.FILL);
+                paint.setAntiAlias(true);
 
                 bmpCanvas.drawCircle(oldpos.x, oldpos.y, 60, paint);
                 bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
             }
-//            else if (change == 2) {
-//                paint.setColor(Color.BLACK);
-//                paint.setStyle(Paint.Style.FILL_AND_STROKE);
-//                bmpCanvas.drawCircle(oldpos.x, oldpos.y, 25, paint);
-//            }
 
             oldpos = cur;
             // ?�w?�?�?�?�?�?�?�グ?�?�?�?�?�?�W?�?�?�?�?�Z?�b?�g
@@ -421,6 +430,46 @@ public class DrawNoteK extends ActionBarActivity {
             bmpCanvas.save();
             invalidate();
             return true;
+        }
+
+        public void getfill(Point size) {
+            Point point = new Point(oldpos.x, oldpos.y);
+            oldpos2.x = oldpos.x;
+            oldpos2.y = oldpos.y;
+
+            while (bmp.getPixel(oldpos.x - 1, oldpos2.y) != paint.getColor()) {
+                while (bmp.getPixel(oldpos2.x, oldpos2.y + 1) != paint.getColor()) {
+                    while (bmp.getPixel(oldpos2.x + 1, oldpos2.y) != paint.getColor()) {
+                        while (bmp.getPixel(oldpos.x, oldpos.y - 1) != paint.getColor()) {
+                            oldpos.y--;
+                            bmpCanvas.drawLine(point.x, point.y, point.x + 1, oldpos.y, paint);
+                            if (oldpos.x >= size.x || oldpos.x <= 0 || oldpos.y >= size.y || oldpos.y <= 0) {
+                                oldpos.y++;
+                                break;
+                            }
+                        }
+                        oldpos2.x++;
+                        bmpCanvas.drawLine(point.x, oldpos.y, oldpos2.x, oldpos.y - 1, paint);
+                        if (oldpos2.x >= 1000 || oldpos2.x <= 0 || oldpos2.y >= 1500 || oldpos2.y <= 0) {
+                            oldpos2.x--;
+                            break;
+                        }
+                    }
+                    oldpos2.y++;
+                    bmpCanvas.drawLine(oldpos2.x, oldpos.y, oldpos2.x - 1, oldpos2.y, paint);
+                    if (oldpos2.x >= size.x || oldpos2.x <= 0 || oldpos2.y >= 1500 || oldpos2.y <= 0) {
+                        oldpos2.y--;
+                        break;
+                    }
+                }
+                oldpos.x--;
+                bmpCanvas.drawLine(oldpos2.x, oldpos2.y, oldpos.x, oldpos2.y + 1, paint);
+                if (oldpos.x >= size.x || oldpos.x <= 0 || oldpos.y >= size.y || oldpos.y <= 0) {
+                    oldpos.x++;
+                    break;
+                }
+            }
+
         }
 
     }
