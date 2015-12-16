@@ -156,6 +156,8 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
                 break;
             case R.id.action_eraser:
                 if (change == 0) {
+                    Settings paintC = (Settings) getApplication();
+                    paint.setColor(paintC.getC());
                     change = 1;
                     getActivity().invalidateOptionsMenu();
                 } else if (change == 1) {
