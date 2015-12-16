@@ -11,6 +11,8 @@ import android.graphics.Point;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 
@@ -36,7 +38,7 @@ class DrawNoteView extends android.view.View {
     }
 
     public DrawNoteView(Context context, AttributeSet attrs,int defStyle){
-        super(context,attrs,defStyle);
+        super(context, attrs, defStyle);
     }
 
     public DrawNoteView(Context cont, AttributeSet attr) {
@@ -106,19 +108,22 @@ class DrawNoteView extends android.view.View {
 
     public boolean onTouchEvent(MotionEvent event) {
         Point cur = new Point((int) event.getX(), (int) event.getY());
+        PaintFragment Change = new PaintFragment();
 
         if (oldpos.x < 0) {
             oldpos = cur;
         }
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeWidth(10);
-        paint.setColor(Color.BLACK);
-//                paint.setStyle(Paint.Style.FILL);
-//                paint.setStrokeWidth(50);
+
+        if (Change.change == 0) {
+            paint.setColor(Color.BLACK);
+        } else {
+            paint.setColor(Color.WHITE);
+        }
+
         paint.setStyle(Paint.Style.FILL);
 
-       // bmpCanvas.drawCircle(oldpos.x, oldpos.y, 60, paint);
-//                bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
 
         bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
         oldpos = cur;

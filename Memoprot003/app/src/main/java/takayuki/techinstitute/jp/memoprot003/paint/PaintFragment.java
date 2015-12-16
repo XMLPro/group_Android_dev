@@ -41,6 +41,8 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
     private DropboxAPI<AndroidAuthSession> mApi;
     private boolean logged_in = false;
 
+    public static int change;
+
     public PaintFragment() {
         // Required empty public constructor
     }
@@ -147,6 +149,21 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
                 i.setType("image/*");
                 i.setAction(Intent.ACTION_PICK);
                 startActivityForResult(i, UPLOAD_GALLERY);
+                break;
+            case R.id.action_delete:
+                noteView = (DrawNoteView)(getView().findViewById(R.id.draw));
+                noteView.clearDrawList();
+                break;
+            case R.id.action_eraser:
+                if (change == 0) {
+                    change = 1;
+                    getActivity().invalidateOptionsMenu();
+                } else if (change == 1) {
+                    change = 0;
+                    getActivity().invalidateOptionsMenu();
+                }
+                break;
+
         }
         return true;
     }

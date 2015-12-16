@@ -193,7 +193,6 @@ public class DrawNoteK extends ActionBarActivity {
             case R.id.action_eraser:
                 if (change == 0) {
                     change = 1;
-                    //?�A?�N?�V?�?�?�?�?�o?�[?�?�?�ĕ\?�?�?�?�?�?�֐�invalidateOptionsMenu()
                     invalidateOptionsMenu();
                 } else if (change == 1) {
                     change = 0;
