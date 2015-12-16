@@ -10,19 +10,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.util.AttributeSet;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Toast;
-import android.view.View.OnClickListener;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
@@ -33,7 +29,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -54,6 +49,7 @@ public class DrawNoteK extends ActionBarActivity {
     private boolean logged_in = false;
     private File shareFile;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,24 +67,6 @@ public class DrawNoteK extends ActionBarActivity {
 
         Intent intent = getIntent();
         G = intent.getIntExtra("G", 0);
-
-        //undo,redoの処理
-        final DrawNoteView viewdo = (DrawNoteView)findViewById(R.id.DrawNoteView);
-        findViewById(R.id.btnUndo).setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                viewdo.undo();
-            }
-        });
-
-        findViewById(R.id.btnRedo).setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                viewdo.redo();
-            }
-        });
 
     }
 
@@ -373,7 +351,9 @@ public class DrawNoteK extends ActionBarActivity {
             thick = Thick.getThick();
 
             paint.setStrokeWidth(thick);
-            if(thick == 0){paint.setStrokeWidth(10);}
+            if (thick == 0) {
+                paint.setStrokeWidth(10);
+            }
 
             if (oldpos.x < 0) {
                 oldpos = cur;
@@ -443,92 +423,6 @@ public class DrawNoteK extends ActionBarActivity {
             return true;
         }
 
-//
-//        private final HistoryStack<ArrayList<PointF>> history = new HistoryStack<ArrayList<PointF>>();
-//        private ArrayList<PointF> currentStroke;
-//
-//        public DrawingView(Context context, AttributeSet attrs) {
-//            super(context, attrs);
-//            // TODO Auto-generated constructor stub
-//        }
-//
-//        /**
-//         * アンドゥ
-//         */
-//        public void undo(){
-//            history.undo();
-//            invalidate();
-//        }
-//
-//        /**
-//         * リドゥ
-//         */
-//        public void redo(){
-//            history.redo();
-//            invalidate();
-//        }
-//
-//        @Override
-//        public boolean onTouchEvent(MotionEvent event) {
-//            if( event.getAction() == MotionEvent.ACTION_DOWN){
-//                // 新しい描画
-//                currentStroke = new ArrayList<PointF>();
-//                return true;
-//            }
-//            else if(event.getAction() == MotionEvent.ACTION_MOVE){
-//                currentStroke.add(new PointF(event.getX(),event.getY()));
-//                invalidate();
-//                return true;
-//            }
-//            else if(event.getAction()==MotionEvent.ACTION_UP){
-//                history.add(currentStroke);
-//                currentStroke = null;
-//                invalidate();
-//
-//                return true;
-//            }
-//
-//            return super.onTouchEvent(event);
-//        }
-//
-//        /**
-//         * PointFの配列を元に一連の線を描画する
-//         * @param canvas
-//         * @param paint
-//         * @param stroke
-//         */
-//        private void drawStroke(Canvas canvas,Paint paint,ArrayList<PointF> stroke){
-//            PointF startPoint = null;
-//            for(PointF pf:stroke){
-//                if( startPoint != null){
-//                    canvas.drawLine(startPoint.x, startPoint.y, pf.x, pf.y, paint);
-//                }
-//
-//                startPoint = pf;
-//            }
-//        }
-//
-//        private final Paint paint = new Paint();
-//
-//        {
-//            paint.setColor(Color.CYAN);
-//            paint.setStrokeWidth(1.f);
-//        }
-//
-//
-//        @Override
-//        protected void onDraw(Canvas canvas) {
-//
-//            // 履歴に入っている線を描画する
-//            for(final ArrayList<PointF> stroke:history.iterateUndo()){
-//                drawStroke(canvas,paint,stroke);
-//            }
-//
-//            // 現在描画中の線を描画する
-//            if( currentStroke != null){
-//                drawStroke(canvas,paint,currentStroke );
-//            }
-//        }
-
     }
+
 }
