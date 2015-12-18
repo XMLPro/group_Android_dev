@@ -128,6 +128,7 @@ class DrawNoteView extends android.view.View {
             oldpos = cur;
         }
         paint.setStyle(Paint.Style.FILL);
+
         paint.setStrokeWidth(10);;
 //                paint.setStyle(Paint.Style.FILL);
 //                paint.setStrokeWidth(50);

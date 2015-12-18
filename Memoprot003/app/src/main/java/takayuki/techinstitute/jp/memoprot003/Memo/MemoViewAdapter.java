@@ -1,6 +1,7 @@
 package takayuki.techinstitute.jp.memoprot003.Memo;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,6 +26,17 @@ public class MemoViewAdapter extends RecyclerView.Adapter<MemoViewAdapter.ViewHo
         mListener = listener;
     }
 
+    public void deleteItem(int index){
+        mValues.remove(index);
+    }
+
+    public MemoItem getItem(int index){
+        Log.d("test",String.valueOf(index));
+        if(mValues.size() == 0){
+            return null;
+        }
+        return mValues.get(index);
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
