@@ -152,14 +152,11 @@ public class MainActivity extends ActionBarActivity
                 excutegetResult();
                 break;
         }
-<<<<<<< HEAD
         if(id == R.id.menu_request){
             i = new Intent(Intent.ACTION_GET_CONTENT);
             i.setType("image/jpeg");
             startActivityForResult(i,100);
         }
-=======
->>>>>>> 034f9c527042c9f295a66f78479cf7074bbe5ba0
 
         //メニューとメモ一覧の
         switch (item.getItemId()) {
@@ -184,7 +181,6 @@ public class MainActivity extends ActionBarActivity
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
     //startActivityで呼んだ画面から自動で画面を受け取る関数onActivityResult

@@ -34,9 +34,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-/**
- * ?�?�?�C?�?�?�N?�?�?�X?�̒�`
- */
 public class DrawNoteK extends ActionBarActivity {
     DrawNoteView view;
     public Intent i;
@@ -56,6 +53,7 @@ public class DrawNoteK extends ActionBarActivity {
     private boolean logged_in = false;
     private File shareFile;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +71,7 @@ public class DrawNoteK extends ActionBarActivity {
 
         Intent intent = getIntent();
         G = intent.getIntExtra("G", 0);
+
     }
 
     @Override
@@ -194,7 +193,6 @@ public class DrawNoteK extends ActionBarActivity {
             case R.id.action_eraser:
                 if (change == 0) {
                     change = 1;
-                    //?�A?�N?�V?�?�?�?�?�o?�[?�?�?�ĕ\?�?�?�?�?�?�֐�invalidateOptionsMenu()
                     invalidateOptionsMenu();
                 } else if (change == 1) {
                     change = 0;
@@ -474,4 +472,5 @@ public class DrawNoteK extends ActionBarActivity {
         }
 
     }
+
 }

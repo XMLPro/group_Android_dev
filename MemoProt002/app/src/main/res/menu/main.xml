@@ -30,14 +30,13 @@
         android:title="@string/menu_save"
         android:icon="@android:drawable/ic_menu_save" />
 
-<<<<<<< HEAD
+
     <item android:id="@+id/menu_request"
         android:orderInCategory="1"
         app:showAsAction="always"
         android:title="send"
         android:icon="@android:drawable/ic_menu_send" />
 
-=======
     <item
         android:id="@+id/colorMSet"
         android:orderInCategory="1"
@@ -62,7 +61,6 @@
         app:showAsAction=""
         android:title="@string/action_setting"
         />
->>>>>>> 034f9c527042c9f295a66f78479cf7074bbe5ba0
 
     <!--<item android:id="@+id/menu_open"-->
     <!--android:title="@string/menu_open"-->

@@ -12,10 +12,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
-import android.view.WindowManager;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -51,6 +48,7 @@ class DrawNoteView extends android.view.View {
         bmpCanvas.drawColor(Color.WHITE);
         invalidate();
     }
+
 
     public void readImage(Bitmap bmp) {
         bmpCanvas.drawBitmap(bmp, 0, 0, paint);
@@ -145,5 +143,4 @@ class DrawNoteView extends android.view.View {
         invalidate();
         return true;
     }
-
 }
