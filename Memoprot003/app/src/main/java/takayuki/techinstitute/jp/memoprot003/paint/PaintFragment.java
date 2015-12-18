@@ -161,8 +161,12 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
                 fragment.show(getFragmentManager(),"show");
                 break;
             case R.id.undo:
-                noteView = (DrawNoteView)(getView().findViewById(R.id.draw));
+                noteView = (DrawNoteView) (getView().findViewById(R.id.draw));
                 noteView.undo();
+                break;
+            case R.id.redo:
+                noteView = (DrawNoteView)(getView().findViewById(R.id.draw));
+                noteView.redo();
                 break;
         }
         return true;

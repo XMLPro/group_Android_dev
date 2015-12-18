@@ -46,6 +46,7 @@ class DrawNoteView extends android.view.View {
 
     public void clearDrawList() {
         bmpCanvas.drawColor(Color.WHITE);
+        bitmapList.addBitmap(bmp.copy(Bitmap.Config.ARGB_8888, true));
         invalidate();
     }
 
@@ -102,10 +103,21 @@ class DrawNoteView extends android.view.View {
     }
 
     public void undo() {
-        Bitmap bitmap = bitmapList.undo();
-        bmpCanvas.drawColor(Color.WHITE);
-        bmpCanvas.drawBitmap(bitmap, 0, 0, paint);
-        invalidate();
+        if(bitmapList.iscursorzero() == false) {
+            Bitmap bitmap = bitmapList.undo();
+            bmpCanvas.drawColor(Color.WHITE);
+            bmpCanvas.drawBitmap(bitmap, 0, 0, paint);
+            invalidate();
+        }
+    }
+
+    public void redo() {
+        if (bitmapList.iscursor() == false){
+            Bitmap bitmap = bitmapList.redo();
+            bmpCanvas.drawColor(Color.BLACK);
+            bmpCanvas.drawBitmap(bitmap, 0, 0, paint);
+            invalidate();
+        }
     }
 
 
