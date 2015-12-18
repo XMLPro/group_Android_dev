@@ -24,5 +24,11 @@
         app:layoutManager="LinearLayoutManager"
         tools:context="takayuki.techinstitute.jp.memoprot003.Memo.MemoFragment"
         tools:listitem="@layout/fragment_item" />
+    <Button
+        android:id="@+id/notification"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/notification"
+        />
 
 </LinearLayout>

@@ -12,7 +12,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.WindowManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -76,7 +75,6 @@ class DrawNoteView extends android.view.View {
         String fileName = fileNameDate.format(mDate) + ".jpg";
         String AttachName = file.getAbsolutePath() + "/" + fileName;
 
-
         try {
             FileOutputStream out = new FileOutputStream(AttachName);
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
@@ -84,7 +82,7 @@ class DrawNoteView extends android.view.View {
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
-        };
+        }
         // save index
         ContentValues values = new ContentValues();
         ContentResolver contentResolver = getContext().getContentResolver();
@@ -113,12 +111,7 @@ class DrawNoteView extends android.view.View {
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeWidth(10);
         paint.setColor(Color.BLACK);
-//                paint.setStyle(Paint.Style.FILL);
-//                paint.setStrokeWidth(50);
         paint.setStyle(Paint.Style.FILL);
-
-       // bmpCanvas.drawCircle(oldpos.x, oldpos.y, 60, paint);
-//                bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
 
         bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
         oldpos = cur;

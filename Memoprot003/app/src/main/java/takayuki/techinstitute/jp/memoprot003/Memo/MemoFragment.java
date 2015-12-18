@@ -11,13 +11,14 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
+import takayuki.techinstitute.jp.memoprot003.MainActivity;
 import takayuki.techinstitute.jp.memoprot003.R;
 
 /**
@@ -33,6 +34,8 @@ public class MemoFragment extends Fragment {
     private MemoViewAdapter adapter;
     private OnListFragmentInteractionListener mListener;
     ArrayList<MemoItem> memoItems;
+    MainActivity m = new MainActivity();
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -62,7 +65,6 @@ public class MemoFragment extends Fragment {
         Cursor cursor = db.rawQuery("select * from memoDB", null);
         cursor.moveToFirst();
         memoItems = new ArrayList<>();
-        Log.d("TEST", "test");
         for (int i = 0; i < cursor.getCount(); i++) {
             memoItems.add(new MemoItem(cursor.getInt(cursor.getColumnIndex("id")),
                     cursor.getString(cursor.getColumnIndex("title")),
@@ -72,6 +74,18 @@ public class MemoFragment extends Fragment {
         }
         adapter = new MemoViewAdapter(memoItems, null);
         return view;
+    }
+
+    public void onStart(){
+        super.onStart();
+
+        Button button = (Button)getActivity().findViewById(R.id.notification);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m.sendNotification();
+            }
+        });
     }
 
     @Override
@@ -117,7 +131,6 @@ public class MemoFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
 
     /**
      * This interface must be implemented by activities that contain this
