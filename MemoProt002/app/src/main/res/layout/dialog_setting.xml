@@ -1,29 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="340dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="20dp">
-
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="R"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="線の太さ" />
 
         <SeekBar
+            android:id="@+id/seek"
             android:layout_width="10dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="14"
+            android:max="255" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="R" />
+
+        <SeekBar
             android:id="@+id/seek_red"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:max="255"
-            android:layout_weight="4"/>
+            android:layout_weight="4"
+            android:max="255" />
     </LinearLayout>
 
     <LinearLayout
@@ -31,21 +52,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="G"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="G" />
 
         <SeekBar
-            android:layout_width="10dp"
-            android:layout_height="wrap_content"
             android:id="@+id/seek_green"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:max="255"
-            android:layout_weight="4"/>
+            android:layout_weight="4"
+            android:max="255" />
     </LinearLayout>
 
     <LinearLayout
@@ -53,21 +73,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="B"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="B" />
 
         <SeekBar
+            android:id="@+id/seek_blue"
             android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:id="@+id/seek_blue"
-            android:max="255"
-            android:layout_weight="4"/>
+            android:layout_weight="4"
+            android:max="255" />
+
     </LinearLayout>
 
 </LinearLayout>

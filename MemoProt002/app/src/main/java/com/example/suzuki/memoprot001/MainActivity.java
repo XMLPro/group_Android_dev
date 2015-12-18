@@ -1,6 +1,7 @@
 package com.example.suzuki.memoprot001;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,7 +16,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.app.AlertDialog;
 import android.text.Selection;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,15 +30,22 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
+import jp.ne.docomo.smt.dev.characterrecognition.constants.ImageContentType;
+import jp.ne.docomo.smt.dev.characterrecognition.constants.Lang;
+import jp.ne.docomo.smt.dev.characterrecognition.data.CharacterRecognitionWordData;
+import jp.ne.docomo.smt.dev.characterrecognition.data.CharacterRecognitionWordsData;
+
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, RecognitionAsyncTask.RecognitionCallback, RecognitionResultAsyncTask.ReconitionResultCallback {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    public ColorSetFragment csFragment;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -43,6 +53,12 @@ public class MainActivity extends ActionBarActivity
     public int color = 0;
     private CharSequence mTile;
     private Settings settings;
+    private static final int REQUEST_GALLERY = 30;
+    private EditText editText;
+    RecognitionAsyncTask submittask;
+    RecognitionResultAsyncTask gettask;
+    String jobid = "";
+    String path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +75,6 @@ public class MainActivity extends ActionBarActivity
 
         mTile = getTitle();
         settings = (Settings) this.getApplication();
-
-
-
     }
 
     @Override
@@ -103,22 +116,41 @@ public class MainActivity extends ActionBarActivity
         int id = item.getItemId();
         Intent i;
         Bundle b;
+        editText = (EditText) findViewById(R.id.editText);
+        switch (id) {
+            //設定ボタンが押されたとき設定画面を呼ぶ
+            //変数colorの値も渡す
+            case R.id.action_setting:
+                i = new Intent(MainActivity.this, Setting.class);
+                b = new Bundle();
+                b.putInt("Color", color);
+                i.putExtras(b);
+                startActivityForResult(i, color);
+                return true;
 
-        //設定ボタンが押されたとき設定画面を呼ぶ
-        //変数colorの値も渡す
-        if (id == R.id.action_setting) {
-            i = new Intent(MainActivity.this, Setting.class);
-            b = new Bundle();
-            b.putInt("Color", color);
-            i.putExtras(b);
-            startActivityForResult(i, color);
-            return true;
-        }
-        //共有ボタンでお絵かき画面を呼ぶ
-        if (id == R.id.action_pencil) {
-            i = new Intent(MainActivity.this, DrawNoteK.class);
-            startActivity(i);
-            return true;
+            //共有ボタンでお絵かき画面を呼ぶ
+            case R.id.action_pencil:
+                i = new Intent(MainActivity.this, DrawNoteK.class);
+                startActivity(i);
+                return true;
+
+            case R.id.colorMSet:
+                csFragment = new ColorSetFragment();
+                csFragment.show(getFragmentManager(), "test ");
+                settings = (Settings)this.getApplication();
+                editText.setTextColor(settings.getC());
+                return true;
+
+            case R.id.docomoSubmit:
+                i = new Intent();
+                i = i.setType("image/jpeg");
+                i.setAction(Intent.ACTION_PICK);
+                startActivityForResult(i, REQUEST_GALLERY);
+                break;
+
+            case R.id.docomoGet:
+                excutegetResult();
+                break;
         }
         if(id == R.id.menu_request){
             i = new Intent(Intent.ACTION_GET_CONTENT);
@@ -127,7 +159,6 @@ public class MainActivity extends ActionBarActivity
         }
 
         //メニューとメモ一覧の
-        EditText et = (EditText) findViewById(R.id.editText);
         switch (item.getItemId()) {
             case R.id.menu_save:
                 saveMemo();
@@ -146,17 +177,17 @@ public class MainActivity extends ActionBarActivity
 //                Log.d("updateFlag2", "" + settings.getUpdeteFlag());
 //                break;
             case R.id.action_del:
-                et.setText("");
+                editText.setText("");
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
     //startActivityで呼んだ画面から自動で画面を受け取る関数onActivityResult
     //どの画面を呼んだ後もここで受け取るので全画面に対応できるように頑張って書くこと
     //onActivityResultはstartActivity()で呼び出した時の第二引数、第一引数、向こうのintentの順番で引数を受け取る
     //第二引数で数字を渡すのが普通っぽいのでここではint Numberで第二引数を受け取るように調整
+<<<<<<< HEAD
     protected void onActivityResult(int resultCode, int requestCode, Intent intent) {
         super.onActivityResult(resultCode, requestCode, intent);
         if(resultCode == RESULT_OK && resultCode == 100){
@@ -171,6 +202,24 @@ public class MainActivity extends ActionBarActivity
         }
 
         Bundle bundle = intent.getExtras();
+=======
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_GALLERY && resultCode == RESULT_OK) {
+            ContentResolver contentResolver = this.getContentResolver();
+            String[] columns = {MediaStore.Images.Media.DATA};
+            Cursor cursor = contentResolver.query(data.getData(), columns, null, null, null);
+            cursor.moveToFirst();
+            path = cursor.getString(0);
+            excuteSubmit(path);
+            cursor.close();
+            return;
+        }
+        if (data == null) {
+            return;
+        }
+        Bundle bundle = data.getExtras();
         if (bundle.getInt("color") >= 10) {
             //背景色設定
             PaintDrawable paintDrawable;
@@ -206,7 +255,7 @@ public class MainActivity extends ActionBarActivity
 
         if (bundle.getString("text") != null) {
             EditText et = (EditText) findViewById(R.id.editText);
-            et.setText(intent.getStringExtra("text"));
+            et.setText(data.getStringExtra("text"));
         }
     }
 
@@ -334,5 +383,48 @@ public class MainActivity extends ActionBarActivity
         }
         //return trueで戻るボタンが無効になる
         return super.dispatchKeyEvent(event);
+    }
+
+    private void excuteSubmit(String filepath) {
+        AlertDialog.Builder dlg = new AlertDialog.Builder(MainActivity.this);
+        RecognitionAsyncTaskParam param = new RecognitionAsyncTaskParam();
+        param.setImagePath(filepath);
+        param.setImageType(ImageContentType.IMAGE_JPEG);
+        param.setLang(Lang.CHARACTERS_JP);
+        submittask = new RecognitionAsyncTask(this, dlg, this);
+        submittask.execute(param);
+    }
+
+    private void excutegetResult() {
+        Log.d("テストだよん", "リザルト要求");
+        AlertDialog.Builder dlg = new AlertDialog.Builder(MainActivity.this);
+        RecognitionAsyncTaskParam param = new RecognitionAsyncTaskParam();
+        param.setJobId(jobid);
+        param.setImagePath(path);
+        gettask = new RecognitionResultAsyncTask(dlg, this);
+        gettask.execute(param);
+    }
+
+
+    @Override
+    public void callback() {
+        jobid = submittask.getJobid();
+        Log.d("テストだよん！！！", jobid);
+    }
+
+    @Override
+    public void resultcallback() {
+        CharacterRecognitionWordsData wordsData = gettask.getWordsData();
+        Log.d("テストだよん", "RESUL");
+        if (wordsData != null) {
+            StringBuilder sb = new StringBuilder();
+            ArrayList<CharacterRecognitionWordData> wordList = wordsData.getWord();
+            for (CharacterRecognitionWordData wordData : wordList) {
+                sb.append("認識した単語の情報 :\n");
+                sb.append("認識した単語 : " + wordData.getText() + "\n");
+                sb.append("認識結果の信頼度 : " + wordData.getScore() + "\n");
+            }
+            ((EditText) findViewById(R.id.editText)).setText(new String(sb));
+        }
     }
 }

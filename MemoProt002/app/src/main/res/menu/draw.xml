@@ -5,8 +5,6 @@
 
     //お絵描き画面のアクションバー設定
     //順番にペンシル・消しゴム・共有・削除・保存ボタン
-
-
     <item
         android:id="@+id/images"
         android:icon="@android:drawable/ic_menu_preferences"
@@ -23,9 +21,10 @@
 
     <item
         android:id="@+id/colorSet"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="1"
         android:title="@string/colorSet"
-        app:showAsAction="" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/dropLogin"
@@ -38,7 +37,6 @@
         android:orderInCategory="1"
         android:title="@string/share"
         app:showAsAction="" />
-
 
     <item
         android:id="@+id/black"
@@ -110,13 +108,19 @@
         android:title="@string/magenta"
         app:showAsAction="" />
 
+    <!--<item-->
+        <!--android:id="@+id/pencil"-->
+        <!--android:icon="@android:drawable/ic_menu_preferences"-->
+        <!--android:orderInCategory="1"-->
+        <!--android:title=""-->
+        <!--app:showAsAction="always" />-->
+
     <item
         android:id="@+id/action_eraser"
         android:icon="@android:drawable/ic_input_delete"
         android:orderInCategory="1"
         android:title=""
         app:showAsAction="always" />
-
 
     <!--<item-->
     <!--android:id="@+id/action_share"-->
@@ -139,7 +143,5 @@
         android:title="@string/save"
         app:showAsAction="always" />
 
-
+    //undo,redoボタン
 </menu>
-
-

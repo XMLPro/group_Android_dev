@@ -7,18 +7,20 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
@@ -31,8 +33,7 @@ import java.io.InputStream;
 import takayuki.techinstitute.jp.memoprot003.DUpLoad.UploadPicture;
 import takayuki.techinstitute.jp.memoprot003.R;
 
-
-public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
+public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickListener, ColorFragment.OnColorSetLisner {
     private DrawNoteView noteView;
     private static final int REQUEST_GALLERY = 100;
     private static final int UPLOAD_GALLERY = 200;
@@ -53,7 +54,6 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -67,7 +67,6 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         //setup();
         return view;//inflater.inflate(R.layout.fragment_paint, container, false);
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -93,12 +92,10 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         }
     }
 
-
     private void logOut() {
         mApi.getSession().unlink();
         logged_in = false;
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -124,6 +121,13 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         toggle.syncState();
     }
 
+//    public boolean onMenuItemClick(MenuItem item) {
+    @Override
+    public void oncolorset(int color) {
+        noteView = (DrawNoteView)(getView().findViewById(R.id.draw));
+        noteView.setColor(color);
+    }
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         Intent i;
@@ -147,6 +151,19 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
                 i.setType("image/*");
                 i.setAction(Intent.ACTION_PICK);
                 startActivityForResult(i, UPLOAD_GALLERY);
+                break;
+            case R.id.action_delete:
+                noteView = (DrawNoteView)(getView().findViewById(R.id.draw));
+                noteView.clearDrawList();
+                break;
+            case R.id.color:
+                ColorFragment fragment =ColorFragment.newInstant(this);
+                fragment.show(getFragmentManager(),"show");
+                break;
+            case R.id.undo:
+                noteView = (DrawNoteView)(getView().findViewById(R.id.draw));
+                noteView.undo();
+                break;
         }
         return true;
     }
