@@ -7,12 +7,12 @@ import android.graphics.Bitmap;
  */
 public class BitmapList {
     public Bitmap[] bmp;
-    public int setcusor;
-    public int getcusor;
+    public int setcursor = 0;
+    public int getcursor = 0;
     public BitmapList(int num){
         bmp = new Bitmap[num];
-        setcusor = 0;
-        getcusor = 0;
+        setcursor = 0;
+        getcursor = 0;
     }
 
     public Bitmap getBitmap(int index){
@@ -20,29 +20,49 @@ public class BitmapList {
     }
 
     public void addBitmap(Bitmap bitmap){
-        if(setcusor < bmp.length){
-            bmp[setcusor] = bitmap;
-            setcusor++;
-            getcusor++;
+        if(setcursor < bmp.length){
+            bmp[setcursor] = bitmap;
+            setcursor++;
+            getcursor++;
             return;
         }
         for(int i = 0; i<bmp.length-1; i++){
             bmp[i] = bmp[i+1];
         }
-        bmp[setcusor-1] = bitmap;
+        bmp[setcursor-1] = bitmap;
     }
 
+    //undoの処理
     public Bitmap undo(){
-        if(iscusorzero()){
-            return bmp[getcusor];
+
+        if(iscursorzero()){
+            return bmp[getcursor];
         }
-        getcusor--;
-        return bmp[getcusor];
+        getcursor--;
+        return bmp[getcursor];
     }
 
+    //redoの処理
+    public Bitmap redo(){
 
-    public boolean iscusorzero(){
-        if (getcusor == 0){
+        if(iscursor()){
+            return bmp[getcursor];
+        }
+        getcursor++;
+        return bmp[getcursor];
+    }
+
+    //undoを4回行ったときの処理
+    public boolean iscursorzero(){
+        if (getcursor == 0){
+            return true;
+        }
+        return false;
+    }
+
+    //redoを4回行ったときの処理
+    public boolean iscursor(){
+        if ((setcursor - getcursor) < 2){
             return true;
         }
         return false;
