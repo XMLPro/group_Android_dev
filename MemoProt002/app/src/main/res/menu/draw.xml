@@ -155,4 +155,5 @@
         android:title="@string/save"
         app:showAsAction="always" />
 
+    //undo,redoボタン
 </menu>

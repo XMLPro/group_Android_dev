@@ -33,9 +33,13 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+<<<<<<< HEAD
 /**
  * ?�?�?�C?�?�?�N?�?�?�X?�̒�`
  */
+=======
+
+>>>>>>> 543a57f77bc5b3719c709375a6b1912d3de609f0
 public class DrawNoteK extends ActionBarActivity {
     DrawNoteView view;
     public Intent i;
@@ -56,6 +60,7 @@ public class DrawNoteK extends ActionBarActivity {
     private boolean logged_in = false;
     private File shareFile;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +78,7 @@ public class DrawNoteK extends ActionBarActivity {
 
         Intent intent = getIntent();
         G = intent.getIntExtra("G", 0);
+
     }
 
     @Override
@@ -194,7 +200,6 @@ public class DrawNoteK extends ActionBarActivity {
             case R.id.action_eraser:
                 if (change == 0) {
                     change = 1;
-                    //?�A?�N?�V?�?�?�?�?�o?�[?�?�?�ĕ\?�?�?�?�?�?�֐�invalidateOptionsMenu()
                     invalidateOptionsMenu();
                 } else if (change == 1) {
                     change = 0;
@@ -246,6 +251,7 @@ public class DrawNoteK extends ActionBarActivity {
                 // ��ʂ������đI�������摜�œh��
                 view.readImage(img2);
                 Toast.makeText(this, getString(R.string.openM), Toast.LENGTH_SHORT).show();
+
             } catch (Exception e) {
             }
         }
@@ -496,4 +502,5 @@ public class DrawNoteK extends ActionBarActivity {
         }
 
     }
+
 }

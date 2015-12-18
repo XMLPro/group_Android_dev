@@ -1,1 +1,0 @@
-include ':MaterialDesignLibrary:AndroidStudio:MaterialDesign:app', ':MaterialDesignLibrary:AndroidStudio', ':MaterialDesignLibrary:AndroidStudio:MaterialDesign', ':MaterialDesignLibrary', ':app'

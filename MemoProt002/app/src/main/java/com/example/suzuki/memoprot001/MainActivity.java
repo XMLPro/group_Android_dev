@@ -152,6 +152,11 @@ public class MainActivity extends ActionBarActivity
                 excutegetResult();
                 break;
         }
+        if(id == R.id.menu_request){
+            i = new Intent(Intent.ACTION_GET_CONTENT);
+            i.setType("image/jpeg");
+            startActivityForResult(i,100);
+        }
 
         //メニューとメモ一覧の
         switch (item.getItemId()) {
@@ -176,6 +181,7 @@ public class MainActivity extends ActionBarActivity
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     //startActivityで呼んだ画面から自動で画面を受け取る関数onActivityResult
     //どの画面を呼んだ後もここで受け取るので全画面に対応できるように頑張って書くこと
@@ -236,6 +242,8 @@ public class MainActivity extends ActionBarActivity
             et.setText(data.getStringExtra("text"));
         }
     }
+
+
 
     /**
      * A placeholder fragment containing a simple view.
