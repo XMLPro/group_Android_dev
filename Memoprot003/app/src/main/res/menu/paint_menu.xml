@@ -18,5 +18,17 @@
         android:title="share"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/color"
+        android:orderInCategory="100"
+        android:title="color"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/undo"
+        android:orderInCategory="100"
+        android:title="undo"
+        app:showAsAction="never" />
+
 
 </menu>

@@ -28,14 +28,16 @@ class DrawNoteView extends android.view.View {
     Canvas bmpCanvas;
     Point oldpos = new Point(-50, -50);
     Paint paint = new Paint();
+    BitmapList bitmapList = new BitmapList(4);
 
     public DrawNoteView(Context c) {
         super(c);
         setFocusable(true);
     }
 
-    public DrawNoteView(Context context, AttributeSet attrs,int defStyle){
-        super(context,attrs,defStyle);
+    public DrawNoteView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        paint.setColor(Color.BLACK);
     }
 
     public DrawNoteView(Context cont, AttributeSet attr) {
@@ -49,6 +51,10 @@ class DrawNoteView extends android.view.View {
 
     public void readImage(Bitmap bmp) {
         bmpCanvas.drawBitmap(bmp, 0, 0, paint);
+    }
+
+    public void setColor(int color){
+        paint.setColor(color);
     }
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -92,33 +98,43 @@ class DrawNoteView extends android.view.View {
         contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
     }
 
+    public void undo() {
+        Bitmap bitmap = bitmapList.undo();
+        bmpCanvas.drawColor(Color.WHITE);
+        bmpCanvas.drawBitmap(bitmap, 0, 0, paint);
+        invalidate();
+    }
 
 
     protected void onDraw(Canvas canvas) {
-        canvas.restore();
-        int[] location = new int[2];
-        getLocationInWindow(location);
-        canvas.drawBitmap(bmp, 0, location[1], null);
+        canvas.drawBitmap(bmp, 0, 0, paint);
     }
 
 
     public boolean onTouchEvent(MotionEvent event) {
         Point cur = new Point((int) event.getX(), (int) event.getY());
 
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            bitmapList.addBitmap(bmp.copy(Bitmap.Config.ARGB_8888, true));
+        }
+
         if (oldpos.x < 0) {
             oldpos = cur;
         }
         paint.setStyle(Paint.Style.FILL);
-        paint.setStrokeWidth(10);
-        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(10);;
+//                paint.setStyle(Paint.Style.FILL);
+//                paint.setStrokeWidth(50);
         paint.setStyle(Paint.Style.FILL);
+
+        // bmpCanvas.drawCircle(oldpos.x, oldpos.y, 60, paint);
+//                bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
 
         bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
         oldpos = cur;
         if (event.getAction() == MotionEvent.ACTION_UP) {
             oldpos = new Point(-1, -1);
         }
-        bmpCanvas.save();
         invalidate();
         return true;
     }
