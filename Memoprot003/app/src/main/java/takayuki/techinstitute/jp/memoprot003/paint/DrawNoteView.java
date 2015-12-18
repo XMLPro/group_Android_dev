@@ -29,10 +29,13 @@ class DrawNoteView extends android.view.View {
     Point oldpos = new Point(-50, -50);
     Paint paint = new Paint();
     BitmapList bitmapList = new BitmapList(4);
+    int change = 0;
 
     public DrawNoteView(Context c) {
         super(c);
         setFocusable(true);
+
+
     }
 
     public DrawNoteView(Context context, AttributeSet attrs, int defStyle) {
@@ -48,6 +51,7 @@ class DrawNoteView extends android.view.View {
         bmpCanvas.drawColor(Color.WHITE);
         invalidate();
     }
+
 
     public void readImage(Bitmap bmp) {
         bmpCanvas.drawBitmap(bmp, 0, 0, paint);
@@ -105,7 +109,6 @@ class DrawNoteView extends android.view.View {
         invalidate();
     }
 
-
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(bmp, 0, 0, paint);
     }
@@ -114,6 +117,8 @@ class DrawNoteView extends android.view.View {
     public boolean onTouchEvent(MotionEvent event) {
         Point cur = new Point((int) event.getX(), (int) event.getY());
 
+        PaintFragment P = new PaintFragment();
+
         if (event.getAction() == MotionEvent.ACTION_UP) {
             bitmapList.addBitmap(bmp.copy(Bitmap.Config.ARGB_8888, true));
         }
@@ -121,14 +126,19 @@ class DrawNoteView extends android.view.View {
         if (oldpos.x < 0) {
             oldpos = cur;
         }
-        paint.setStyle(Paint.Style.FILL);
-        paint.setStrokeWidth(10);;
-//                paint.setStyle(Paint.Style.FILL);
-//                paint.setStrokeWidth(50);
-        paint.setStyle(Paint.Style.FILL);
 
-        // bmpCanvas.drawCircle(oldpos.x, oldpos.y, 60, paint);
-//                bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setStrokeWidth(10);
+
+        if(P.iconflag == 1){
+            paint.setColor(Color.WHITE);
+//            bmpCanvas.drawCircle(oldpos.x, oldpos.y, 20, paint)
+            paint.setStrokeWidth(30);
+            bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
+        }
+        else{
+            if(paint.getColor() == Color.WHITE) paint.setColor(Color.BLACK);
+        }
 
         bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
         oldpos = cur;
@@ -138,5 +148,4 @@ class DrawNoteView extends android.view.View {
         invalidate();
         return true;
     }
-
 }

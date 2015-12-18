@@ -183,7 +183,6 @@ public class MainActivity extends ActionBarActivity
     }
 
 
-
     //startActivityで呼んだ画面から自動で画面を受け取る関数onActivityResult
     //どの画面を呼んだ後もここで受け取るので全画面に対応できるように頑張って書くこと
     //onActivityResultはstartActivity()で呼び出した時の第二引数、第一引数、向こうのintentの順番で引数を受け取る

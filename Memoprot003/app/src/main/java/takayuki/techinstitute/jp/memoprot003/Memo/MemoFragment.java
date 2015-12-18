@@ -17,11 +17,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import java.util.ArrayList;
 
-import takayuki.techinstitute.jp.memoprot003.MainActivity;
 import takayuki.techinstitute.jp.memoprot003.R;
 
 /**
@@ -38,8 +36,6 @@ public class MemoFragment extends Fragment{
     private OnListFragmentInteractionListener mListener;
     private ItemTouchHelper mHelper;
     ArrayList<MemoItem> memoItems;
-    MainActivity m = new MainActivity();
-
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -76,20 +72,13 @@ public class MemoFragment extends Fragment{
             ));
             cursor.moveToNext();
         }
-        adapter = new MemoViewAdapter(memoItems, null);
+        if(getActivity() instanceof OnListFragmentInteractionListener){
+            adapter = new MemoViewAdapter(memoItems,(OnListFragmentInteractionListener)getActivity());
+        }
+        else{
+            adapter = new MemoViewAdapter(memoItems, null);
+        }
         return view;
-    }
-
-    public void onStart(){
-        super.onStart();
-
-        Button button = (Button)getActivity().findViewById(R.id.notification);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                m.sendNotification();
-            }
-        });
     }
 
     @Override
@@ -143,7 +132,6 @@ public class MemoFragment extends Fragment{
 
             @Override
             public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
 
             }
 

@@ -30,8 +30,14 @@ public class MemoEditFragment extends Fragment implements Toolbar.OnMenuItemClic
     }
 
     // TODO: Rename and change types and number of parameters
-    public static MemoEditFragment newInstance() {
+    public static MemoEditFragment newInstance(String memo) {
         MemoEditFragment fragment = new MemoEditFragment();
+
+        Bundle bundle = new Bundle();
+        if(memo !=null){
+            bundle.putString("memo",memo);
+        }
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -49,6 +55,7 @@ public class MemoEditFragment extends Fragment implements Toolbar.OnMenuItemClic
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
+
     }
 
     @Override
@@ -59,6 +66,10 @@ public class MemoEditFragment extends Fragment implements Toolbar.OnMenuItemClic
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        String memo = getArguments().getString("memo",null);
+        if(memo != null){
+            ((EditText)getActivity().findViewById(R.id.editText)).setText(memo);
+        }
         setup();
     }
 
@@ -101,7 +112,6 @@ public class MemoEditFragment extends Fragment implements Toolbar.OnMenuItemClic
         long id = db.insert("memoDB",null,values);
         memos.close();
         Toast.makeText(getActivity(),"保存しました",Toast.LENGTH_SHORT).show();
-
     }
 
 }
