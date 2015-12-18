@@ -152,14 +152,11 @@ public class MainActivity extends ActionBarActivity
                 excutegetResult();
                 break;
         }
-<<<<<<< HEAD
         if(id == R.id.menu_request){
             i = new Intent(Intent.ACTION_GET_CONTENT);
             i.setType("image/jpeg");
             startActivityForResult(i,100);
         }
-=======
->>>>>>> 034f9c527042c9f295a66f78479cf7074bbe5ba0
 
         //メニューとメモ一覧の
         switch (item.getItemId()) {
@@ -191,22 +188,6 @@ public class MainActivity extends ActionBarActivity
     //どの画面を呼んだ後もここで受け取るので全画面に対応できるように頑張って書くこと
     //onActivityResultはstartActivity()で呼び出した時の第二引数、第一引数、向こうのintentの順番で引数を受け取る
     //第二引数で数字を渡すのが普通っぽいのでここではint Numberで第二引数を受け取るように調整
-<<<<<<< HEAD
-    protected void onActivityResult(int resultCode, int requestCode, Intent intent) {
-        super.onActivityResult(resultCode, requestCode, intent);
-        if(resultCode == RESULT_OK && resultCode == 100){
-            String[] projection = {MediaStore.MediaColumns.DATA};
-            Cursor cursor = getContentResolver().query(intent.getData(), projection, null, null, null);
-            if (cursor.getCount() == 1) {
-                cursor.moveToNext();
-                String filePath = cursor.getString(0);
-                Toast.makeText(this, filePath, Toast.LENGTH_LONG).show();
-            }
-
-        }
-
-        Bundle bundle = intent.getExtras();
-=======
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -224,7 +205,6 @@ public class MainActivity extends ActionBarActivity
             return;
         }
         Bundle bundle = data.getExtras();
->>>>>>> 034f9c527042c9f295a66f78479cf7074bbe5ba0
         if (bundle.getInt("color") >= 10) {
             //背景色設定
             PaintDrawable paintDrawable;
