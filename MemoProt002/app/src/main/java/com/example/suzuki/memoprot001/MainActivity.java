@@ -224,7 +224,6 @@ public class MainActivity extends ActionBarActivity
             return;
         }
         Bundle bundle = data.getExtras();
->>>>>>> 034f9c527042c9f295a66f78479cf7074bbe5ba0
         if (bundle.getInt("color") >= 10) {
             //背景色設定
             PaintDrawable paintDrawable;
