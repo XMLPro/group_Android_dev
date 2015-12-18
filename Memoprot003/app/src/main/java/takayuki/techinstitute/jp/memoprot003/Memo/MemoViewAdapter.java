@@ -1,25 +1,30 @@
 package takayuki.techinstitute.jp.memoprot003.Memo;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import takayuki.techinstitute.jp.memoprot003.Memo.MemoFragment.OnListFragmentInteractionListener;
-
-import takayuki.techinstitute.jp.memoprot003.R;
 import java.util.List;
 
-public class MemoViewAdapter extends RecyclerView.Adapter<MemoViewAdapter.ViewHolder> {
+import takayuki.techinstitute.jp.memoprot003.Memo.MemoFragment.OnListFragmentInteractionListener;
+import takayuki.techinstitute.jp.memoprot003.R;
 
-    private final List<MemoItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+public class MemoViewAdapter extends RecyclerView.Adapter<MemoViewAdapter.ViewHolder>{
+
+    private List<MemoItem> mValues;
+    private OnListFragmentInteractionListener mListener;
+    private float moveX;
+    private final float ANIMATION_MIN = 80;
 
     public MemoViewAdapter(List<MemoItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -29,11 +34,10 @@ public class MemoViewAdapter extends RecyclerView.Adapter<MemoViewAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
         holder.mTitleView.setText(mValues.get(position).getTitle());
         holder.mContentView.setText(mValues.get(position).getMemo());
-
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,9 +56,9 @@ public class MemoViewAdapter extends RecyclerView.Adapter<MemoViewAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mTitleView;
-        public final TextView mContentView;
+        public View mView;
+        public TextView mTitleView;
+        public TextView mContentView;
         public MemoItem mItem;
 
         public ViewHolder(View view) {

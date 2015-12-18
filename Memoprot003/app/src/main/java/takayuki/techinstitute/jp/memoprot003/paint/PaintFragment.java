@@ -7,13 +7,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -32,7 +30,7 @@ import takayuki.techinstitute.jp.memoprot003.DUpLoad.UploadPicture;
 import takayuki.techinstitute.jp.memoprot003.R;
 
 
-public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
+public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickListener, ColorFragment.OnColorSetLisner {
     private DrawNoteView noteView;
     private static final int REQUEST_GALLERY = 100;
     private static final int UPLOAD_GALLERY = 200;
@@ -125,6 +123,12 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
     }
 
     @Override
+    public void oncolorset(int color) {
+        noteView = (DrawNoteView)(getView().findViewById(R.id.draw));
+        noteView.setColor(color);
+    }
+
+    @Override
     public boolean onMenuItemClick(MenuItem item) {
         Intent i;
         switch (item.getItemId()) {
@@ -147,6 +151,15 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
                 i.setType("image/*");
                 i.setAction(Intent.ACTION_PICK);
                 startActivityForResult(i, UPLOAD_GALLERY);
+                break;
+            case R.id.color:
+                ColorFragment fragment =ColorFragment.newInstant(this);
+                fragment.show(getFragmentManager(),"show");
+                break;
+            case R.id.undo:
+                noteView = (DrawNoteView)(getView().findViewById(R.id.draw));
+                noteView.undo();
+                break;
         }
         return true;
     }
