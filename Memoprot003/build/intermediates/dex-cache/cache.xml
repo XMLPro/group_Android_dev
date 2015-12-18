@@ -2,18 +2,11 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\libs\json_simple-1.1.jar"
+        jar="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="5e303a03d04e6788dddfa3655272580ae0fc13bb">
-        <dex dex="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\pre-dexed\debug\json_simple-1.1_cd0a00d8bfc40e326955cc6e46b9e4071382dbee.jar" />
-    </item>
-    <item
-        jar="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
-        <dex dex="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1_c987f4fc04ba555bd578abbc059f165c257af858.jar" />
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.1.1_00872d62012c800861fda0d889464c0caa16566b.jar" />
     </item>
     <item
         jar="C:\Users\Admin_2\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
@@ -23,25 +16,25 @@
         <dex dex="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.1_85e9c948436d02bd8d2ff265f149392e1022730d.jar" />
     </item>
     <item
-        jar="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
-        <dex dex="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.1.1_7bb683d8a44849626fdb31d5fdf2a0514a9a8336.jar" />
-    </item>
-    <item
-        jar="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
-        <dex dex="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.1.1_f02f91eb43898b5719bd4eb13eda6d522f82b5c2.jar" />
-    </item>
-    <item
         jar="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\libs\dropbox-android-sdk-1.6.3.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="986e7a58e925c6f91b88ae8d3224a0550b65acc7">
         <dex dex="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\pre-dexed\debug\dropbox-android-sdk-1.6.3_902b76d72cbdb2b080089ffaa3ad348b1cdc7855.jar" />
+    </item>
+    <item
+        jar="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\libs\json_simple-1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5e303a03d04e6788dddfa3655272580ae0fc13bb">
+        <dex dex="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\pre-dexed\debug\json_simple-1.1_cd0a00d8bfc40e326955cc6e46b9e4071382dbee.jar" />
+    </item>
+    <item
+        jar="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.1.1_7bb683d8a44849626fdb31d5fdf2a0514a9a8336.jar" />
     </item>
     <item
         jar="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\exploded-aar\com.android.support\design\23.1.1\jars\classes.jar"
@@ -51,6 +44,13 @@
         <dex dex="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\pre-dexed\debug\com.android.support-design-23.1.1_df4f9c1d17c14e168d7f93c2fcb45ccccbc23b6a.jar" />
     </item>
     <item
+        jar="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1_c987f4fc04ba555bd578abbc059f165c257af858.jar" />
+    </item>
+    <item
         jar="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.1.1\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -58,11 +58,11 @@
         <dex dex="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\pre-dexed\debug\com.android.support-cardview-v7-23.1.1_8f2d3785e75ab6241329dc67da17f1bcd9944e3f.jar" />
     </item>
     <item
-        jar="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
+        jar="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
-        <dex dex="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.1.1_00872d62012c800861fda0d889464c0caa16566b.jar" />
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="C:\Users\Admin_2\Documents\group_Android_dev\Memoprot003\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.1.1_f02f91eb43898b5719bd4eb13eda6d522f82b5c2.jar" />
     </item>
 
 </items>
