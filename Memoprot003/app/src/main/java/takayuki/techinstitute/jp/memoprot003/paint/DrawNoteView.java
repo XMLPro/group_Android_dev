@@ -132,7 +132,6 @@ class DrawNoteView extends android.view.View {
 
         if(P.iconflag == 1){
             paint.setColor(Color.WHITE);
-//            bmpCanvas.drawCircle(oldpos.x, oldpos.y, 20, paint)
             paint.setStrokeWidth(30);
             bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
         }
