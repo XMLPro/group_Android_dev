@@ -15,10 +15,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
@@ -32,7 +36,7 @@ import takayuki.techinstitute.jp.memoprot003.DUpLoad.UploadPicture;
 import takayuki.techinstitute.jp.memoprot003.R;
 
 
-public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
+public class PaintFragment extends Fragment {
     private DrawNoteView noteView;
     private static final int REQUEST_GALLERY = 100;
     private static final int UPLOAD_GALLERY = 200;
@@ -41,7 +45,7 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
     private DropboxAPI<AndroidAuthSession> mApi;
     private boolean logged_in = false;
 
-    public static int change;
+    public static int change = 0;
 
     public PaintFragment() {
         // Required empty public constructor
@@ -55,8 +59,17 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.paint_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,10 +79,11 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         AndroidAuthSession session = new AndroidAuthSession(appKeyPair);
         mApi = new DropboxAPI<>(session);
         View view = inflater.inflate(R.layout.fragment_paint,container,false);
+
+        setHasOptionsMenu(true);
         //setup();
         return view;//inflater.inflate(R.layout.fragment_paint, container, false);
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -95,7 +109,6 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         }
     }
 
-
     private void logOut() {
         mApi.getSession().unlink();
         logged_in = false;
@@ -118,7 +131,15 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_paint);
         toolbar.setTitle("お絵かき");
         toolbar.inflateMenu(R.menu.paint_menu);
-        toolbar.setOnMenuItemClickListener(this);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                // メニューのクリック処理
+                onOptionsItemSelected(item);
+                return true;
+            }
+        });
+
         DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -126,8 +147,9 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         toggle.syncState();
     }
 
+//    public boolean onMenuItemClick(MenuItem item) {
     @Override
-    public boolean onMenuItemClick(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         Intent i;
         switch (item.getItemId()) {
             case R.id.save_image:
@@ -156,8 +178,6 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
                 break;
             case R.id.action_eraser:
                 if (change == 0) {
-                    Settings paintC = (Settings) getApplication();
-                    paint.setColor(paintC.getC());
                     change = 1;
                     getActivity().invalidateOptionsMenu();
                 } else if (change == 1) {
@@ -165,7 +185,9 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
                     getActivity().invalidateOptionsMenu();
                 }
                 break;
-
+//            case R.id.action_pen:
+//                change = 1;
+//                break;
         }
         return true;
     }

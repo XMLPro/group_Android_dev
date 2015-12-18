@@ -50,6 +50,7 @@ class DrawNoteView extends android.view.View {
         invalidate();
     }
 
+
     public void readImage(Bitmap bmp) {
         bmpCanvas.drawBitmap(bmp, 0, 0, paint);
     }
@@ -118,7 +119,7 @@ class DrawNoteView extends android.view.View {
 
         if (Change.change == 0) {
             paint.setColor(Color.BLACK);
-        } else {
+        } else if (Change.change == 1) {
             paint.setColor(Color.WHITE);
         }
 

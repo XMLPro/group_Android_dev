@@ -27,18 +27,18 @@
 
     <item
         android:id="@+id/action_eraser"
-        android:icon="@android:drawable/ic_input_delete"
+        android:icon="@android:drawable/ic_menu_edit"
         android:orderInCategory="1"
         android:title=""
         app:showAsAction="always" />
+    <!--android:scr="@drawable/eraser"-->
 
-    <item
-        android:id="@+id/pencil"
-        android:icon="@android:drawable/ic_menu_preferences"
-        android:orderInCategory="1"
-        android:title=""
-        app:showAsAction="always" />
-
+    <!--<item-->
+        <!--android:id="@+id/action_pen"-->
+        <!--android:icon="@android:drawable/stat_notify_more"-->
+        <!--android:orderInCategory="1"-->
+        <!--android:title=""-->
+        <!--app:showAsAction="always" />-->
 
 
 </menu>
