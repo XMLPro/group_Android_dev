@@ -7,13 +7,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,8 +33,7 @@ import java.io.InputStream;
 import takayuki.techinstitute.jp.memoprot003.DUpLoad.UploadPicture;
 import takayuki.techinstitute.jp.memoprot003.R;
 
-
-public class PaintFragment extends Fragment {
+public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickListener, ColorFragment.OnColorSetLisner {
     private DrawNoteView noteView;
     private static final int REQUEST_GALLERY = 100;
     private static final int UPLOAD_GALLERY = 200;
@@ -44,8 +41,6 @@ public class PaintFragment extends Fragment {
     private static final String APP_SECRET = "6goe1eupm6dqvqz";
     private DropboxAPI<AndroidAuthSession> mApi;
     private boolean logged_in = false;
-
-    public static int change = 0;
 
     public PaintFragment() {
         // Required empty public constructor
@@ -59,17 +54,7 @@ public class PaintFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-
     }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-        inflater.inflate(R.menu.paint_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,8 +64,6 @@ public class PaintFragment extends Fragment {
         AndroidAuthSession session = new AndroidAuthSession(appKeyPair);
         mApi = new DropboxAPI<>(session);
         View view = inflater.inflate(R.layout.fragment_paint,container,false);
-
-        setHasOptionsMenu(true);
         //setup();
         return view;//inflater.inflate(R.layout.fragment_paint, container, false);
     }
@@ -114,7 +97,6 @@ public class PaintFragment extends Fragment {
         logged_in = false;
     }
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -131,15 +113,7 @@ public class PaintFragment extends Fragment {
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_paint);
         toolbar.setTitle("お絵かき");
         toolbar.inflateMenu(R.menu.paint_menu);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                // メニューのクリック処理
-                onOptionsItemSelected(item);
-                return true;
-            }
-        });
-
+        toolbar.setOnMenuItemClickListener(this);
         DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -149,7 +123,13 @@ public class PaintFragment extends Fragment {
 
 //    public boolean onMenuItemClick(MenuItem item) {
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public void oncolorset(int color) {
+        noteView = (DrawNoteView)(getView().findViewById(R.id.draw));
+        noteView.setColor(color);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
         Intent i;
         switch (item.getItemId()) {
             case R.id.save_image:
@@ -176,18 +156,14 @@ public class PaintFragment extends Fragment {
                 noteView = (DrawNoteView)(getView().findViewById(R.id.draw));
                 noteView.clearDrawList();
                 break;
-            case R.id.action_eraser:
-                if (change == 0) {
-                    change = 1;
-                    getActivity().invalidateOptionsMenu();
-                } else if (change == 1) {
-                    change = 0;
-                    getActivity().invalidateOptionsMenu();
-                }
+            case R.id.color:
+                ColorFragment fragment =ColorFragment.newInstant(this);
+                fragment.show(getFragmentManager(),"show");
                 break;
-//            case R.id.action_pen:
-//                change = 1;
-//                break;
+            case R.id.undo:
+                noteView = (DrawNoteView)(getView().findViewById(R.id.draw));
+                noteView.undo();
+                break;
         }
         return true;
     }

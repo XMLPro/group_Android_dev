@@ -26,19 +26,15 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_eraser"
-        android:icon="@android:drawable/ic_menu_edit"
-        android:orderInCategory="1"
-        android:title=""
-        app:showAsAction="always" />
-    <!--android:scr="@drawable/eraser"-->
+        android:id="@+id/color"
+        android:orderInCategory="100"
+        android:title="color"
+        app:showAsAction="never" />
 
-    <!--<item-->
-        <!--android:id="@+id/action_pen"-->
-        <!--android:icon="@android:drawable/stat_notify_more"-->
-        <!--android:orderInCategory="1"-->
-        <!--android:title=""-->
-        <!--app:showAsAction="always" />-->
-
+    <item
+        android:id="@+id/undo"
+        android:orderInCategory="100"
+        android:title="undo"
+        app:showAsAction="never" />
 
 </menu>

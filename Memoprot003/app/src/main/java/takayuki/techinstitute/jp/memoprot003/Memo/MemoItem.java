@@ -12,7 +12,7 @@ public class MemoItem {
         return memo;
     }
 
-    public MemoItem(int id, String memo, String title) {
+    public MemoItem(int id, String title, String memo) {
         this.id = id;
         this.memo = memo;
         this.title = title;

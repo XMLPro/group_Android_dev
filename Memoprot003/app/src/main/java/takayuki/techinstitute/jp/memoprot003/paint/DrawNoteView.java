@@ -11,11 +11,8 @@ import android.graphics.Point;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.MotionEvent;
-import android.view.WindowManager;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,14 +28,16 @@ class DrawNoteView extends android.view.View {
     Canvas bmpCanvas;
     Point oldpos = new Point(-50, -50);
     Paint paint = new Paint();
+    BitmapList bitmapList = new BitmapList(4);
 
     public DrawNoteView(Context c) {
         super(c);
         setFocusable(true);
     }
 
-    public DrawNoteView(Context context, AttributeSet attrs,int defStyle){
+    public DrawNoteView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        paint.setColor(Color.BLACK);
     }
 
     public DrawNoteView(Context cont, AttributeSet attr) {
@@ -53,6 +52,10 @@ class DrawNoteView extends android.view.View {
 
     public void readImage(Bitmap bmp) {
         bmpCanvas.drawBitmap(bmp, 0, 0, paint);
+    }
+
+    public void setColor(int color){
+        paint.setColor(color);
     }
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -87,7 +90,8 @@ class DrawNoteView extends android.view.View {
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
-        };
+        }
+        ;
         // save index
         ContentValues values = new ContentValues();
         ContentResolver contentResolver = getContext().getContentResolver();
@@ -97,19 +101,26 @@ class DrawNoteView extends android.view.View {
         contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
     }
 
+    public void undo() {
+        Bitmap bitmap = bitmapList.undo();
+        bmpCanvas.drawColor(Color.WHITE);
+        bmpCanvas.drawBitmap(bitmap, 0, 0, paint);
+        invalidate();
+    }
 
 
     protected void onDraw(Canvas canvas) {
-        canvas.restore();
-        int[] location = new int[2];
-        getLocationInWindow(location);
-        canvas.drawBitmap(bmp, 0, location[1], null);
+        canvas.drawBitmap(bmp, 0, 0, paint);
     }
 
 
     public boolean onTouchEvent(MotionEvent event) {
         Point cur = new Point((int) event.getX(), (int) event.getY());
-        PaintFragment Change = new PaintFragment();
+
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            Log.d("excute", "実行");
+            bitmapList.addBitmap(bmp.copy(Bitmap.Config.ARGB_8888, true));
+        }
 
         if (oldpos.x < 0) {
             oldpos = cur;
@@ -117,23 +128,12 @@ class DrawNoteView extends android.view.View {
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeWidth(10);
 
-        if (Change.change == 0) {
-            paint.setColor(Color.BLACK);
-        } else if (Change.change == 1) {
-            paint.setColor(Color.WHITE);
-        }
-
-        paint.setStyle(Paint.Style.FILL);
-
-
         bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
         oldpos = cur;
         if (event.getAction() == MotionEvent.ACTION_UP) {
             oldpos = new Point(-1, -1);
         }
-        bmpCanvas.save();
         invalidate();
         return true;
     }
-
 }
