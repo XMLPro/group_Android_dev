@@ -1,18 +1,20 @@
 package takayuki.techinstitute.jp.memoprot003.paint;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 /**
  * Created by Owner on 2015/12/15.
  */
 public class BitmapList {
     public Bitmap[] bmp;
-    public int setcusor;
-    public int getcusor;
+    public int setcursor = 0;
+    public int getcursor = 0;
+    public boolean flag = true;
     public BitmapList(int num){
         bmp = new Bitmap[num];
-        setcusor = 0;
-        getcusor = 0;
+        setcursor = 0;
+        getcursor = 0;
     }
 
     public Bitmap getBitmap(int index){
@@ -20,29 +22,59 @@ public class BitmapList {
     }
 
     public void addBitmap(Bitmap bitmap){
-        if(setcusor < bmp.length){
-            bmp[setcusor] = bitmap;
-            setcusor++;
-            getcusor++;
+        if(getcursor < bmp.length){
+            bmp[getcursor] = bitmap;
+            setcursor++;
+            getcursor++;
+            Log.d("log:if", "addBitmap: ");
             return;
         }
         for(int i = 0; i<bmp.length-1; i++){
             bmp[i] = bmp[i+1];
+            Log.d("log:for", "addBitmap: ");
         }
-        bmp[setcusor-1] = bitmap;
+        bmp[getcursor - 2] = bitmap;
     }
 
+    //undo‚Ìˆ—
     public Bitmap undo(){
-        if(iscusorzero()){
-            return bmp[getcusor];
+        if(iscursorzero()){
+            Log.d("log:iscursorzero", "undo: ");
+            return bmp[getcursor];
         }
-        getcusor--;
-        return bmp[getcusor];
+        if (flag == true && getcursor > 1 || getcursor == 4) {
+            getcursor = getcursor - 2;
+            flag = false;
+            Log.d("log:if flag", "undo: ");
+            return bmp[getcursor];
+        }
+        Log.d("log:getcursor", "undo: ");
+        getcursor--;
+        return bmp[getcursor];
     }
 
+    //redo‚Ìˆ—
+    public Bitmap redo(){
+        if(iscursor()){
+            Log.d("log:iscursor", "redo: ");
+            return bmp[getcursor];
+        }
+        Log.d("log:redo", "redo: ");
+        getcursor++;
+        return bmp[getcursor];
+    }
 
-    public boolean iscusorzero(){
-        if (getcusor == 0){
+    //undo‚ğ4‰ñs‚Á‚½‚Æ‚«‚Ìˆ—
+    public boolean iscursorzero(){
+        if (getcursor == 0){
+            return true;
+        }
+        return false;
+    }
+
+    //redo‚ğ4‰ñs‚Á‚½‚Æ‚«‚Ìˆ—
+    public boolean iscursor(){
+        if ((setcursor - getcursor) < 2 || getcursor >= 3){
             return true;
         }
         return false;

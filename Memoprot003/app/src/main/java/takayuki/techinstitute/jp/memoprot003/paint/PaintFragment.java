@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -165,7 +166,7 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
                 startActivityForResult(i, UPLOAD_GALLERY);
                 break;
             case R.id.action_delete:
-                noteView = (DrawNoteView)(getView().findViewById(R.id.draw));
+                noteView = (DrawNoteView)(getActivity().findViewById(R.id.draw));
                 noteView.clearDrawList();
                 break;
             case R.id.color:
@@ -173,8 +174,13 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
                 fragment.show(getFragmentManager(),"show");
                 break;
             case R.id.undo:
-                noteView = (DrawNoteView)(getView().findViewById(R.id.draw));
+                noteView = (DrawNoteView)(getActivity().findViewById(R.id.draw));
+                Log.d("undo","実行してる？");
                 noteView.undo();
+                break;
+            case R.id.redo:
+                noteView = (DrawNoteView)(getActivity().findViewById(R.id.draw));
+                noteView.redo();
                 break;
         }
         return true;

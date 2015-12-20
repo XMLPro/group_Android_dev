@@ -11,6 +11,7 @@ import android.graphics.Point;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import java.io.File;
@@ -49,6 +50,7 @@ class DrawNoteView extends android.view.View {
 
     public void clearDrawList() {
         bmpCanvas.drawColor(Color.WHITE);
+        bitmapList.addBitmap(bmp.copy(Bitmap.Config.ARGB_8888, true));
         invalidate();
     }
 
@@ -103,10 +105,21 @@ class DrawNoteView extends android.view.View {
     }
 
     public void undo() {
-        Bitmap bitmap = bitmapList.undo();
-        bmpCanvas.drawColor(Color.WHITE);
-        bmpCanvas.drawBitmap(bitmap, 0, 0, paint);
-        invalidate();
+
+        if (!bitmapList.iscursorzero()) {
+            Log.d("é¿çsÇ≈Ç∑!","é¿çs!");
+            Bitmap bitmap = bitmapList.undo();
+            bmpCanvas.drawBitmap(bitmap, 0, 0, paint);
+            invalidate();
+        }
+    }
+
+    public void redo() {
+        if (!bitmapList.iscursor()) {
+            Bitmap bitmap = bitmapList.redo();
+            bmpCanvas.drawBitmap(bitmap, 0, 0, paint);
+            invalidate();
+        }
     }
 
     protected void onDraw(Canvas canvas) {

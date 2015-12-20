@@ -34,8 +34,18 @@
 
     <item
         android:id="@+id/undo"
+        android:icon="@android:drawable/ic_media_previous"
         android:orderInCategory="100"
         android:title="undo"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/redo"
+        android:icon="@android:drawable/ic_media_next"
+        android:orderInCategory="100"
+        android:title="undo"
+        app:showAsAction="always" />
+
+
 
 </menu>
