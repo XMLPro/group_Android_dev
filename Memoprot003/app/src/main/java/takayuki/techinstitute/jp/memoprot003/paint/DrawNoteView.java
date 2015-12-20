@@ -105,7 +105,6 @@ class DrawNoteView extends android.view.View {
     public void undo() {
         if(bitmapList.iscursorzero() == false) {
             Bitmap bitmap = bitmapList.undo();
-            bmpCanvas.drawColor(Color.WHITE);
             bmpCanvas.drawBitmap(bitmap, 0, 0, paint);
             invalidate();
         }
@@ -114,7 +113,6 @@ class DrawNoteView extends android.view.View {
     public void redo() {
         if (bitmapList.iscursor() == false){
             Bitmap bitmap = bitmapList.redo();
-            bmpCanvas.drawColor(Color.BLACK);
             bmpCanvas.drawBitmap(bitmap, 0, 0, paint);
             invalidate();
         }
