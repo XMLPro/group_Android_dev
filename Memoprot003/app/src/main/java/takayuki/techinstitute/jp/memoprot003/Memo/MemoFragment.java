@@ -35,6 +35,8 @@ public class MemoFragment extends Fragment{
     private MemoViewAdapter adapter;
     private OnListFragmentInteractionListener mListener;
     private ItemTouchHelper mHelper;
+    private SQLiteDatabase db;
+    RecyclerView recyclerView;
     ArrayList<MemoItem> memoItems;
 
     /**
@@ -61,7 +63,7 @@ public class MemoFragment extends Fragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
         memos = new MemoDBHelper(getContext());
-        SQLiteDatabase db = memos.getReadableDatabase();
+        db = memos.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from memoDB", null);
         cursor.moveToFirst();
         memoItems = new ArrayList<>();
@@ -105,7 +107,7 @@ public class MemoFragment extends Fragment{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        RecyclerView recyclerView = (RecyclerView) (getView().findViewById(R.id.list));
+        recyclerView = (RecyclerView) (getView().findViewById(R.id.list));
         mHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
@@ -119,10 +121,17 @@ public class MemoFragment extends Fragment{
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                //recyclerView.getAdapter().notifyItemRemoved(viewHolder.getAdapterPosition());
-                Log.d("test","test");
+                int pos = viewHolder.getAdapterPosition();
+                MemoViewAdapter memoAdapter = (MemoViewAdapter) recyclerView.getAdapter();
+                int id = memoAdapter.getItem(pos).getId();
+                Log.d("確認ID",String.valueOf(id));
+                int count = db.delete("memoDB", "id = ?", new String[]{String.valueOf(id)});
+                Log.d("消えた？",String.valueOf(count));
+                memoAdapter.notifyItemRemoved(pos);
+                memoAdapter.deleteItem(pos);
             }
         });
+        mHelper.attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override

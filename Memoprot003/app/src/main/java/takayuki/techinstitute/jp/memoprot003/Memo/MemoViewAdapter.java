@@ -1,7 +1,9 @@
 package takayuki.techinstitute.jp.memoprot003.Memo;
-
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -23,6 +25,18 @@ public class MemoViewAdapter extends RecyclerView.Adapter<MemoViewAdapter.ViewHo
         mListener = listener;
     }
 
+    public void deleteItem(int index){
+        mValues.remove(index);
+    }
+
+    public MemoItem getItem(int index){
+        Log.d("test",String.valueOf(index));
+        if(mValues.size() == 0){
+            return null;
+        }
+        return mValues.get(index);
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -35,11 +49,10 @@ public class MemoViewAdapter extends RecyclerView.Adapter<MemoViewAdapter.ViewHo
         holder.mItem = mValues.get(position);
         holder.mTitleView.setText(mValues.get(position).getTitle());
         holder.mContentView.setText(mValues.get(position).getMemo());
-
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mListener != null) {
+                if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
@@ -67,3 +80,4 @@ public class MemoViewAdapter extends RecyclerView.Adapter<MemoViewAdapter.ViewHo
         }
     }
 }
+
