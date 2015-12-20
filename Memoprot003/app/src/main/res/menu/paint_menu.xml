@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -46,3 +47,56 @@
         app:showAsAction="always" />
 
 </menu>
+=======
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/save_image"
+        android:orderInCategory="100"
+        android:title="save_image"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/read_image"
+        android:orderInCategory="100"
+        android:title="read_image"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/share"
+        android:orderInCategory="100"
+        android:title="share"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:orderInCategory="100"
+        android:title="delete"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/color"
+        android:orderInCategory="100"
+        android:title="color"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/undo"
+        android:icon="@android:drawable/ic_media_previous"
+        android:orderInCategory="100"
+        android:title="undo"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/redo"
+        android:icon="@android:drawable/ic_media_next"
+        android:orderInCategory="100"
+        android:title="undo"
+        app:showAsAction="always" />
+
+
+
+</menu>
+>>>>>>> 8525a72776b85716a9486796383799b21c03602f
