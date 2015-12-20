@@ -9,18 +9,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
@@ -35,6 +32,7 @@ import takayuki.techinstitute.jp.memoprot003.R;
 
 public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickListener, ColorFragment.OnColorSetLisner {
     private DrawNoteView noteView;
+    public static int iconflag = 0;
     private static final int REQUEST_GALLERY = 100;
     private static final int UPLOAD_GALLERY = 200;
     private static final String APP_KEY = "vov7o5v46gvyx92";
@@ -71,6 +69,20 @@ public class PaintFragment extends Fragment implements Toolbar.OnMenuItemClickLi
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        final FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(iconflag == 0){
+                    fab.setImageResource(R.drawable.pencil);
+                    iconflag = 1;
+                    return;
+                }
+                iconflag = 0;
+                fab.setImageResource(R.drawable.eraser);
+            }
+        });
         setup();
     }
 

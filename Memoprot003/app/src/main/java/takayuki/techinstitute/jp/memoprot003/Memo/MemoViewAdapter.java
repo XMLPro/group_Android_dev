@@ -1,5 +1,4 @@
 package takayuki.techinstitute.jp.memoprot003.Memo;
-
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -81,3 +80,4 @@ public class MemoViewAdapter extends RecyclerView.Adapter<MemoViewAdapter.ViewHo
         }
     }
 }
+

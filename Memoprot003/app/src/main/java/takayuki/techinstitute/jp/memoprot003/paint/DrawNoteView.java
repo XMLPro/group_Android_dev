@@ -11,8 +11,8 @@ import android.graphics.Point;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,10 +29,13 @@ class DrawNoteView extends android.view.View {
     Point oldpos = new Point(-50, -50);
     Paint paint = new Paint();
     BitmapList bitmapList = new BitmapList(4);
+    int change = 0;
 
     public DrawNoteView(Context c) {
         super(c);
         setFocusable(true);
+
+
     }
 
     public DrawNoteView(Context context, AttributeSet attrs, int defStyle) {
@@ -82,7 +85,6 @@ class DrawNoteView extends android.view.View {
         String fileName = fileNameDate.format(mDate) + ".jpg";
         String AttachName = file.getAbsolutePath() + "/" + fileName;
 
-
         try {
             FileOutputStream out = new FileOutputStream(AttachName);
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
@@ -91,7 +93,6 @@ class DrawNoteView extends android.view.View {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ;
         // save index
         ContentValues values = new ContentValues();
         ContentResolver contentResolver = getContext().getContentResolver();
@@ -108,7 +109,6 @@ class DrawNoteView extends android.view.View {
         invalidate();
     }
 
-
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(bmp, 0, 0, paint);
     }
@@ -117,23 +117,27 @@ class DrawNoteView extends android.view.View {
     public boolean onTouchEvent(MotionEvent event) {
         Point cur = new Point((int) event.getX(), (int) event.getY());
 
+        PaintFragment P = new PaintFragment();
+
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            Log.d("excute", "実行");
             bitmapList.addBitmap(bmp.copy(Bitmap.Config.ARGB_8888, true));
         }
 
         if (oldpos.x < 0) {
             oldpos = cur;
         }
-        paint.setStyle(Paint.Style.FILL);
 
-        paint.setStrokeWidth(10);;
-//                paint.setStyle(Paint.Style.FILL);
-//                paint.setStrokeWidth(50);
         paint.setStyle(Paint.Style.FILL);
+        paint.setStrokeWidth(10);
 
-        // bmpCanvas.drawCircle(oldpos.x, oldpos.y, 60, paint);
-//                bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
+        if(P.iconflag == 1){
+            paint.setColor(Color.WHITE);
+            paint.setStrokeWidth(30);
+            bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
+        }
+        else{
+            if(paint.getColor() == Color.WHITE) paint.setColor(Color.BLACK);
+        }
 
         bmpCanvas.drawLine(oldpos.x, oldpos.y, cur.x, cur.y, paint);
         oldpos = cur;

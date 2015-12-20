@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -27,15 +28,15 @@ import takayuki.techinstitute.jp.memoprot003.R;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class MemoFragment extends Fragment {
+public class MemoFragment extends Fragment{
 
     private int mColumnCount = 1;
     private MemoDBHelper memos;
     private MemoViewAdapter adapter;
     private OnListFragmentInteractionListener mListener;
     private ItemTouchHelper mHelper;
-    private RecyclerView recyclerView;
     private SQLiteDatabase db;
+    RecyclerView recyclerView;
     ArrayList<MemoItem> memoItems;
 
     /**
@@ -62,7 +63,7 @@ public class MemoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
         memos = new MemoDBHelper(getContext());
-        db = memos.getWritableDatabase();
+        db = memos.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from memoDB", null);
         cursor.moveToFirst();
         memoItems = new ArrayList<>();
@@ -71,11 +72,14 @@ public class MemoFragment extends Fragment {
                     cursor.getString(cursor.getColumnIndex("title")),
                     cursor.getString(cursor.getColumnIndex("memo"))
             ));
-            Log.d("入っているID",String.valueOf(memoItems.get(i).getId()));
             cursor.moveToNext();
         }
-        adapter = new MemoViewAdapter(memoItems, null);
-        db.close();
+        if(getActivity() instanceof OnListFragmentInteractionListener){
+            adapter = new MemoViewAdapter(memoItems,(OnListFragmentInteractionListener)getActivity());
+        }
+        else{
+            adapter = new MemoViewAdapter(memoItems, null);
+        }
         return view;
     }
 
@@ -103,9 +107,7 @@ public class MemoFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        recyclerView = (RecyclerView) (getActivity().findViewById(R.id.list));
-        recyclerView.setAdapter(adapter);
-        db = memos.getWritableDatabase();
+        recyclerView = (RecyclerView) (getView().findViewById(R.id.list));
         mHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
@@ -130,9 +132,26 @@ public class MemoFragment extends Fragment {
             }
         });
         mHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                return false;
+            }
 
-        Context context = getActivity();
-        if (context != null) {
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
+        Context context = getView().getContext();
+        if(context != null) {
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -147,7 +166,6 @@ public class MemoFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
 
     /**
      * This interface must be implemented by activities that contain this
