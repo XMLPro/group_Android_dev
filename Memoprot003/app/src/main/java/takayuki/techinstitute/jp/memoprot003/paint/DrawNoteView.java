@@ -29,14 +29,11 @@ class DrawNoteView extends android.view.View {
     Canvas bmpCanvas;
     Point oldpos = new Point(-50, -50);
     Paint paint = new Paint();
-    BitmapList bitmapList = new BitmapList(4);
-    int change = 0;
+    BitmapList bitmapList = new BitmapList();
 
     public DrawNoteView(Context c) {
         super(c);
         setFocusable(true);
-
-
     }
 
     public DrawNoteView(Context context, AttributeSet attrs, int defStyle) {
@@ -50,7 +47,7 @@ class DrawNoteView extends android.view.View {
 
     public void clearDrawList() {
         bmpCanvas.drawColor(Color.WHITE);
-        bitmapList.addBitmap(bmp.copy(Bitmap.Config.ARGB_8888, true));
+       // bitmapList.addBitmap(bmp.copy(Bitmap.Config.ARGB_8888, true));
         invalidate();
     }
 
@@ -68,6 +65,7 @@ class DrawNoteView extends android.view.View {
         bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         bmpCanvas = new Canvas(bmp);
         bmpCanvas.drawColor(Color.WHITE);
+        bitmapList.append(bmp.copy(Bitmap.Config.ARGB_8888, true));
     }
 
     public void saveToFile() {
@@ -105,21 +103,15 @@ class DrawNoteView extends android.view.View {
     }
 
     public void undo() {
-
-        if (!bitmapList.iscursorzero()) {
-            Log.d("é¿çsÇ≈Ç∑!","é¿çs!");
-            Bitmap bitmap = bitmapList.undo();
-            bmpCanvas.drawBitmap(bitmap, 0, 0, paint);
-            invalidate();
-        }
+        Bitmap bitmap =bitmapList.undo();
+        bmpCanvas.drawBitmap(bitmap,0,0,paint);
+        invalidate();
     }
 
     public void redo() {
-        if (!bitmapList.iscursor()) {
-            Bitmap bitmap = bitmapList.redo();
-            bmpCanvas.drawBitmap(bitmap, 0, 0, paint);
-            invalidate();
-        }
+        Bitmap bitmap =bitmapList.redo();
+        bmpCanvas.drawBitmap(bitmap,0,0,paint);
+        invalidate();
     }
 
     protected void onDraw(Canvas canvas) {
@@ -133,7 +125,8 @@ class DrawNoteView extends android.view.View {
         PaintFragment P = new PaintFragment();
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            bitmapList.addBitmap(bmp.copy(Bitmap.Config.ARGB_8888, true));
+            Log.d("ÂÖ•„Çå„Å¶„Çã?","ÂàÜ„Åã„Çâ„Å™„ÅÑ");
+            bitmapList.append(bmp.copy(Bitmap.Config.ARGB_8888, true));
         }
 
         if (oldpos.x < 0) {

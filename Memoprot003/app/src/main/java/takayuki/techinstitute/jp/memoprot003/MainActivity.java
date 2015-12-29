@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, PaintFragment.newInstance()).commit();
                 break;
             case R.id.memo:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, MemoEditFragment.newInstance(null)).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, MemoEditFragment.newInstance(null,false,null)).commit();
                 break;
             case R.id.memoList:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, MemoFragment.newInstance()).commit();
@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(MemoItem item) {
         String memo = item.getMemo();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,MemoEditFragment.newInstance(memo)).commit();
+        String id = String.valueOf(item.getId());
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,MemoEditFragment.newInstance(memo,true,id)).commit();
     }
 
 }

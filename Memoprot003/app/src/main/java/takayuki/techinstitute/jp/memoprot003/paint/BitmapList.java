@@ -1,5 +1,6 @@
 package takayuki.techinstitute.jp.memoprot003.paint;
 
+
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -7,77 +8,52 @@ import android.util.Log;
  * Created by Owner on 2015/12/15.
  */
 public class BitmapList {
-    public Bitmap[] bmp;
-    public int setcursor = 0;
-    public int getcursor = 0;
-    public boolean flag = true;
-    public BitmapList(int num){
-        bmp = new Bitmap[num];
-        setcursor = 0;
-        getcursor = 0;
+    private Bitmap[] bmpList;
+    private int cursor;
+    private final static int LIMIT =6;
+
+
+    public BitmapList() {
     }
 
-    public Bitmap getBitmap(int index){
-        return bmp[index];
-    }
-
-    public void addBitmap(Bitmap bitmap){
-        if(getcursor < bmp.length){
-            bmp[getcursor] = bitmap;
-            setcursor++;
-            getcursor++;
-            Log.d("log:if", "addBitmap: ");
+    public void append(Bitmap bitmap) {
+        if (bmpList == null) {
+            bmpList = new Bitmap[1];
+            bmpList[0] = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        }
+        if(cursor + 2 > LIMIT){
+            Bitmap[] upd = new Bitmap[LIMIT];
+            for (int i = 0; i < bmpList.length-1; i++) {
+                upd[i] = bmpList[i+1].copy(Bitmap.Config.ARGB_8888, true);
+            }
+            upd[upd.length-1] = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+            bmpList = upd;
+            cursor = bmpList.length - 1;
             return;
         }
-        for(int i = 0; i<bmp.length-1; i++){
-            bmp[i] = bmp[i+1];
-            Log.d("log:for", "addBitmap: ");
+
+        Bitmap[] upd = new Bitmap[cursor + 2];
+        for (int i = 0; i <= cursor; i++) {
+            upd[i] = bmpList[i].copy(Bitmap.Config.ARGB_8888, true);
         }
-        bmp[getcursor - 2] = bitmap;
+        bmpList = upd;
+        cursor = bmpList.length - 1;
+        bmpList[cursor] = bitmap.copy(Bitmap.Config.ARGB_8888, true);
     }
 
-    //undo‚Ìˆ—
-    public Bitmap undo(){
-        if(iscursorzero()){
-            Log.d("log:iscursorzero", "undo: ");
-            return bmp[getcursor];
+    public Bitmap undo() {
+        if (cursor == 0) {
+            return bmpList[0];
         }
-        if (flag == true && getcursor > 1 || getcursor == 4) {
-            getcursor = getcursor - 2;
-            flag = false;
-            Log.d("log:if flag", "undo: ");
-            return bmp[getcursor];
-        }
-        Log.d("log:getcursor", "undo: ");
-        getcursor--;
-        return bmp[getcursor];
+        cursor--;
+        return bmpList[cursor];
     }
 
-    //redo‚Ìˆ—
-    public Bitmap redo(){
-        if(iscursor()){
-            Log.d("log:iscursor", "redo: ");
-            return bmp[getcursor];
+    public Bitmap redo() {
+        if (cursor == bmpList.length - 1) {
+            return bmpList[bmpList.length - 1];
         }
-        Log.d("log:redo", "redo: ");
-        getcursor++;
-        return bmp[getcursor];
+        cursor++;
+        return bmpList[cursor];
     }
-
-    //undo‚ğ4‰ñs‚Á‚½‚Æ‚«‚Ìˆ—
-    public boolean iscursorzero(){
-        if (getcursor == 0){
-            return true;
-        }
-        return false;
-    }
-
-    //redo‚ğ4‰ñs‚Á‚½‚Æ‚«‚Ìˆ—
-    public boolean iscursor(){
-        if ((setcursor - getcursor) < 2 || getcursor >= 3){
-            return true;
-        }
-        return false;
-    }
-
 }

@@ -24,19 +24,22 @@ import takayuki.techinstitute.jp.memoprot003.R;
 
 public class MemoEditFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 
+    private boolean memoOverride = false;
 
     public MemoEditFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static MemoEditFragment newInstance(String memo) {
+    public static MemoEditFragment newInstance(String memo, boolean memoOverride, String memoID) {
         MemoEditFragment fragment = new MemoEditFragment();
 
         Bundle bundle = new Bundle();
         if(memo !=null){
             bundle.putString("memo",memo);
         }
+        bundle.putBoolean("memoOverride",memoOverride);
+        bundle.putString("id",memoID);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -99,18 +102,29 @@ public class MemoEditFragment extends Fragment implements Toolbar.OnMenuItemClic
     }
 
     private void saveMemo(){
+        memoOverride = getArguments().getBoolean("memoOverride",false);
+        MemoDBHelper memos = new MemoDBHelper(getContext());
+        SQLiteDatabase db = memos.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        if(memoOverride){
+            EditText ut = (EditText) getActivity().findViewById(R.id.editText);
+            String upContent = ut.getText().toString();
+            values.put("memo",upContent);
+            db.update("memoDB", values, "id = ?", new String[]{getArguments().getString("id")});
+            memos.close();
+            Toast.makeText(getActivity(),"上書きしました",Toast.LENGTH_SHORT).show();
+            return;
+        }
         EditText et = (EditText) getActivity().findViewById(R.id.editText);
         String content = et.getText().toString();
         Date mDate = new Date();
         SimpleDateFormat fileNameDate = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String title = fileNameDate.format(mDate);
-        MemoDBHelper memos = new MemoDBHelper(getContext());
-        SQLiteDatabase db = memos.getWritableDatabase();
-        ContentValues values = new ContentValues();
         values.put("title",title);
         values.put("memo",content);
         long id = db.insert("memoDB",null,values);
         memos.close();
+        memoOverride = true;
         Toast.makeText(getActivity(),"保存しました",Toast.LENGTH_SHORT).show();
     }
 
